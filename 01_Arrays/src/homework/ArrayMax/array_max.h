@@ -1,6 +1,6 @@
 #ifndef INC_01_ARRAYS_ARRAY_MAX_H
 #define INC_01_ARRAYS_ARRAY_MAX_H
-#include<vector>
+#include <vector>
 
 namespace ArrayMax {
 
