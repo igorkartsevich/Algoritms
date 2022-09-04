@@ -1,46 +1,57 @@
 #include <iostream>
 #include <string>
-using namespace std;
 
 class TextEditor {
     // Больше 255 символов в память не влезает =/
-public:
-    char text[255]; // Тип String ещё не изобрели :(
-    int textLength; // текущая длина текста в массиве text
 
+public:
     // Пустое место в этом массиве забито просто “пробелами”
     // Например если textLength = 3, и text = {‘ш’,’к’,’я’, … еще 252 символа ‘пробел’ .. }
+    TextEditor() {
+        textLength = 0;
+        for (int i = 0; i < 255; i++)
+            text[i] = ' ';
+    }
 
     void insertCharacterAt(int position, char c) {
-        // Эта функция должна вставлять символ в строку на позиции position
-        // Например когда пользователь напечатал “При|ет мир!” (этот текст у нас в переменной text)
-        // и его курсор находится между буквами “и” и “е”, и он нажимает “в”.
-        // В этот момент вызывается функция insertCharacterAt(3, “в”), после чего в переменной text значение меняется на “Привет мир!”
+        if (position > 254) {
+            std::cerr << "ERROR! The number of positions is greater than the amount of memory";
+            return;
+        }
+
+        text[position] = c;
+        for (auto i = 254; i >= 0; --i) {
+            if (text[i] != ' ') {
+                textLength = i + 1;
+                return;
+            }
+        }
     }
 
     void backspace(int position) {
-        // “Привет Мм|ир!” => “Привет Мир!”
+        if (position < textLength)
+            for (auto i = position + 1; i < textLength; ++i)
+                text[i - 1] = text[i];
+
+        text[textLength--] = ' ';
     }
 
     void print() {
-        for (int i = 0; i < textLength; ++i) {
-            cout << text[i];
-        }
-        cout << endl;
+        for (int i = 0; i < textLength; ++i)
+            std::cout << text[i];
+
+        std::cout << std::endl << "Text lenght: " << textLength << std::endl;
     }
 
-    // Конструктор готов!
-    TextEditor() {
-        textLength = 0;
-        for (int i = 0; i < 255; i++) {
-            text[i] = ' ';
-        }
-    }
+private:
+    char text[255]; // Тип String ещё не изобрели :(
+    int textLength; // текущая длина текста в массиве text
+
 };
 
 int main(void) {
     TextEditor editor;
-    string s = "Hello, world";
+    std::string s = "Hello, world";
     for (int i = 0; i < int(s.size()); ++i) {
         editor.insertCharacterAt(i, s[i]);
     }
@@ -48,5 +59,14 @@ int main(void) {
     editor.insertCharacterAt(4, ' ');
     editor.backspace(10);
     editor.print();
-    cout << "Add some more testing";
+
+    TextEditor editor1;
+    std::string s1 = "       aaa   ";
+    for (int i = 0; i < int(s1.size()); ++i) {
+        editor1.insertCharacterAt(i, s1[i]);
+    }
+    editor1.insertCharacterAt(3, 'b');
+    editor1.insertCharacterAt(4, 'b');
+    editor1.backspace(10);
+    editor1.print();
 }
