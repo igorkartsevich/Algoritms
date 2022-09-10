@@ -5,11 +5,9 @@
 
 bool doIKnowThisLanguage(const std::vector<std::string>& languagesList, const std::string& language) {
     int left = 0,
-        middle,
         right = languagesList.size() - 1;
-
     do {
-        middle = (left + right) / 2;
+        int middle = (left + right) / 2;
         if (language < languagesList[middle])
             right = --middle;
         else if (language > languagesList[middle])
@@ -29,54 +27,43 @@ struct DatingUser {
 };
 
 std::vector<std::string> findUsers(std::vector<DatingUser>& usersSortedByIQ, int lowerIQBound, int professorIQ) {
-    auto getIndex = [&usersSortedByIQ](int IQRating) {
-        std::vector<DatingUser>::iterator
-            left = begin(usersSortedByIQ),
-            middle,
-            right = end(usersSortedByIQ) - 1;
 
+    auto leftIndex = [&usersSortedByIQ](int value) {
+        int left = 0,
+            right = (int)usersSortedByIQ.size();
         do {
-            middle = left + (right - left) / 2;
-            if (IQRating < middle->IQ) {
-                if (middle > begin(usersSortedByIQ))
-                    right = middle - 1;
-                else return begin(usersSortedByIQ);
-            }
-            else if (IQRating > middle->IQ) {
-                if (middle < end(usersSortedByIQ) - 1)
-                    left = middle + 1;
-                else return end(usersSortedByIQ) - 1;
-            }
-            else return middle;
+            int middle = left + (right - left) / 2;
+            if (usersSortedByIQ[middle].IQ >= value)
+                right = middle;
+            else
+                left = middle + 1;
 
-        } while (left <= right);
-
-        return end(usersSortedByIQ);
+        } while (left < right);
+        return left;
     };
 
-    auto start = getIndex(lowerIQBound);
-    if (start == end(usersSortedByIQ)) start = begin(usersSortedByIQ);
-    else
-        while (start != begin(usersSortedByIQ)) {
-            if ((start - 1)->IQ == lowerIQBound)
-                --start;
-            else break;
-        }
+    auto rightIndex = [&usersSortedByIQ](int value) {
+        int left = 0,
+            right = (int)usersSortedByIQ.size();
+        do {
+            int middle = left + (right - left) / 2;
+            if (usersSortedByIQ[middle].IQ <= value)
+                left = middle + 1;
+            else
+                right = middle;
 
-    auto finish = getIndex(professorIQ);
-    if (finish == end(usersSortedByIQ)) finish = end(usersSortedByIQ) - 1;
-    else
-        while (finish != end(usersSortedByIQ) - 1) {
-            if ((finish + 1)->IQ == professorIQ)
-                ++finish;
-            else break;
-        }
+        } while (left < right);
+        return --right;
+    };
 
     std::vector<std::string> usersNames;
-    for (auto it = start; it <= finish; ++it)
-        usersNames.push_back(it->name);
+    auto leftIndex = leftIndex(lowerIQBound);
+    auto rightIndex = rightIndex(professorIQ);
 
-    return usersNames; ; // usersNames; // please implement
+    for (auto i = leftIndex; i <= rightIndex; ++i)
+        usersNames.push_back(usersSortedByIQ[i].name);
+
+    return usersNames; // please implement
 }
 
 //*****************************
@@ -159,7 +146,6 @@ int main(void) {
     assert(findPhoneNumber(numbers, +78202029291L) == -1);
     assert(findPhoneNumber(numbers, +79121134129L) == -1);
     assert(findPhoneNumber(numbers, +78005653535L) == -1);
-
 
     return 0;
 }
