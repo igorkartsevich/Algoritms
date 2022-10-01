@@ -73,13 +73,13 @@ public:
     void deleteKey(std::string key) {
         int index = findGoodIndex(key);
 
-        if (index == -1) // если индекс не найден - выйти
+        if (index == -1) // if the index is not found - return
             return;
-        else // если найден - удалить и сдвинуть элементы вперед
+        else // if the index is found - delete the item and remove other items
             for (int i = index; i < numberOfElements - 1; ++i)
                 entries[i] = entries[i + 1];
 
-        if (--numberOfElements * 4 <= size) { // есди количество элементов <=25% текущего размера массива, уменьшить размер массива в два раза
+        if (--numberOfElements * 4 <= size) { // if the number of the items <=25% curremt size of array, resize it less
             size = numberOfElements * 2;
             resize(size);
         }
@@ -116,7 +116,7 @@ int main(void) {
         std::cout << std::endl;
     };
 
-    // заполнить массив 10 значений
+    // add 10 items
     for (char c = 'a'; c <= 'j'; ++c) {
         std::string s = " ";
         s[0] = c;
@@ -124,7 +124,7 @@ int main(void) {
     }
     infoPrint();
 
-    // удалить 6 элементов, вывести массив на resize
+    // delete 6 more items and resize array
     for (char c = 'c'; c <= 'h'; ++c) {
         std::string s = " ";
         s[0] = c;
@@ -132,7 +132,7 @@ int main(void) {
     }
     infoPrint();
 
-    // удалить два крайних элемента
+    // delete the first 2 items
     for (char c = 'a'; c <= 'b'; ++c) {
         std::string s = " ";
         s[0] = c;

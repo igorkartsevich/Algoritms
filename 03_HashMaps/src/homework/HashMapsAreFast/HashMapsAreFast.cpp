@@ -10,9 +10,9 @@ std::vector<long long> getUniqueNumbers(std::vector<long long>& inputArray) {
     for (auto number : inputArray) {
         int hashIndex = number % size;
         for (int i{}; i < size; ++i) {
-            if (hashTable[(hashIndex + i) % size] == number) // если телефонный номер уже существует - выйти
+            if (hashTable[(hashIndex + i) % size] == number) // if number is already exist - return
                 break;
-            else if (hashTable[(hashIndex + i) % size] == 0) { // если не существует - найден пустой блок в hashTable - записать новый номер в hashTable и в unique
+            else if (hashTable[(hashIndex + i) % size] == 0) { // if number is not exist - empty hashTable record - add new number in hashTable and in unique
                 hashTable[(hashIndex + i) % size] = number;
                 unique.push_back(number);
                 ++countOfUnique;
@@ -21,7 +21,7 @@ std::vector<long long> getUniqueNumbers(std::vector<long long>& inputArray) {
         }
     }
 
-    unique.resize(countOfUnique); // подогнать размер массива
+    unique.resize(countOfUnique); // resize array
     return unique; // please implement
 }
 
@@ -60,10 +60,10 @@ bool isThereTwoNumbers(std::vector<int> numbers, int X) {
     };
 
     for (auto number : numbers)
-        if (checkHashTable(X, number)) // если второе составное слагаемое X - number уже записано в массиве - вернуть OK
+        if (checkHashTable(X, number)) // if number to search = (X - number) is already exist - return TRUE
             return true;
         else
-            makeHashRecord(number); // если нет - записать в массив новый number
+            makeHashRecord(number); // if number is not exis - add new number
 
     return false; // please implement
 }

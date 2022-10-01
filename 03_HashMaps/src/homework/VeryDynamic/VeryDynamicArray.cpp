@@ -33,10 +33,10 @@ public:
     }
 
     void deleteElementAt(int index) {
-        for (int i = index; i < size - 1; ++i) // удалить элемент, сдвинуть элементы вперед
+        for (int i = index; i < size - 1; ++i) // delete item and remove other items
             values[i] = values[i + 1];
 
-        if (--currentIndex * 4 <= size) // если количество элементов <=25% текущего размера массива - уменьшить размер массива в два раза
+        if (--currentIndex * 4 <= size) // if the number of the items <=25% curremt size of array, resize it less
             resize(currentIndex * 2);
 
         return; // please implement
@@ -52,25 +52,25 @@ int main(void) {
         std::cout << std::endl << a.currentIndex << " " << a.size << std::endl;
     };
 
-    //заполнить массив
+    //add items
     for (int i = 0; i < 30; ++i)
         a.add(i);
     infoPrint();
 
-    //удалить часть элементов
+    //delete some items
     for (int i = 29; i >= 0; i -= 3)
         a.deleteElementAt(i);
     infoPrint();
 
-    //удалить часть элементов
+    //delete some items
     for (int i = 28; i >= 0; i -= 3)
         a.deleteElementAt(i);
     infoPrint();
 
-    //удалить часть элементов - вывести массив на resize
+    //delete some items and resize array
     a.deleteElementAt(18);
     a.deleteElementAt(21);
-    // добавить +1 элемент
+    // add item
     a.add(777);
     infoPrint();
 
