@@ -10,9 +10,11 @@ public:
     KV *entries = new KV[8];
     int size = 8;
     int numberOfElements = 0;
+
     ~HashMap() {
         delete[] entries;
     }
+
     int hashFunction(string key) {
         long long a = 0;
         for (unsigned char c : key) {

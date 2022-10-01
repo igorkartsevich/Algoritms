@@ -3,18 +3,19 @@
 #include <vector>
 #include <string>
 #include <algorithm>
-using namespace std;
-typedef pair<string, string> KV;
+
+typedef std::pair<std::string, std::string> KV;
 
 class HashMap {
 public:
-    KV *entries = new KV[8];
+    KV* entries = new KV[8];
     int size = 8;
     int numberOfElements = 0;
+
     ~HashMap() {
         delete[] entries;
     }
-    int hashFunction(string key) {
+    int hashFunction(std::string key) {
         long long a = 0;
         for (unsigned char c : key) {
             a = (a * 239 + c) % 1000000007;
@@ -22,42 +23,45 @@ public:
         return a;
     }
 
-    void add(string key, string value) {
-        int index = findGoodIndex(key);
-        entries[index] = make_pair(key, value);
+    void add(std::string key, std::string value) {
         numberOfElements++;
-        if (numberOfElements == size) {
+        int index = findGoodIndex(key);
+        entries[index] = std::make_pair(key, value);
+
+        if (numberOfElements == size)
             resize(size * 2);
-        }
     }
 
     void resize(int newSize) {
-        KV *newEntries = new KV[newSize];
-        swap(newEntries, entries);
-        swap(newSize, size);
+        KV* newEntries = new KV[newSize];
+        std::swap(newEntries, entries);
+        std::swap(newSize, size);
+
         for (int i = 0; i < newSize; i++) {
             KV entry = newEntries[i];
             int index = findGoodIndex(entry.first);
             entries[index] = entry;
         }
+
         delete[] newEntries;
     }
 
-    string get(string key) {
+    std::string get(std::string key) {
         int index = findGoodIndex(key);
-        if (index == -1) {
+
+        if (index == -1)
             return "";
-        }
+
         KV entry = entries[index];
         return entry.second;
     }
 
-    int findGoodIndex(string key) {
+    int findGoodIndex(std::string key) {
         int hash = hashFunction(key);
         int index = hash % size;
 
         for (int i = 0; i < size; i++) {
-            int probingIndex = (index + i) % size;
+            int probingIndex = (index + i) % numberOfElements;
             KV entry = entries[probingIndex];
             if ((entry.first.size() == 0) || (entry.first == key)) {
                 return probingIndex;
@@ -66,44 +70,75 @@ public:
         return -1;
     }
 
-    void deleteKey(string key) {
-        // please implement
+    void deleteKey(std::string key) {
+        int index = findGoodIndex(key);
+
+        if (index == -1) // если индекс не найден - выйти
+            return;
+        else // если найден - удалить и сдвинуть элементы вперед
+            for (int i = index; i < numberOfElements - 1; ++i)
+                entries[i] = entries[i + 1];
+
+        if (--numberOfElements * 4 <= size) { // есди количество элементов <=25% текущего размера массива, уменьшить размер массива в два раза
+            size = numberOfElements * 2;
+            resize(size);
+        }
+        return; // please implement
     }
 
-    vector<string> getAllKeys() {
-        return vector<string>(); // please implement
+    std::vector<std::string> getAllKeys() {
+        std::vector<std::string> allKeys(numberOfElements);
+        for (int i{}; i < numberOfElements; ++i)
+            allKeys[i] = entries[i].first;
+
+        return allKeys; // please implement
     }
 
-    vector<string> getAllValues() {
-        return vector<string>(); // please implement
+    std::vector<std::string> getAllValues() {
+        std::vector<std::string> allValues(numberOfElements);
+        for (int i{}; i < numberOfElements; ++i)
+            allValues[i] = entries[i].first;
+
+        return allValues; // please implement
     }
 
 };
 
 int main(void) {
     HashMap h;
-    h.add("Hello", "world");
-    cout << h.get("Hello") << endl;
-    cout << h.get("Hellop") << endl;
-    h.add("test", "best");
-    cout << h.get("test") << endl;
-    for (char c = 'a'; c <= 'z'; ++c) {
-        string s = " ";
+
+    auto infoPrint = [&h]() {
+        std::cout << "Vector size: " << h.size << ", Number Of Elements: " << h.numberOfElements << std::endl;
+        std::vector<std::string> allKeys = h.getAllKeys();
+        std::vector<std::string> allValues = h.getAllValues();
+        for (int i{}; i < h.numberOfElements; ++i)
+            std::cout << allKeys[i] << "-" << allValues[i] << std::endl;
+        std::cout << std::endl;
+    };
+
+    // заполнить массив 10 значений
+    for (char c = 'a'; c <= 'j'; ++c) {
+        std::string s = " ";
         s[0] = c;
         h.add(s, s);
     }
-    for (char c = 'a'; c <= 'z'; ++c) {
-        string s = " ";
+    infoPrint();
+
+    // удалить 6 элементов, вывести массив на resize
+    for (char c = 'c'; c <= 'h'; ++c) {
+        std::string s = " ";
         s[0] = c;
-        cout << h.get(s) << endl;
+        h.deleteKey(s);
     }
-    cout << h.get("Hello") << endl;
-    h.deleteKey("Hello");
-    cout << h.get("Hello") << endl;
-    h.add("Hello", "something else");
-    cout << h.get("Hello") << endl;
-    vector<string> keys = h.getAllKeys();
-    vector<string> values = h.getAllValues();
-    // Don't forget to print that and check that everything is as expected.
-    // Also add some other tests to make sure that your code is working
+    infoPrint();
+
+    // удалить два крайних элемента
+    for (char c = 'a'; c <= 'b'; ++c) {
+        std::string s = " ";
+        s[0] = c;
+        h.deleteKey(s);
+    }
+    infoPrint();
+
+    return 0;
 }
