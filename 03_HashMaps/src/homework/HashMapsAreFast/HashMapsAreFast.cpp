@@ -33,44 +33,34 @@ bool isThereTwoNumbers(std::vector<int> numbers, int X) {
     std::vector<int> positiveHash(size, { INT_MIN });
 
     auto checkHashTable = [&](int X, int number) {
-        int hashIndex = std::abs(number) % size;
+        int hashIndex = std::abs(X - number) % size;
         std::vector<int> hashTable = (X - number < 0) ? negativeHash : positiveHash;
 
-        for (int i{}; i < size; ++i)
-            if (hashTable[(hashIndex + i) % size] == X - number)
-                return true;
-
-        return false;
+        return (hashTable[hashIndex] == X - number);
     };
 
     auto makeHashRecord = [&](int number) {
         int hashIndex = std::abs(number) % size;
         std::vector<int> hashTable = (number < 0) ? negativeHash : positiveHash;
-        int nothing = (number < 0) ? INT_MAX : INT_MIN;
 
-        for (int i{}; i < size; ++i) {
-            if (hashTable[(hashIndex + i) % size] == nothing) {
-                hashTable[(hashIndex + i) % size] = number;
-                ((number < 0) ? negativeHash : positiveHash) = hashTable;
-                break;
-            }
-        }
+        hashTable[hashIndex] = number;
+        ((number < 0) ? negativeHash : positiveHash) = hashTable;
 
         return;
     };
 
     for (auto number : numbers)
-        if (checkHashTable(X, number)) // if number to search = (X - number) is already exist - return TRUE
+        if (checkHashTable(X, number)) // if number_to_search = (X - number) is already exist - return TRUE
             return true;
         else
-            makeHashRecord(number); // if number is not exis - add new number
+            makeHashRecord(number); // if number_to_search = (X - number) is not exist - add new number
 
     return false; // please implement
 }
 
 int main(void) {
-    std::vector<long long> a = {+79127231920, +79127231921, +79127231920, +79127231923, +79127231922, +79127231921, +79127231923, +79127231924};
-    assert(getUniqueNumbers(a) == std::vector<long long>({+79127231920, +79127231921, +79127231923, +79127231922, +79127231924}));
+    std::vector<long long> a = { +79127231920, +79127231921, +79127231920, +79127231923, +79127231922, +79127231921, +79127231923, +79127231924 };
+    assert(getUniqueNumbers(a) == std::vector<long long>({ +79127231920, +79127231921, +79127231923, +79127231922, +79127231924 }));
 
     //*****************************
 
