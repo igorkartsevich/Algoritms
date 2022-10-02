@@ -41,10 +41,7 @@ bool isThereTwoNumbers(std::vector<int> numbers, int X) {
 
     auto makeHashRecord = [&](int number) {
         int hashIndex = std::abs(number) % size;
-        std::vector<int> hashTable = (number < 0) ? negativeHash : positiveHash;
-
-        hashTable[hashIndex] = number;
-        ((number < 0) ? negativeHash : positiveHash) = hashTable;
+        (number < 0) ? negativeHash[hashIndex] = number : positiveHash[hashIndex] = number;
 
         return;
     };
