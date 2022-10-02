@@ -29,14 +29,14 @@ std::vector<long long> getUniqueNumbers(std::vector<long long>& inputArray) {
 
 bool isThereTwoNumbers(std::vector<int> numbers, int X) {
     int size = (int)numbers.size();
-    std::vector<int> negativeHash(size, { INT_MAX });
-    std::vector<int> positiveHash(size, { INT_MIN });
+    std::vector<int> negativeHash(size);
+    std::vector<int> positiveHash(size);
 
-    auto checkHashTable = [&](int X, int number) {
-        int hashIndex = std::abs(X - number) % size;
-        std::vector<int> hashTable = (X - number < 0) ? negativeHash : positiveHash;
+    auto checkHashTable = [&](int to_search) {
+        int hashIndex = std::abs(to_search) % size;
+        std::vector<int> hashTable = (to_search < 0) ? negativeHash : positiveHash;
 
-        return (hashTable[hashIndex] == X - number);
+        return (hashTable[hashIndex] == to_search);
     };
 
     auto makeHashRecord = [&](int number) {
@@ -50,7 +50,7 @@ bool isThereTwoNumbers(std::vector<int> numbers, int X) {
     };
 
     for (auto number : numbers)
-        if (checkHashTable(X, number)) // if number_to_search = (X - number) is already exist - return TRUE
+        if (checkHashTable(X - number)) // if number_to_search = (X - number) is already exist - return TRUE
             return true;
         else
             makeHashRecord(number); // if number_to_search = (X - number) is not exist - add new number
