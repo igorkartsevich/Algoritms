@@ -9,6 +9,7 @@ std::vector<long long> getUniqueNumbers(std::vector<long long>& inputArray) {
 
     for (auto number : inputArray) {
         int hashIndex = number % size;
+
         for (int i{}; i < size; ++i) {
             if (hashTable[(hashIndex + i) % size] == number) // if number is already exist - return
                 break;
@@ -36,9 +37,13 @@ bool isThereTwoNumbers(std::vector<int> numbers, int X) {
         int hashIndex = std::abs(to_search) % size;
         std::vector<int> hashTable = (to_search < 0) ? negativeHash : positiveHash;
 
-        for (int i{}; i < size; ++i)
+        for (int i{}; i < size; ++i) {
+
             if (hashTable[(hashIndex + i) % size] == to_search)
                 return true;
+            else if (hashTable[(hashIndex + i) % size] == INT_MAX || hashTable[(hashIndex + i) % size] == INT_MIN)
+                return false;
+        }
 
         return false;
     };
@@ -46,10 +51,10 @@ bool isThereTwoNumbers(std::vector<int> numbers, int X) {
     auto makeHashRecord = [&](int number) {
         int hashIndex = std::abs(number) % size;
         std::vector<int> hashTable = (number < 0) ? negativeHash : positiveHash;
-        int nothing = (number < 0) ? INT_MAX : INT_MIN;
 
         for (int i{}; i < size; ++i) {
-            if (hashTable[(hashIndex + i) % size] == nothing) {
+
+            if (hashTable[(hashIndex + i) % size] == INT_MAX || hashTable[(hashIndex + i) % size] == INT_MIN) {
                 hashTable[(hashIndex + i) % size] = number;
                 ((number < 0) ? negativeHash : positiveHash) = hashTable;
                 break;
