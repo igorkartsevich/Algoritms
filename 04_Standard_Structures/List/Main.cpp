@@ -109,6 +109,6 @@ int main() {
     testEverySecond();
     testFilterX();
     testGetAndInsert();
-    std::cout <<  "All tests for List passed successfully! Congrats";
+    std::cout <<  "All LIST'S tests for List passed successfully! Congrats";
     return 0;
 }

@@ -19,3 +19,6 @@ target_link_libraries(ArrayTests gtest_main)
 
 include(GoogleTest)
 gtest_discover_tests(ArrayTests)
+
+add_executable(ListTest ..//04_Standard_Structures/List/main.cpp)
+add_executable(StackTest ..//04_Standard_Structures/Stack/main.cpp)

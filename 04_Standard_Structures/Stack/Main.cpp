@@ -14,7 +14,7 @@ static void testPolish() {
     for (int i = 0; i < 10000; ++i) {
         b.append(std::to_string(i) + " ");
     }
-    for (int i = 0; i < 10000; ++i) {
+    for (int i = 0; i < 9999; ++i) {
         b.append("+");
         if (i != 9999) {
             b.append(" ");
@@ -34,5 +34,5 @@ static void testPolish() {
 
 int main() {
     testPolish();
-    std::cout << "All tests for List passed successfully! Congrats";
+    std::cout << "All STACK'S tests for List passed successfully! Congrats";
 }
