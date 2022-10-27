@@ -15,46 +15,20 @@ public:
     }
     virtual ~Stack() {};
 
-    int getSize() {
-        return size;
-    }
+    int getSize();
 
     // This function is called when it's not enough memory to fit new elements.
     // It creates new long array and copies all the elements there.
-    void reallocate() {
-        /* IMPLEMENT THIS */
-        std::vector<long> new_a(a.size() * 2);
-        for (int i{}; i < size; ++i)
-            new_a[i] = a[i];
-        a = new_a;
-    }
+    void reallocate();
 
     // Adds element to the end of the stack
-    void push_back(long x) {
-        /* IMPLEMENT THIS */
-        if (size + 1 > a.size())
-            reallocate();
-        for (int i{ size }; i > 0; --i)
-            a[i] = a[i - 1];
-        a[0] = x;
-        ++size;
-    }
+    void push_back(long x);
 
     // Removes last element from the stack and returns its value
-    long pop_back() {
-        /* IMPLEMENT THIS */
-        int node = a[0];
-        for (int i{}; i < size - 1; ++i)
-            a[i] = a[i + 1];
-        --size;
-        return node;
-    }
+    long pop_back();
 
     // Returns value of the last element in the stack
-    long top() {
-        /* IMPLEMENT THIS */
-        return a[0];
-    }
+    long top();
 
     // Calculates the result of reversed polish notation. https://en.wikipedia.org/wiki/Reverse_Polish_notation
     // This one is simplified. Every number and character are separated by exactly one space.
