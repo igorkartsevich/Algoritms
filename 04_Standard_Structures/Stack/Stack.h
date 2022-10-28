@@ -14,6 +14,7 @@ private:
     };
     int size{ 0 };
     Node* begin{ nullptr };
+
 public:
     Stack() {}
     virtual ~Stack() {};
@@ -37,25 +38,5 @@ public:
     // This one is simplified. Every number and character are separated by exactly one space.
     // Only + - * should be supported.
     // Example: calcPolish("1 2 3 * -") should return -5 | because (1 - (2 * 3))
-    static long calcPolish(const std::string& s) {
-        /* IMPLEMENT THIS */
-        std::stringstream DATA;
-        DATA << s;
-
-        Stack stack;
-        while (!DATA.eof()) {
-            std::string str;
-            DATA >> str;
-            if (str == "+")
-                stack.push_back(stack.pop_back() + stack.pop_back());
-            else if (str == "-")
-                stack.push_back(-stack.pop_back() + stack.pop_back());
-            else if (str == "*")
-                stack.push_back(stack.pop_back() * stack.pop_back());
-            else if (str != " " && str != "\0")
-                stack.push_back(std::stoi(str));
-        }
-
-        return stack.pop_back();
-    }
+    static long calcPolish(const std::string& s);
 };

@@ -30,3 +30,25 @@ long Stack::top() {
     /* IMPLEMENT THIS */
     return begin->x;
 }
+
+long Stack::calcPolish(const std::string& s) {
+    /* IMPLEMENT THIS */
+    std::stringstream DATA;
+    DATA << s;
+
+    Stack stack;
+    while (!DATA.eof()) {
+        std::string str;
+        DATA >> str;
+        if (str == "+")
+            stack.push_back(stack.pop_back() + stack.pop_back());
+        else if (str == "-")
+            stack.push_back(-stack.pop_back() + stack.pop_back());
+        else if (str == "*")
+            stack.push_back(stack.pop_back() * stack.pop_back());
+        else if (str != " " && str != "\0")
+            stack.push_back(std::stoi(str));
+    }
+
+    return stack.pop_back();
+}

@@ -15,6 +15,7 @@ public:
             x = _x;
         }
     };
+
     // Pointer to the beginning of the list
     Node* begin{ nullptr };
 
@@ -54,11 +55,6 @@ public:
 
     // This function creates List from an array
     // This function creates List from an array
-    static List fromArray(const std::vector<int>& a) {
-        List l;
-        for (int i = a.size() - 1; i >= 0; --i) {
-            l.push_front(a[i]);
-        }
-        return l;
-    }
+    static List fromArray(const std::vector<int>& a);
+
 };

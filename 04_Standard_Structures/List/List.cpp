@@ -138,3 +138,11 @@ List::Node* List::getAt(int index) {
     }
     return nullptr;
 }
+
+List List::fromArray(const std::vector<int>& a) {
+    List l;
+    for (int i = a.size() - 1; i >= 0; --i) {
+        l.push_front(a[i]);
+    }
+    return l;
+}
