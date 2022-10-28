@@ -5,14 +5,17 @@
 // Stack implemented using dynamic array inside
 class Stack {
 private:
-    // Array where we store the data
-    std::vector<long> a;
-    // Number of elements that we actually store in the array. <= a.length
+    struct Node {
+        long x;
+        Node* next;
+        Node(long _x) {
+            x = _x;
+        };
+    };
     int size{ 0 };
+    Node* begin{ nullptr };
 public:
-    Stack() {
-        a.resize(10);
-    }
+    Stack() {}
     virtual ~Stack() {};
 
     int getSize();
