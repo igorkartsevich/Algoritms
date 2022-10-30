@@ -1,12 +1,28 @@
 #include <iostream>
 #include <vector>
-#include <string>
+#include <exception>
+
+class DLListEmpty_Exception : public std::exception {
+public:
+    const char* what() const noexcept override;
+};
+
+class NodeIsNotFound_Exception : public std::exception {
+public:
+    const char* what() const noexcept override;
+};
+
+class WrongNodeInArgument_Exception : public std::exception {
+public:
+    const char* what() const noexcept override;
+};
 
 class DLList {
 public:
     DLList() {};
     virtual ~DLList() {};
 
+    int size{};
     struct Node {
         int x;
         Node* next{ nullptr };
@@ -21,63 +37,36 @@ public:
     Node* end{ nullptr };
 
     // This function should add new element with value x to the front of the list
-    void push_front(int x) {
-    }
+    void push_front(int x);
 
     // This function should add new element with value x to the end of the list
-    void push_back(int x) {
-    }
+    void push_back(int x);
 
     // This function could be useful for debug purposes
-    void print() {
-        Node* n = begin;
-        while (n != nullptr) {
-            std::cout << n->x << " ";
-            n = n->next;
-        }
-        std::cout << std::endl;
-    }
+    void print();
 
     // This function should return the number of element in the list
-    int getSize() {
-        return 0;
-    }
+    int getSize();
 
     // This function should return an array with values the same as in list
-    std::vector<int> toArray() {
-        return {};
-    }
+    std::vector<int> toArray();
 
 
     // This function should remove the element x from the list
-    void remove(Node* x) {
-    }
+    void remove(Node* x);
 
     // This function should remove first element in the list and return its value
-    int pop_front() {
-        return 0;
-    }
+    int pop_front();
 
     // This function should remove last element in the list and return its value
-    int pop_back() {
-        return 0;
-    }
+    int pop_back();
 
     // This function should insert element with the value val after the element x
-    void insertAfter(Node* x, int val) {
-    }
+    void insertAfter(Node* x, int val);
 
     // This function should return element at index
-    Node* getAt(int index) {
-        return nullptr;
-    }
+    Node* getAt(int index);
 
     // This function construct list from the array
-    static DLList fromArray(const std::vector<int> &a) {
-        DLList l;
-        for (int i = 0; i < a.size(); ++i) {
-            l.push_back(a[i]);
-        }
-        return l;
-    }
+    static DLList fromArray(const std::vector<int>& a);
 };

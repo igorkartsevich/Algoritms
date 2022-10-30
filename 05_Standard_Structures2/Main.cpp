@@ -46,7 +46,8 @@ static void testPushAndPop() {
     for (int i = 9; i >= 0; --i) {
         l.insertAfter(l.getAt(i), i);
     }
-    assert(l.toArray() == (std::vector<int>{1, 0, 1, 1, 1, 2, 1, 3, 1, 4, 1, 5, 1, 6, 1, 7, 1, 8, 1, 9}));
+    std::vector<int> res = l.toArray();
+    assert(res == (std::vector<int>{1, 0, 1, 1, 1, 2, 1, 3, 1, 4, 1, 5, 1, 6, 1, 7, 1, 8, 1, 9}));
     for (int i = 9; i >= 0; --i) {
         l.remove(l.getAt(2 * i));
     }
