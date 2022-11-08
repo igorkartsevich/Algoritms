@@ -23,3 +23,15 @@ gtest_discover_tests(ArrayTests)
 add_executable(ListTest ..//04_Standard_Structures/List/main.cpp ..//04_Standard_Structures/List/list.cpp ..//04_Standard_Structures/List/list.h)
 add_executable(StackTest ..//04_Standard_Structures/Stack/main.cpp ..//04_Standard_Structures/Stack/Stack.cpp ..//04_Standard_Structures/Stack/Stack.h)
 add_executable(DLListTest ..//05_Standard_Structures2/main.cpp ..//05_Standard_Structures2/DLList.cpp ..//05_Standard_Structures2/DLList.h)
+add_executable(BookComparatorTest ..//06_Sorting/test/homework/BookComparatorTest.cpp ..//06_Sorting/homework/Comparator/BookComparator.h ..//06_Sorting/homework/Comparator/BookComparator.cpp ..//06_Sorting/homework/Comparator/Book.h ..//06_Sorting/homework/Comparator/Book.cpp)
+
+set ( SORT_HEADER
+    ..//06_Sorting/homework/SortAlgorithms/Animal.h
+    ..//06_Sorting/homework/SortAlgorithms/SuperArray.h
+    ..//06_Sorting/homework/SortAlgorithms/SortAlgorithms.h
+)
+set ( SORT_SOURCE
+    ..//06_Sorting/homework/SortAlgorithms/SortAlgorithms.cpp
+    ..//06_Sorting/test/homework/SortTest.cpp
+)
+add_executable(SortTest ${SORT_HEADER} ${SORT_SOURCE})

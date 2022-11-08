@@ -1,25 +1,27 @@
-#include "BubbleSort.h"
-#include "CountingSort.h"
-#include "InsertionSort.h"
-#include "SelectionSort.h"
-#include "SuperArray.h"
+#include "../../homework/SortAlgorithms/Animal.h"
+#include "../../homework/SortAlgorithms/SuperArray.h"
+#include "../../homework/SortAlgorithms/SortAlgorithms.h"
+
 #include <algorithm>
 #include <cassert>
 #include <time.h>
+#include <iostream>
+#include <string>
 
 class Arr : public SuperArray {
 private:
     std::vector<int> array;
     int iteration = 0;
+
 public:
-    Arr(std::vector<int> array) : SuperArray()
-    {
+    Arr(std::vector<int> array) : SuperArray() {
         this->array = array;
     };
+
     virtual ~Arr() {};
 
     virtual int getSize() override {
-        return array.size();
+        return (int)array.size();
     }
 
     virtual int get(int position) override {
@@ -31,7 +33,9 @@ public:
         array[position] = value;
     }
 
-    int getIteration() { return iteration; }
+    int getIteration() {
+        return iteration;
+    }
 };
 
 class ZooAnimal : public Animal {
@@ -74,10 +78,10 @@ public:
 void bubbleSortTest() {
   std::cout << "Bubble sort" << std::endl;
   std::vector<std::vector<int>> bubbleSortData{
-    std::vector<int>{334934939, 1234122, 657657},
-    std::vector<int>{},
-    std::vector<int>{1},
-    std::vector<int>(10000)
+      std::vector<int>{334934939, 1234122, 657657},
+      std::vector<int>{},
+      std::vector<int>{1},
+      std::vector<int>(10000)
   };
   for (size_t i = 0; i < 10000; ++i) {
       bubbleSortData[3][i] = rand();
@@ -88,7 +92,6 @@ void bubbleSortTest() {
       bubbleSort(bubbleSortData[i]);
       assert(bubbleSortData[i] == userArray);
   };
-
   for (size_t i = 0; i < bubbleSortData.size(); ++i) {
       testSort(i);
   }
@@ -97,10 +100,10 @@ void bubbleSortTest() {
 void selectionSortTest() {
   std::cout << "Selection sort" << std::endl;
   std::vector<std::vector<int>> selectionSortData{
-    std::vector<int>{3, 2, 1},
-    std::vector<int>{},
-    std::vector<int>{1},
-    std::vector<int>(100)
+      std::vector<int>{3, 2, 1},
+      std::vector<int>{},
+      std::vector<int>{1},
+      std::vector<int>(100)
   };
   for (size_t i = 99; i > 0; --i) {
       selectionSortData[3][i] = i;
@@ -108,14 +111,12 @@ void selectionSortTest() {
   auto testSort = [&selectionSortData](int i) {
       Arr* arr = new Arr(selectionSortData[i]);
       selectionSort(arr);
-      assert(selectionSortData[i].size() * 2 == arr->getIteration());
+      assert((selectionSortData[i].size() - 1) * 2 >= arr->getIteration());
       delete arr;
   };
-
   for (size_t i = 0; i < selectionSortData.size(); ++i) {
       testSort(i);
   }
- 
 }
 
 void insertionSortTest() {
@@ -154,12 +155,12 @@ void countingSortTest() {
   assert((quickSort / countingSort) > 2);
 }
 
-
 int main() {
     bubbleSortTest();
     selectionSortTest();
     insertionSortTest();
     countingSortTest();
-  std::cout << "All tests for DLList passed successfully! Congrats";
-  return 0;
+    std::cout << "All tests for Sort_Test passed successfully! Congrats";
+
+    return 0;
 }

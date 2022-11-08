@@ -17,38 +17,11 @@ public:
 
     virtual ~Book() {}
 
-    std::string getTitle() const {
-        return title;
-    }
-
-    std::string getAuthor() const {
-        return author;
-    }
-
-    int getYear() const {
-        return year;
-    }
-
-    double getPrice() const {
-        return price;
-    }
-
-    std::string toString() {
-        return "Book{title='" +
-            title + '\'' +
-            ", author='" + author + '\'' +
-            ", year=" + std::to_string(year) +
-            ", price=" + std::to_string(price) +
-            '}';
-    }
-
-    bool operator == (const Book& o)
-    {
-        return this->getYear() == o.getYear();
-    }
-
-    bool operator != (const Book& o)
-    {
-        return !(*this == o);
-    }
+    std::string getTitle() const;
+    std::string getAuthor() const;
+    int getYear() const;
+    double getPrice() const;
+    std::string toString();
+    bool operator == (const Book& o);
+    bool operator != (const Book& o);
 };
