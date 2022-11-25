@@ -1,5 +1,5 @@
 #include "MergeSortRecursion.h"
-#include<iostream>
+#include <iostream>
 #include <string>
 #include <cassert>
 #include <vector>
@@ -21,6 +21,8 @@ void merge2sortedTest() {
   ListNode l1(1);
   l1.next = new ListNode(2);
   l1.next->next = new ListNode(4);
+  l1.next->next->next = new ListNode(6);
+  l1.next->next->next->next = new ListNode(8);
 
   ListNode l2(1);
   l2.next = new ListNode(3);
@@ -29,8 +31,8 @@ void merge2sortedTest() {
   ListNode l3(5);
 
   std::vector<std::pair<ListNode *, ListNode *>> vals{
-      {&l1, &l2}, {nullptr, &l3}, {nullptr, nullptr}};
-  std::vector<int> res = {6, 1, 0};
+       {nullptr, &l3}, {nullptr, nullptr}, {&l1, &l2}};
+  std::vector<int> res = { 1, 0, 8};
   for (size_t i = 0; i < res.size(); ++i) {
     auto actual =
         MergeSortRecursion::mergeTwoLists(vals[i].first, vals[i].second);

@@ -1,4 +1,4 @@
-#incldue "BruteForceRecursion.h"
+#include "BruteForceRecursion.h"
 #include <iostream>
 #include <set>
 #include <cassert>
@@ -25,8 +25,8 @@ void orderOfReleaseFeaturesTest() {
 void checkPowersOfThreeTest() {
     std::cout << "Help Ivan check powers of 3" << std::endl;
     std::vector<int> numbers{ 12, 11, 91, 112 };
-    std::vector<bool> answers{ true, false, true, false};
-    for (size_t i = 0; i < numbers.size(); ++i ) {
+    std::vector<bool> answers{ true, false, true, true };
+    for (size_t i = 0; i < numbers.size(); ++i) {
         auto actual = BruteForceRecursion::checkPowersOfThree(numbers[i]);
         assert(answers[i] == actual);
     }
@@ -47,7 +47,7 @@ void possibleMessagesTest() {
             "cew", "cex", "cey", "cez",
             "cfw", "cfx", "cfy", "cfz" };
 
-    std::vector<std::string> keys{"", "2", "43", "230"};
+    std::vector<std::string> keys{ "", "2", "43", "239" };
     std::vector<std::vector<std::string>> vals = { {}, l1, l2, l3 };
 
     for (size_t i = 0; i < keys.size(); ++i) {
@@ -59,9 +59,10 @@ void possibleMessagesTest() {
 }
 
 int main() {
-  orderOfReleaseFeaturesTest();
-  checkPowersOfThreeTest();
-  possibleMessagesTest();
-  std::cout << "All tests for DLList passed successfully! Congrats";
-  return 0;
+    orderOfReleaseFeaturesTest();
+    checkPowersOfThreeTest();
+    possibleMessagesTest();
+    std::cout << "All tests for DLList passed successfully! Congrats";
+    return 0;
 }
+

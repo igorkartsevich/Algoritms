@@ -35,3 +35,8 @@ set ( SORT_SOURCE
     ..//06_Sorting/test/homework/SortTest.cpp
 )
 add_executable(SortTest ${SORT_HEADER} ${SORT_SOURCE})
+
+add_executable(BrutalForseRecursionTest ..//07_Recursion/homework/BacktrackingResursion/BruteForceRecursionTest.cpp ..//07_Recursion/homework/BacktrackingResursion/BruteForceRecursion.cpp ..//07_Recursion/homework/BacktrackingResursion/BruteForceRecursion.h)
+add_executable(MergeSortRecursionTest ..//07_Recursion/homework/MergeSortRecursion/MergeSortRecursionTest.cpp ..//07_Recursion/homework/MergeSortRecursion/MergeSortRecursion.cpp ..//07_Recursion/homework/MergeSortRecursion/MergeSortRecursion.h)
+add_executable(SimpleRecursionTest ..//07_Recursion/homework/SimpleRecursion/SimpleRecursionTest.cpp ..//07_Recursion/homework/SimpleRecursion/SimpleRecursion.cpp ..//07_Recursion/homework/SimpleRecursion/SimpleRecursion.h)
+  
