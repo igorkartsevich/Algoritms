@@ -3,7 +3,6 @@
 #include <functional>
 #include <vector>
 
-
 template<class T>
 class Sorting
 {
@@ -202,7 +201,6 @@ private:
         if (high > i)
             quickSort(array, i, high);
     }
-
 
     std::function<int(const T&, const T&, int &sortComparisons)> compareTo;
 };
