@@ -2,7 +2,6 @@
 #include<iostream>
 #include <iomanip>
 
-
 //create 3 constant values
 int SIZE = 1000;//number of values in the lists
 int SORTED_ORDER = 0;//for sorted lists
