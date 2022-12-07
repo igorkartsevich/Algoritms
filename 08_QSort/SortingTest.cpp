@@ -3,7 +3,7 @@
 #include <iomanip>
 
 //create 3 constant values
-int SIZE = 1000;//number of values in the lists
+int SIZE = 5000;//number of values in the lists
 int SORTED_ORDER = 0;//for sorted lists
 int RANDOM_ORDER = 1;//for unsorted lists
 
@@ -50,11 +50,11 @@ void printComparisonsAndExecutionTime(Sorting<int> sorting) {
    std::cout << "----------------------" << std::endl;  
    std::cout << std::setw(15) << "SORTING METHOD";
    std::cout << std::setw(15) << "COMPARISONS";
-   std::cout << std::setw(15) << "EXEC.TIME(s)" << std::endl;
+   std::cout << std::setw(15) << "EXEC.TIME(ms)" << std::endl;
    std::cout << "----------------------" << std::endl;
    formatOut("Selection sort", sorting.selectionSortComparisons, sorting.selectionSortExecutionTime);
    formatOut("Insertion sort", sorting.insertionSortComparisons, sorting.insertionSortExecutionTime);
-   formatOut("Bubble sort", sorting.bubbleSortComparisons, sorting.bubbleSortComparisons);
+   formatOut("Bubble sort", sorting.bubbleSortComparisons, sorting.bubbleSortExecutionTime);
    formatOut("Quick sort", sorting.quickSortComparisons, sorting.quickSortExecutionTime);
    formatOut("Merge sort", sorting.mergeSortComparisons, sorting.mergeSortExecutionTime);
    std::cout << "-----------------------" << std::endl;

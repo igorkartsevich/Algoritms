@@ -15,7 +15,7 @@ public:
         this->compareTo = compareTo;
     };
 
-    virtual ~Sorting() {};
+    ~Sorting() {};
 
     int selectionSortComparisons = 0;
     int insertionSortComparisons = 0;
@@ -39,7 +39,7 @@ public:
             int min = data[indexMin];
 
             for (int j{ i + 1 }; j < size; ++j)
-                if (data[j] < min) {
+                if (compareTo(data[j], min, selectionSortComparisons) < 0) {
                     indexMin = j;
                     min = data[indexMin];
                 }
@@ -48,7 +48,7 @@ public:
                 std::swap(data[i], data[indexMin]);
         }
 
-        selectionSortExecutionTime = (float)(clock() - startTime) / CLOCKS_PER_SEC;
+        selectionSortExecutionTime = (float)(clock() - startTime) / CLOCKS_PER_SEC * 1000;
     }
 
     void insertionSort(std::vector<T>& data)
@@ -59,13 +59,13 @@ public:
 
         for (int i{ 1 }; i < size; ++i) {
             int index = i;
-            while (index > 0 && data[index] < data[index - 1]) {
+            while (index > 0 && compareTo(data[index], data[index - 1], insertionSortComparisons) < 0) {
                 std::swap(data[index], data[index - 1]);
                 --index;
             }
         }
             
-        insertionSortExecutionTime = (float)(clock() - startTime) / CLOCKS_PER_SEC;
+        insertionSortExecutionTime = (float)(clock() - startTime) / CLOCKS_PER_SEC * 1000;
     }
 
     void bubbleSort(std::vector<T>& data)
@@ -79,13 +79,13 @@ public:
             is_sorted = true;
 
             for (int i{}; i < size; ++i)
-                if (data[i] > data[i + 1]) {
+                if (compareTo(data[i], data[i + 1], bubbleSortComparisons) > 0) {
                     std::swap(data[i], data[i + 1]);
                     is_sorted = false;
                 }
         }
 
-        bubbleSortExecutionTime = (float)(clock() - startTime) / CLOCKS_PER_SEC;
+        bubbleSortExecutionTime = (float)(clock() - startTime) / CLOCKS_PER_SEC * 1000;
     }
 
     //MergeSORT*************************************************
@@ -98,7 +98,7 @@ public:
 
         while (leftIndex < leftSize || rightIndex < rightSize)
             (leftIndex < leftSize&& rightIndex < rightSize)
-                ? res[resIndex++] = (leftArray[leftIndex] < rightArray[rightIndex])
+                ? res[resIndex++] = (compareTo(leftArray[leftIndex], rightArray[rightIndex], mergeSortComparisons) < 0)
                     ? leftArray[leftIndex++]
                     : rightArray[rightIndex++]
                 : res[resIndex++] = (leftIndex == leftSize)
@@ -128,7 +128,7 @@ public:
         
         data = getMergeSort(data);
 
-        selectionSortExecutionTime = (float)(clock() - startTime) / CLOCKS_PER_SEC;
+        mergeSortExecutionTime = (float)(clock() - startTime) / CLOCKS_PER_SEC * 1000;
     }
 
     //QSORT*****************************************************
@@ -136,12 +136,11 @@ public:
     void getQSort(std::vector<int>& data, int left, int right) {
         if (right - left <= 1) return;
 
-        srand(time(0));
         int medianaIndex = rand() % (right - left);
         int medianaData = data[medianaIndex];
 
         while (left < right)
-            if (data[left] >= medianaData && data[right] <= medianaData)
+            if (compareTo(data[left], medianaData, quickSortComparisons) > 0 && compareTo(medianaData, data[right], quickSortComparisons) > 0)
                 std::swap(data[left++], data[right--]);
             else (data[left] < medianaData) ? ++left : --right;
 
@@ -154,7 +153,7 @@ public:
         
         getQSort(data, 0, data.size() - 1);
 
-        quickSortExecutionTime = (float)(clock() - startTime) / CLOCKS_PER_SEC;
+        quickSortExecutionTime = (float)(clock() - startTime) / CLOCKS_PER_SEC * 1000;
     }
 
 private:
