@@ -1,7 +1,7 @@
 #include "Sorting.h"
 
 template<typename T>
-void Sorting<T>::selectionSort(std::vector<T>& data) {
+void selectionSort(std::vector<T>& data) {
     {
         auto startTime = clock();
 

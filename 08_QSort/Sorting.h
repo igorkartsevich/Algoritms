@@ -28,7 +28,8 @@ public:
     double quickSortExecutionTime = 0;
     double mergeSortExecutionTime = 0;
 
-    void selectionSort(std::vector<T>& data);
+    template<class T>
+    friend void selectionSort(std::vector<T>& data);
 
     void insertionSort(std::vector<T>& data)
     {
