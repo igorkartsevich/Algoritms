@@ -28,8 +28,29 @@ public:
     double quickSortExecutionTime = 0;
     double mergeSortExecutionTime = 0;
 
-    template<class T>
-    friend void selectionSort(std::vector<T>& data);
+    void selectionSort(std::vector<T>& data) {
+        {
+            auto startTime = clock();
+
+            int size = (int)data.size();
+
+            for (int i{}; i < size; ++i) {
+                int indexMin = i;
+                int min = data[indexMin];
+
+                for (int j{ i + 1 }; j < size; ++j)
+                    if (compareTo(data[j], min, selectionSortComparisons) < 0) {
+                        indexMin = j;
+                        min = data[indexMin];
+                    }
+
+                if (i != indexMin)
+                    std::swap(data[i], data[indexMin]);
+            }
+
+            selectionSortExecutionTime = (float)(clock() - startTime) / CLOCKS_PER_SEC * 1000;
+        }
+    };
 
     void insertionSort(std::vector<T>& data)
     {
@@ -137,49 +158,6 @@ public:
     }
 
 private:
-    void swap(std::vector<T>& data, int index1, int index2)
-    {
-        T temp = data[index1];
-        data[index1] = data[index2];
-        data[index2] = temp;
-    }
-
-    void quickSort(std::vector<T>& array, int low, int high) {
-        if (array.size() == 0)
-            return;//завершить выполнение если длина массива равна 0
-
-        if (low >= high)
-            return;//завершить выполнение если уже нечего делить
-
-        // выбрать опорный элемент
-        int middle = low + (high - low) / 2;
-        auto opora = array[middle];
-
-        // разделить на подмассивы, который больше и меньше опорного элемента
-        int i = low, j = high;
-        while (i <= j) {
-            while (compareTo(array[i], opora) < 0) {
-                i++;
-            }
-
-            while (compareTo(array[j], opora) > 0) {
-                j--;
-            }
-
-            if (i <= j) {//меняем местами
-                swap(array, i, j);
-                i++;
-                j--;
-            }
-        }
-
-        // вызов рекурсии для сортировки левой и правой части
-        if (low < j)
-            quickSort(array, low, j);
-
-        if (high > i)
-            quickSort(array, i, high);
-    }
-
     std::function<int(const T&, const T&, int &sortComparisons)> compareTo;
+
 };
