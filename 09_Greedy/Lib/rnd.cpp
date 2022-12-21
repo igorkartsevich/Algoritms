@@ -1,4 +1,3 @@
-#include "pch.h"
 #include "rnd.h"
 
 namespace Lib {

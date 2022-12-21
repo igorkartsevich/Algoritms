@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.0)
 project(01_Arrays)
 
-set(CMAKE_CXX_STANDARD 11)
+set(CMAKE_CXX_STANDARD 17)
 
 include(FetchContent)
 FetchContent_Declare(
@@ -42,36 +42,29 @@ add_executable(SimpleRecursionTest ..//07_Recursion/homework/SimpleRecursion/Sim
 add_executable(SortingTest ..//08_QSort/SortingTest.cpp ..//08_QSort/Sorting.h)
 
 set(TASK9_HEADER
-    ..//09_Greedy/TestTask9/_HuffmanCode.h
-    ..//09_Greedy/TestTask9/_WorkPlanner.h
-    ..//09_Greedy/TestTask9/pch.h
+    ..//09_Greedy/TestTask9/TestTask9.h
+    ..//09_Greedy/TestTask9/HuffmanCode.h
+    ..//09_Greedy/TestTask9/WorkPlanner.h
 
-    ..//09_Greedy/Task9/framework.h
     ..//09_Greedy/Task9/HuffmanCode.h
-    ..//09_Greedy/Task9/pch.h
     ..//09_Greedy/Task9/WorkPlanner.h
 )
 set(TASK9_SOURCE
     ..//09_Greedy/TestTask9/TestTask9.cpp
-
     ..//09_Greedy/TestTask9/HuffmanCode.cpp
-    ..//09_Greedy/TestTask9/WorkPanel.cpp
-    ..//09_Greedy/TestTask9/pch.cpp
+    ..//09_Greedy/TestTask9/WorkPlanner.cpp
 
-    ..//09_Greedy/Task9/pch.cpp
-    ..//09_Greedy/Task9/Task9.cpp
+    ..//09_Greedy/Task9/HuffmanCode.cpp
+    ..//09_Greedy/Task9/WorkPlanner.cpp
 )
 add_executable(TestTask9 ${TASK9_HEADER} ${TASK9_SOURCE})
 
 set(LIB_TASK9_HEADER
-    ..//09_Greedy/Lib/framework.h
     ..//09_Greedy/Lib/lib.h
-    ..//09_Greedy/Lib/pch.h
     ..//09_Greedy/Lib/rnd.h
 )
 set(LIB_TASK9_SOURCE
     ..//09_Greedy/Lib/lib.cpp
-    ..//09_Greedy/Lib/pch.cpp
     ..//09_Greedy/Lib/rnd.cpp
 )
 add_library(LibTask9 ${LIB_TASK9_HEADER} ${LIB_TASK9_SOURCE})

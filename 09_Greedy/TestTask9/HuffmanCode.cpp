@@ -1,5 +1,4 @@
-#include "pch.h"
-#include "_HuffmanCode.h"
+#include "HuffmanCode.h"
 #include <unordered_map>
 #include <algorithm>
 #include <queue>

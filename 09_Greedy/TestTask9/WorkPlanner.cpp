@@ -1,5 +1,4 @@
-#include "pch.h"
-#include "_WorkPlanner.h"
+#include "WorkPlanner.h"
 #include <algorithm>
 #include <numeric>
 #include <map>
