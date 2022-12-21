@@ -3,7 +3,7 @@
 #include <algorithm>
 #include <queue>
 
-namespace HomeworkCheck::HuffmanCode {
+namespace TestHuffmanCode {
 
 	using namespace std;
 

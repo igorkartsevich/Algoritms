@@ -3,7 +3,7 @@
 #include <vector>
 #include <ctime>
 
-namespace Homework::WorkPlanner {
+namespace TaskWorkPlanner {
 
 	size_t FindMaximumIncome(const std::vector<size_t>& workRates, size_t k);
 

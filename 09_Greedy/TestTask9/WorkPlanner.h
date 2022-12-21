@@ -3,7 +3,7 @@
 #include <vector>
 #include <ctime>
 
-namespace HomeworkCheck::WorkPlanner {
+namespace TestWorkPlanner {
 
 	using namespace std;
 

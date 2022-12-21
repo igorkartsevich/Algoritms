@@ -2,7 +2,7 @@
 
 #include <string>
 
-namespace Homework::HuffmanCode {
+namespace TaskHuffmanCode {
 
 	unsigned __int64 EncodeHuffman(const std::string &text);
 

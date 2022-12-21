@@ -4,7 +4,7 @@
 #include <map>
 #include <set>
 
-namespace HomeworkCheck::WorkPlanner {
+namespace TestWorkPlanner {
 
 	using namespace std;
 

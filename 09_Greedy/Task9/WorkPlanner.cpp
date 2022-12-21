@@ -4,7 +4,7 @@
 #include <map>
 #include <algorithm>
 
-namespace Homework::WorkPlanner {
+namespace TaskWorkPlanner {
 
     size_t FindMaximumIncome(const std::vector<size_t>& workRates, size_t hours) {
         std::multiset<int> ratesSet;
@@ -12,6 +12,7 @@ namespace Homework::WorkPlanner {
             ratesSet.emplace(rate);
 
         size_t profit{};
+
         std::for_each(rbegin(ratesSet), (hours < ratesSet.size()) ? rbegin(ratesSet) + hours : rend(ratesSet),
             [&profit](int rate) { profit += rate; });
 

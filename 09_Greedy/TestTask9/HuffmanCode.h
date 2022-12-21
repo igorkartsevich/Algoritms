@@ -2,7 +2,7 @@
 
 #include <string>
 
-namespace HomeworkCheck::HuffmanCode {
+namespace TestHuffmanCode {
 
 	unsigned __int64 EncodeHuffman(const std::string& text);
 }

@@ -2,9 +2,6 @@
 
 using namespace std;
 
-namespace bm = HomeworkCheck::WorkPlanner;
-namespace hw = Homework::WorkPlanner;
-
 TEST(FindMaximumIncome, FindMaximumIncome)
 {
 	using rates = vector<size_t>;
@@ -16,7 +13,7 @@ TEST(FindMaximumIncome, FindMaximumIncome)
 		return ret;
 		});
 	for_each(test.begin(), test.end(), [](auto it) {
-		EXPECT_EQ(hw::FindMaximumIncome(it.first, it.second), bm::FindMaximumIncome(it.first, it.second));
+		EXPECT_EQ(TestWorkPlanner::FindMaximumIncome(it.first, it.second), TaskWorkPlanner::FindMaximumIncome(it.first, it.second));
 		});
 }
 
@@ -38,31 +35,29 @@ TEST(FindMinimumManagers, FindMinimumManagers) {
 	return ret;
 		});
 	for_each(test.begin(), test.end(), [](auto it) {
-		EXPECT_EQ(hw::FindMinimumManagers(it), bm::FindMinimumManagers(it));
+		EXPECT_EQ(TestWorkPlanner::FindMinimumManagers(it), TaskWorkPlanner::FindMinimumManagers(it));
 		});
 }
 
 TEST(LoadTruck, LoadTruck) {
-	using Rate = pair<bm::TruckCapacity, vector<bm::GoodsInfo>>;
+	using Rate = pair<TestWorkPlanner::TruckCapacity, vector<TestWorkPlanner::GoodsInfo>>;
 	using TestRates = vector<Rate>;
 	TestRates test(RND.range<size_t>(50, 100));
 	generate(test.begin(), test.end(), [] {
-		vector<bm::GoodsInfo> goods(RND.range<size_t>(0, 50));
+		vector<TestWorkPlanner::GoodsInfo> goods(RND.range<size_t>(0, 50));
 	generate(goods.begin(), goods.end(), [] {
-		return bm::GoodsInfo{ RND.range<bm::GoodsCount>(1,1000), RND.range<bm::GoodsPrice>(1,1000) };
+		return TestWorkPlanner::GoodsInfo{ RND.range<TestWorkPlanner::GoodsCount>(1,1000), RND.range<TestWorkPlanner::GoodsPrice>(1,1000) };
 		});
-	return  Rate{ RND.range<bm::TruckCapacity>(0,1000), goods };
+	return  Rate{ RND.range<TestWorkPlanner::TruckCapacity>(0,1000), goods };
 		});
 	for_each(test.begin(), test.end(), [](auto it) {
-		EXPECT_EQ(hw::LoadTruck(it.first, it.second), bm::LoadTruck(it.first, it.second));
+		EXPECT_EQ(TaskWorkPlanner::LoadTruck(it.first, it.second), TestWorkPlanner::LoadTruck(it.first, it.second));
 		});
 }
 
 TEST(HuffmanCode, HuffmanCode) {
-	namespace hwhc = Homework::HuffmanCode;
-	namespace bmhc = HomeworkCheck::HuffmanCode;
 	vector<string> testRates{ "","a","aaa","Skillbox","abcdefg" };
 	for_each(testRates.begin(), testRates.end(), [](auto it) {
-		EXPECT_EQ(bmhc::EncodeHuffman(it), hwhc::EncodeHuffman(it));
+		EXPECT_EQ(TestHuffmanCode::EncodeHuffman(it), TaskHuffmanCode::EncodeHuffman(it));
 		});
 }

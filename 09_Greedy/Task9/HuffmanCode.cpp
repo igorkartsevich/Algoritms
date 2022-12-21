@@ -2,7 +2,7 @@
 #include "..\TestTask9\HuffmanCode.h"
 #include <map>
 
-namespace Homework::HuffmanCode {
+namespace TaskHuffmanCode {
 
     class Node {
     public:
