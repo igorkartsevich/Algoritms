@@ -2,19 +2,19 @@
 #include "..\TestTask9\WorkPlanner.h"
 #include <set>
 #include <map>
-#include <algorithm>
 
 namespace TaskWorkPlanner {
 
     size_t FindMaximumIncome(const std::vector<size_t>& workRates, size_t hours) {
-        std::multiset<int> ratesSet;
-        for (auto rate : workRates)
-            ratesSet.emplace(rate);
-
+        if (hours == 0) return 0;
+        std::multiset<int> ratesSet(begin(workRates), end(workRates));
         size_t profit{};
 
-        std::for_each(rbegin(ratesSet), (hours < ratesSet.size()) ? rbegin(ratesSet) + hours : rend(ratesSet),
-            [&profit](int rate) { profit += rate; });
+        for (auto it = rbegin(ratesSet); it != rend(ratesSet); ++it)
+            if (hours-- > 0)
+                profit += *it;
+            else
+                break;
 
         return profit;
     }
@@ -31,7 +31,7 @@ namespace TaskWorkPlanner {
             return it;
         };
 
-        auto mark_0_usedIntervals = [&mapOfIntervals, getIterator](map_type::iterator it) {
+        auto getSetIntervals = [&mapOfIntervals, getIterator](map_type::iterator it) {
             while (it != end(mapOfIntervals)) {
                 auto it_next = getIterator(mapOfIntervals.upper_bound(it->second));
                 it->second = 0;
@@ -45,14 +45,14 @@ namespace TaskWorkPlanner {
 
             if (start_it != end(mapOfIntervals)) {
                 ++employees;
-                mark_0_usedIntervals(start_it);
+                getSetIntervals(start_it);
             }
 
             else return employees;;
         }
     }
 
-    double LoadTruck(size_t truckCapacity, const std::vector<std::pair<size_t, size_t>>& goods) {
+    /*double LoadTruck(size_t truckCapacity, const std::vector<std::pair<size_t, size_t>>& goods) {
         using map_type = std::multimap<double, std::pair<size_t, size_t>>;
         map_type mapGoods;
 
@@ -74,7 +74,7 @@ namespace TaskWorkPlanner {
         }
 
         return cost;
-    }
+    }*/
 
 }
 
