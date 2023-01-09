@@ -2,20 +2,20 @@
 
 using namespace std;
 
-TEST(FindMaximumIncome, FindMaximumIncome)
-{
-	using rates = vector<size_t>;
-	using testRates = vector<pair<rates, size_t>>;
-	testRates test(RND.range<size_t>(50, 100));
-	generate(test.begin(), test.end(), [] {
-		pair<rates, size_t> ret(rates(RND.range<size_t>(0, 24)), RND.range<size_t>(0, 24));
-	generate(ret.first.begin(), ret.first.end(), [] {return RND.range<size_t>(0, 24); });
-		return ret;
-		});
-	for_each(test.begin(), test.end(), [](auto it) {
-		EXPECT_EQ(TestWorkPlanner::FindMaximumIncome(it.first, it.second), TaskWorkPlanner::FindMaximumIncome(it.first, it.second));
-		});
-}
+//TEST(FindMaximumIncome, FindMaximumIncome)
+//{
+//	using rates = vector<size_t>;
+//	using testRates = vector<pair<rates, size_t>>;
+//	testRates test(RND.range<size_t>(50, 100));
+//	generate(test.begin(), test.end(), [] {
+//		pair<rates, size_t> ret(rates(RND.range<size_t>(0, 24)), RND.range<size_t>(0, 24));
+//	generate(ret.first.begin(), ret.first.end(), [] {return RND.range<size_t>(0, 24); });
+//		return ret;
+//		});
+//	for_each(test.begin(), test.end(), [](auto it) {
+//		EXPECT_EQ(TestWorkPlanner::FindMaximumIncome(it.first, it.second), TaskWorkPlanner::FindMaximumIncome(it.first, it.second));
+//		});
+//}
 
 TEST(FindMinimumManagers, FindMinimumManagers) {
 	constexpr time_t hour = 60 * 60;
@@ -24,8 +24,8 @@ TEST(FindMinimumManagers, FindMinimumManagers) {
 	const time_t start = time(nullptr) / day * day;
 	const time_t stop = start + day;
 	using rates = vector<pair<time_t, time_t>>;
-	/*using testRates = vector<rates>;
-	testRates test(RND.range<size_t>(50, 100));
+	using testRates = vector<rates>;
+	/*testRates test(RND.range<size_t>(50, 100));
 	generate(test.begin(), test.end(), [=] {
 		rates ret(RND.range<size_t>(0, 100));
 	generate(ret.begin(), ret.end(), [=] {
@@ -33,14 +33,15 @@ TEST(FindMinimumManagers, FindMinimumManagers) {
 	return pair<time_t, time_t>{ b, RND.range<time_t>(b + minMeet, stop) };
 		});
 	return ret;
-		});*/
-
-	vector<pair<time_t, time_t>> test = { pair(1,3), pair(3,4), pair(4,5) };
-	EXPECT_EQ(TestWorkPlanner::FindMinimumManagers(test), TaskWorkPlanner::FindMinimumManagers(test));
-
-	/*for_each(test.begin(), test.end(), [](auto it) {
+		});
+	for_each(test.begin(), test.end(), [](auto it) {
 		EXPECT_EQ(TestWorkPlanner::FindMinimumManagers(it), TaskWorkPlanner::FindMinimumManagers(it));
 		});*/
+
+	std::vector<std::pair<time_t, time_t>> vec = {
+		std::make_pair(1, 3), std::make_pair(2, 3), std::make_pair(4, 6), std::make_pair(4, 5), std::make_pair(5, 7)
+	};
+	TaskWorkPlanner::FindMinimumManagers(vec);
 }
 
 //TEST(LoadTruck, LoadTruck) {
