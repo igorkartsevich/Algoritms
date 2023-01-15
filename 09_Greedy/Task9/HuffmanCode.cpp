@@ -1,20 +1,19 @@
 #include "HuffmanCode.h"
 #include "..\TestTask9\HuffmanCode.h"
 #include <map>
-#include <queue>
 
 namespace TaskHuffmanCode {
 
     class Node {
     public:
-        Node(int inWeight)
-            : weight(inWeight), left(nullptr), right(nullptr) {}
+        Node(int inCharCode)
+            : charCode(inCharCode), left(nullptr), right(nullptr) {}
 
         Node(Node* inLeft, Node* inRight)
-            : weight(inLeft->weight + inRight->weight), left(inLeft), right(inRight) {}
+            : charCode(inLeft->charCode + inRight->charCode), left(inLeft), right(inRight) {}
 
         int getCharCode() {
-            return weight;
+            return charCode;
         }
         Node* getNextLeft() {
             return left;
@@ -24,53 +23,63 @@ namespace TaskHuffmanCode {
         }
 
     private:
-        int weight;
+        int charCode;
         Node* left;
         Node* right;
     };
 
-    void makeHuffmanTree(Node*& root, const std::string& text) {
+    void getHuffmanTree(Node*& root, const std::string& text) {
         int base[256] = { 0 };
         for (const auto& ch : text)
             ++base[(int)ch];
-        
-        
 
+        std::multimap<size_t, size_t> huffmanTree;
+        for (auto i = 0; i < 256; ++i)
+            if (base[i] != 0)
+                huffmanTree.emplace(base[i], i);
 
+        auto it = begin(huffmanTree);
+        root = new Node(it->second);
+
+        while (++it != end(huffmanTree)) {
+            Node* leaf = new Node(it->second);
+            root = new Node(leaf, root);
+        }
     }
 
-    void makeCoding(Node*& const inRoot, std::string& codeRecord, const std::string& text) {
-        for (const auto& ch : text) {
-            Node* root = inRoot;
+    void getHuffmanCode(Node*& inRoot, std::string& codeRecord, const std::string& text) {
+        Node* root = inRoot;
 
-            if (root->getNextRight() == nullptr) {
+        for (const auto& ch : text) {
+            if (root->getNextRight() == nullptr) { //if in huffmanTree only one leaf (root is leat)
                 codeRecord += "1";
                 continue;
             }
             else {
-                while (root->getNextRight() != nullptr) {
-                    if (root->getNextLeft()->getCharCode() == (int)ch) {
+                while (root->getNextRight() != nullptr) { 
+                    if (root->getNextLeft()->getCharCode() == (int)ch) { // to left -> '0'
                         codeRecord += "0";
                         break;
                     }
-                    else {
+                    else { // to right -> '1'
                         codeRecord += "1";
                         root = root->getNextRight();
                     }
                 }
             }
-            return;
         }
+
+        return;
     }
 
     unsigned __int64 EncodeHuffman(const std::string& text) {
         if (text.length() == 0) return 0;
 
         Node* root = nullptr;
-        makeHuffmanTree(root, text);
+        getHuffmanTree(root, text);
 
         std::string codeRecord = "";
-        makeCoding(root, codeRecord, text);
+        getHuffmanCode(root, codeRecord, text);
 
         return std::stoull(codeRecord, nullptr, 2);
     }

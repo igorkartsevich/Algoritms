@@ -2,6 +2,7 @@
 #include "..\TestTask9\WorkPlanner.h"
 #include <set>
 #include <map>
+#include <iostream>
 
 namespace TaskWorkPlanner {
 
@@ -10,8 +11,8 @@ namespace TaskWorkPlanner {
         std::multiset<int> ratesSet(begin(workRates), end(workRates));
         size_t profit{};
 
-        for (auto it = rbegin(ratesSet); it != rend(ratesSet); ++it)
-            if (hours-- > 0)
+        for (auto it = rbegin(ratesSet); it != rend(ratesSet); ++it, --hours)
+            if (hours > 0)
                 profit += *it;
             else
                 break;
@@ -21,39 +22,50 @@ namespace TaskWorkPlanner {
 
     size_t FindMinimumManagers(const std::vector<std::pair<std::time_t, std::time_t>>& intervals) {
         if(intervals.size() == 0) return 0;
-        size_t emploees{};
-
+        
         std::multimap<int, int> mapInterval(begin(intervals), end(intervals));
+
+        auto searchNotUsedYet = [&](std::multimap<int, int>::iterator& itNext) {
+            while (itNext != end(mapInterval) && itNext->second == 0)
+                ++itNext;
+        };
+
+        auto checkToIntervalBetter = [&](std::multimap<int, int>::iterator& itNext) {
+            auto itTMP = itNext;
+            while (++itTMP != end(mapInterval) && itTMP->first < itNext->second) {
+                if (itTMP->second != 0 && itTMP->second < itNext->second)
+                    itNext = itTMP;
+            }
+        };
+
+        size_t emploees{};
         auto itStart = begin(mapInterval);
 
         while (itStart != end(mapInterval)) {
             if (itStart->second != 0) {
                 ++emploees;
-                
+                std::cout << "emploees N" << emploees << std::endl;
+                std::cout << itStart->first << " " << itStart->second << std::endl;
+
                 auto itPrev = itStart;
-                while (true) {
-                    auto itNext = mapInterval.upper_bound(itPrev->second);
+                auto itNext = mapInterval.upper_bound(itPrev->second);
 
-                    if (itNext == end(mapInterval)) {
-                        itPrev->second = 0;
-                        break;
-                    }
-                    
+                while (itNext != end(mapInterval)) {
                     if (itNext->second == 0)
-                        while (itNext->second == 0 && itNext != end(mapInterval))
-                            ++itNext;
+                        searchNotUsedYet(itNext);
 
-                    auto itTMP = itNext;
-                    ++itTMP;
-                    while (itTMP->second != 0 && itTMP->first < itNext->second) {
-                        if (itTMP->second < itNext->second)
-                            itNext = itTMP;
-                        ++itTMP;
-                    }
+                    if (itNext == end(mapInterval))
+                        break;
+                    else
+                        checkToIntervalBetter(itNext);
 
+                    std::cout << itNext->first << " " << itNext->second << std::endl;
                     itPrev->second = 0;
                     itPrev = itNext;
+                    itNext = mapInterval.upper_bound(itPrev->second);
                 }
+
+                itPrev->second = 0;
             }
 
             ++itStart;
@@ -63,24 +75,22 @@ namespace TaskWorkPlanner {
     }
 
     double LoadTruck(size_t truckCapacity, const std::vector<std::pair<size_t, size_t>>& goods) {
-        using map_type = std::multimap<double, std::pair<size_t, size_t>>;
-        map_type mapGoods;
+        std::multimap<double, std::pair<size_t, size_t>> mapGoodsByUnitCost;
 
         for (auto good : goods)
-            mapGoods.emplace((double)good.second / good.first, good);
+            mapGoodsByUnitCost.emplace((double)good.second / good.first, good);
 
         double totalCost{};
-        auto it = rbegin(mapGoods);
-        while (it != rend(mapGoods)) {
+
+        for (auto it = rbegin(mapGoodsByUnitCost); it != rend(mapGoodsByUnitCost); ++it) {
             if (int(truckCapacity - it->second.first) > 0) {
                 truckCapacity -= it->second.first;
                 totalCost += it->second.second;
-                ++it;
             }
             else {
                 totalCost += (double)truckCapacity / it->second.first * it->second.second;
                 break;
-            }
+            } 
         }
 
         return totalCost;
