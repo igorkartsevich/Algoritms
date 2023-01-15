@@ -48,9 +48,9 @@ namespace TaskHuffmanCode {
     }
 
     void getHuffmanCode(Node*& inRoot, std::string& codeRecord, const std::string& text) {
-        Node* root = inRoot;
-
         for (const auto& ch : text) {
+            Node* root = inRoot;
+
             if (root->getNextRight() == nullptr) { //if in huffmanTree only one leaf (root is leat)
                 codeRecord += "1";
                 continue;
