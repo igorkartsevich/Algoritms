@@ -42,22 +42,22 @@ add_executable(SimpleRecursionTest ..//07_Recursion/homework/SimpleRecursion/Sim
 add_executable(SortingTest ..//08_QSort/SortingTest.cpp ..//08_QSort/Sorting.h)
 
 set(TASK9_HEADER
-    ..//09_Greedy/TestTask9/TestTask9.h
-    ..//09_Greedy/TestTask9/HuffmanCode.h
-    ..//09_Greedy/TestTask9/WorkPlanner.h
-
+    ..//09_Greedy/Task9/TestTask9.h
     ..//09_Greedy/Task9/HuffmanCode.h
     ..//09_Greedy/Task9/WorkPlanner.h
+
+    ..//09_Greedy/Solution9/HuffmanCode.h
+    ..//09_Greedy/Solution9/WorkPlanner.h
 )
 set(TASK9_SOURCE
-    ..//09_Greedy/TestTask9/TestTask9.cpp
-    ..//09_Greedy/TestTask9/HuffmanCode.cpp
-    ..//09_Greedy/TestTask9/WorkPlanner.cpp
-
+    ..//09_Greedy/Task9/TestTask9.cpp
     ..//09_Greedy/Task9/HuffmanCode.cpp
     ..//09_Greedy/Task9/WorkPlanner.cpp
+
+    ..//09_Greedy/Solution9/HuffmanCode.cpp
+    ..//09_Greedy/Solution9/WorkPlanner.cpp
 )
-add_executable(TestTask9 ${TASK9_HEADER} ${TASK9_SOURCE})
+add_executable(Task9 ${TASK9_HEADER} ${TASK9_SOURCE})
 
 set(LIB_TASK9_HEADER
     ..//09_Greedy/Lib/lib.h
@@ -69,4 +69,4 @@ set(LIB_TASK9_SOURCE
 )
 add_library(LibTask9 ${LIB_TASK9_HEADER} ${LIB_TASK9_SOURCE})
 
-target_link_libraries(TestTask9 LibTask9 gtest_main)
+target_link_libraries(Task9 LibTask9 gtest_main)

@@ -3,12 +3,18 @@
 #include <vector>
 #include <ctime>
 
-namespace TaskWorkPlanner {
+namespace TestWorkPlanner {
 
-	size_t FindMaximumIncome(const std::vector<size_t>& workRates, size_t k);
+	using namespace std;
 
-	size_t FindMinimumManagers(const std::vector<std::pair<std::time_t, std::time_t>>& intervals);
+	size_t FindMaximumIncome(const vector<size_t>& workRates, size_t k);
 
-	double LoadTruck(size_t truckCapacity, const std::vector<std::pair<size_t, size_t>>& goods);
+	size_t FindMinimumManagers(const vector<pair<time_t, time_t>>& intervals);
 
+	using TruckCapacity = size_t;
+	using GoodsPrice = size_t;
+	using GoodsCount = size_t;
+	using PricePerOne = double;
+	using GoodsInfo = pair<GoodsCount, GoodsPrice>;
+	double LoadTruck(TruckCapacity truckCapacity, const vector<GoodsInfo>& goods);
 }

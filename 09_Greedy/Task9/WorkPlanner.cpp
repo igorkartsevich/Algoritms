@@ -1,100 +1,58 @@
-﻿#include "WorkPlanner.h"
-#include "..\TestTask9\WorkPlanner.h"
-#include <set>
+#include "WorkPlanner.h"
+#include <algorithm>
+#include <numeric>
 #include <map>
-#include <iostream>
+#include <set>
 
-namespace TaskWorkPlanner {
+namespace TestWorkPlanner {
 
-    size_t FindMaximumIncome(const std::vector<size_t>& workRates, size_t hours) {
-        if (hours == 0) return 0;
-        std::multiset<int> ratesSet(begin(workRates), end(workRates));
-        size_t profit{};
+	using namespace std;
 
-        for (auto it = rbegin(ratesSet); it != rend(ratesSet); ++it, --hours)
-            if (hours > 0)
-                profit += *it;
-            else
-                break;
+	size_t FindMaximumIncome(const vector<size_t>& workRates, size_t k) {
+		if (!k) return 0;
+		size_t ret = 0;
+		multiset<size_t, greater<size_t>> rates(workRates.begin(), workRates.end());
+		for (auto it = rates.begin(); it != rates.end() && k-- > 0; ret += *(it++));
+		return ret;
+	}
 
-        return profit;
-    }
+	size_t FindMinimumManagers(const vector<pair<time_t, time_t>>& intervals) {
+		if (!intervals.size()) return 0;
+		multimap<time_t, time_t> rates;
+		for_each(intervals.begin(), intervals.end(), [&rates](auto it) {rates.insert({ it.first,it.second }); });
+		size_t count = 0;
+		auto it = rates.begin();
+		while (it != rates.end()) {
+			size_t res = 1;
+			auto next = it;
+			while (++next != rates.end()) {
+				if (next->first < it->second) {
+					++res;
+				}
+				else break;
+			}
+			count = max(count, res);
+			++it;
+		}
+		return count;
+	}
 
-    size_t FindMinimumManagers(const std::vector<std::pair<std::time_t, std::time_t>>& intervals) {
-        if(intervals.size() == 0) return 0;
-        
-        std::multimap<int, int> mapInterval(begin(intervals), end(intervals));
-
-        auto searchNotUsedYet = [&](std::multimap<int, int>::iterator& itNext) {
-            while (itNext != end(mapInterval) && itNext->second == 0)
-                ++itNext;
-        };
-
-        auto checkToIntervalBetter = [&](std::multimap<int, int>::iterator& itNext) {
-            auto itTMP = itNext;
-            while (++itTMP != end(mapInterval) && itTMP->first < itNext->second) {
-                if (itTMP->second != 0 && itTMP->second < itNext->second)
-                    itNext = itTMP;
-            }
-        };
-
-        size_t emploees{};
-        auto itStart = begin(mapInterval);
-
-        while (itStart != end(mapInterval)) {
-            if (itStart->second != 0) {
-                ++emploees;
-                std::cout << "emploees N" << emploees << std::endl;
-                std::cout << itStart->first << " " << itStart->second << std::endl;
-
-                auto itPrev = itStart;
-                auto itNext = mapInterval.upper_bound(itPrev->second);
-
-                while (itNext != end(mapInterval)) {
-                    if (itNext->second == 0)
-                        searchNotUsedYet(itNext);
-
-                    if (itNext == end(mapInterval))
-                        break;
-                    else
-                        checkToIntervalBetter(itNext);
-
-                    std::cout << itNext->first << " " << itNext->second << std::endl;
-                    itPrev->second = 0;
-                    itPrev = itNext;
-                    itNext = mapInterval.upper_bound(itPrev->second);
-                }
-
-                itPrev->second = 0;
-            }
-
-            ++itStart;
-        }
-
-        return emploees;
-    }
-
-    double LoadTruck(size_t truckCapacity, const std::vector<std::pair<size_t, size_t>>& goods) {
-        std::multimap<double, std::pair<size_t, size_t>> mapGoodsByUnitCost;
-
-        for (auto good : goods)
-            mapGoodsByUnitCost.emplace((double)good.second / good.first, good);
-
-        double totalCost{};
-
-        for (auto it = rbegin(mapGoodsByUnitCost); it != rend(mapGoodsByUnitCost); ++it) {
-            if (int(truckCapacity - it->second.first) > 0) {
-                truckCapacity -= it->second.first;
-                totalCost += it->second.second;
-            }
-            else {
-                totalCost += (double)truckCapacity / it->second.first * it->second.second;
-                break;
-            } 
-        }
-
-        return totalCost;
-    }
-
+	double LoadTruck(TruckCapacity truckCapacity, const vector<GoodsInfo>& goods) {
+		multimap<PricePerOne, GoodsCount, greater<PricePerOne>> rates;
+		for_each(goods.begin(), goods.end(), [&rates](auto it) {
+			rates.insert({ PricePerOne(it.second) / it.first,it.first });
+			});
+		double ret = 0.0;
+		auto it = rates.begin();
+		while (it != rates.end()) {
+			if (truckCapacity <= it->second) {
+				ret += truckCapacity * it->first;
+				break;
+			}
+			ret += it->first * it->second;
+			truckCapacity -= it->second;
+			++it;
+		}
+		return ret;
+	}
 }
-
