@@ -70,3 +70,34 @@ set(LIB_TASK9_SOURCE
 add_library(LibTask9 ${LIB_TASK9_HEADER} ${LIB_TASK9_SOURCE})
 
 target_link_libraries(Task9 LibTask9 gtest_main)
+
+
+set(TASK10_HEADER
+    ..//10_BinarySearchTree/Task10/BST.h
+
+    ..//10_BinarySearchTree/Solution10/BST.h
+    ..//10_BinarySearchTree/Solution10/Node.h
+    ..//10_BinarySearchTree/Solution10/Receipt.h
+)
+set(TASK10_SOURCE
+    ..//10_BinarySearchTree/Task10/TestTask10.cpp
+    ..//10_BinarySearchTree/Task10/BST.cpp
+
+    ..//10_BinarySearchTree/Solution10/BST.cpp
+    ..//10_BinarySearchTree/Solution10/Node.cpp
+    ..//10_BinarySearchTree/Solution10/Receipt.cpp
+    ..//10_BinarySearchTree/Solution10/Task10.cpp
+)
+add_executable(Task10 ${TASK10_HEADER} ${TASK10_SOURCE})
+
+set(LIB_TASK10_HEADER
+    ..//10_BinarySearchTree/Lib/lib.h
+    ..//10_BinarySearchTree/Lib/rnd.h
+)
+set(LIB_TASK10_SOURCE
+    ..//10_BinarySearchTree/Lib/lib.cpp
+    ..//10_BinarySearchTree/Lib/rnd.cpp
+)
+add_library(LibTask10 ${LIB_TASK10_HEADER} ${LIB_TASK10_SOURCE})
+
+target_link_libraries(Task10 LibTask10 gtest_main)

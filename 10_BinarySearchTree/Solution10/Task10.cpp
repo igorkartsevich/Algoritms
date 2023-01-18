@@ -4,11 +4,14 @@
 #include "BST.h"
 #include "..\Task10\BST.h"
 #include <vector>
+#include <algorithm>
 
 namespace Homework::BST {
 
 	Node* Homework::BST::FromList(const std::vector<Receipt>& elements) {
-		return HomeworkCheck::BST::FromList(elements);
+		Node* root;
+
+		return root;
 	}
 
 	std::vector<Receipt> FromNode(Node* root) {
