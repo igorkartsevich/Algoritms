@@ -1,4 +1,3 @@
-#include "pch.h"
 #include "Receipt.h"
 
 namespace Homework::BST {

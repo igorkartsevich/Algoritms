@@ -1,10 +1,8 @@
 ﻿// Task10.cpp : Определяет функции для статической библиотеки.
 //
 
-#include "pch.h"
-#include "framework.h"
 #include "BST.h"
-#include "..\TestTask10\_BST.h"
+#include "..\Task10\BST.h"
 #include <vector>
 
 namespace Homework::BST {

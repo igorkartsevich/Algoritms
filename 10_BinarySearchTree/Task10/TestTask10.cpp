@@ -1,8 +1,6 @@
-﻿#include "pch.h"
-#include "CppUnitTest.h"
-#include "_BST.h"
+﻿#include "BST.h"
 #include "..\Lib\Lib.h"
-#include "..\Task10\\BST.h"
+#include "..\Solution\\BST.h"
 #include <algorithm>
 #include <map>
 

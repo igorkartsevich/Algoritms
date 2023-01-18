@@ -1,5 +1,4 @@
-#include "pch.h"
-#include "_BST.h"
+#include "BST.h"
 
 namespace HomeworkCheck::BST {
 
