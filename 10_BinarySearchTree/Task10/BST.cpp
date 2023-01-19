@@ -1,10 +1,8 @@
 #include "BST.h"
 
-namespace HomeworkCheck::BST {
+namespace HomeworkCheck {
 
 	using namespace std;
-	using Homework::BST::Receipt;
-	using Homework::BST::Node;
 
 	bool IsLeaf(Node* it) {
 		return !it->left && !it->right;

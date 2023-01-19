@@ -2,8 +2,7 @@
 
 #include "Receipt.h"
 
-
-namespace Homework::BST {
+namespace Homework {
 
 	struct Node {
 		Receipt x;

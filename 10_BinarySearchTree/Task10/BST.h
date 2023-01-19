@@ -1,19 +1,19 @@
 #pragma once
-#include "..\Solution\Node.h"
+#include "..\Solution10\Node.h"
 #include <vector>
 #include <algorithm>
 
-namespace HomeworkCheck::BST {
+namespace HomeworkCheck {
 
 	using namespace std;
-	using Homework::BST::Receipt;
-	using Homework::BST::Node;
+	using Homework::Receipt;
+	using Homework::Node;
 
 	Node* FromList(const vector<Receipt>& elements);
 
 	vector<Receipt> FromNode(Node* root);
 	
-	size_t MaxDepth(Node* root);
+	size_t MaxDepth(Homework::Node* root);
 
 	bool IsBST(Node* root);
 

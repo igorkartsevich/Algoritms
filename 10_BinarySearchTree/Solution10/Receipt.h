@@ -1,6 +1,6 @@
 #pragma once
 
-namespace Homework::BST {
+namespace Homework {
 
 	struct Receipt {
 		size_t receiptNumber = 0;

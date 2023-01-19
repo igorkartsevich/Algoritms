@@ -3,7 +3,7 @@
 #include <vector>
 #include "Node.h"
 
-namespace Homework::BST {
+namespace Homework {
 
 	Node* FromList(const std::vector<Receipt>& elements);
 
