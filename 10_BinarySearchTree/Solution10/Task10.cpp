@@ -1,6 +1,7 @@
 ﻿#include "BST.h"
 #include "..\Task10\BST.h"
 #include <vector>
+#include <stack>
 #include <algorithm>
 
 namespace Homework {
@@ -9,13 +10,37 @@ namespace Homework {
 	using Homework::Node;
 
 	Node* Homework::FromList(const std::vector<Receipt>& elements) {
-		Node* root;
+		auto size = elements.size();
+		if (size == 0) return nullptr;
 
-		return root;
+		Node root(elements[0]);
+		
+		for (int i{ 1 }; i < size; ++i) {
+			Node currentNode = root;
+			Node nextNode(elements[i]);
+
+			while (true) {
+				auto direction = (nextNode < currentNode)
+					? currentNode.left
+					: currentNode.right;
+
+				if (direction == nullptr) {
+					direction = &nextNode;
+					break;
+				}
+				else
+					currentNode = *direction;
+			}
+		}
+
+		return &root;
 	}
 
 	std::vector<Receipt> FromNode(Node* root) {
-		return {};
+		std::vector<Receipt> receipts;
+		if(root == nullptr) return receipts;
+
+		return receipts;
 	}
 
 	double GetAmount(Node* root, size_t receiptNumber) {
