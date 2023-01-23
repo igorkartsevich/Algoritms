@@ -9,4 +9,6 @@ namespace Homework {
 
 	bool operator ==(const Receipt& l, const Receipt& r);
 
+	int comparator(const void* rec1, const void* rec2);
+
 }
