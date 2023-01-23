@@ -58,28 +58,28 @@ TEST(FromNode, FromNode) {
 		});
 }
 
-//TEST(GetAmount, GetAmount) {
-//	auto test = GenerateTest();
-//	for_each(test.begin(), test.end(), [](auto it) {
-//		Node* root = hw::FromList(it);
-//		Receipt ctrl = it[RND.range<size_t>(0, it.size() - 1)];
-//		double ans = hw::GetAmount(root, ctrl.receiptNumber);
-//		EXPECT_EQ(ctrl.amount, ans);
-//		delete root;
-//		});
-//}
+TEST(GetAmount, GetAmount) {
+	auto test = GenerateTest();
+	for_each(test.begin(), test.end(), [](auto it) {
+		Node* root = hw::FromList(it);
+		Receipt ctrl = it[RND.range<size_t>(0, it.size() - 1)];
+		double ans = hw::GetAmount(root, ctrl.receiptNumber);
+		EXPECT_EQ(ctrl.amount, ans);
+		delete root;
+		});
+}
 
-//TEST(CheckTree, CheckTree) {
-//	auto test = GenerateTest();
-//	for_each(test.begin(), test.end(), [](auto it) {
-//		if (it.size() > 2) {
-//			Node* root = hw::FromList(it);
-//			EXPECT_TRUE(hw::CheckTree(root));
-//			root->left->x.receiptNumber = SIZE_MAX;
-//			EXPECT_FALSE(hw::CheckTree(root));
-//		}
-//		});
-//}
+TEST(CheckTree, CheckTree) {
+	auto test = GenerateTest();
+	for_each(test.begin(), test.end(), [](auto it) {
+		if (it.size() > 2) {
+			Node* root = hw::FromList(it);
+			EXPECT_TRUE(hw::CheckTree(root));
+			root->left->x.receiptNumber = SIZE_MAX;
+			EXPECT_FALSE(hw::CheckTree(root));
+		}
+		});
+}
 
 //TEST(_Delete, _Delete) {
 //	auto test = GenerateTest();

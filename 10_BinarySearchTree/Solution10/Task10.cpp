@@ -3,6 +3,7 @@
 #include <vector>
 #include <stack>
 #include <algorithm>
+#include <queue>
 
 namespace Homework {
 
@@ -86,11 +87,51 @@ namespace Homework {
 	}
 
 	double GetAmount(Node* root, size_t receiptNumber) {
-		return {};
+		auto currentNode = root;
+
+		while (true) {
+			if (receiptNumber > currentNode->x.receiptNumber)
+				if (currentNode->right != nullptr)
+					if (currentNode->right->x.receiptNumber == receiptNumber)
+						return currentNode->right->x.amount;
+					else
+						currentNode = currentNode->right;
+				else
+					return 0.0;
+			else
+				if (currentNode->left != nullptr)
+					if (currentNode->left->x.receiptNumber == receiptNumber)
+						return currentNode->left->x.amount;
+					else
+						currentNode = currentNode->left;
+				else
+					return 0.0;
+		}
 	}
 
 	bool CheckTree(Node* root) {
-		return {};
+		if (root == nullptr) return false;
+		auto currentNode = root;
+		std::queue<Node*> nodeQueue;
+
+		while (true) {
+			if (currentNode->left != nullptr)
+				if (currentNode->left->x.receiptNumber < currentNode->x.receiptNumber)
+					nodeQueue.push(currentNode->left);
+				else
+					return false;
+
+			if (currentNode->right != nullptr)
+				if (currentNode->right->x.receiptNumber > currentNode->x.receiptNumber)
+					currentNode = currentNode->right;
+				else
+					return false;
+			else {
+				if (nodeQueue.empty()) return true;
+				currentNode = nodeQueue.front();
+				nodeQueue.pop();
+			}
+		}
 	}
 
 	Node* Delete(Node* root, size_t receipt) {
