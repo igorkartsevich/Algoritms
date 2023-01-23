@@ -98,8 +98,9 @@ namespace Homework {
 						currentNode = currentNode->right;
 				else
 					return 0.0;
+
 			else
-				if (currentNode->left != nullptr)
+				if (currentNode->left != nullptr)					
 					if (currentNode->left->x.receiptNumber == receiptNumber)
 						return currentNode->left->x.amount;
 					else
