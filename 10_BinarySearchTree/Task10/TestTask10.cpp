@@ -81,24 +81,24 @@ TEST(CheckTree, CheckTree) {
 		});
 }
 
-//TEST(_Delete, _Delete) {
-//	auto test = GenerateTest();
-//	for_each(test.begin(), test.end(), [](auto it) {
-//		Node* root = hw::FromList(it);
-//		sort(it.begin(), it.end(), [](auto l, auto r) {
-//			return l.receiptNumber < r.receiptNumber;
-//			});
-//		if (root) {
-//			size_t out = RND.range<size_t>(0, it.size() - 1);
-//			Receipt del = it[out];
-//			it.erase(it.begin() + out);
-//			root = Delete(root, del.receiptNumber);
-//			auto ctrl = hw::FromNode(root);
-//			EXPECT_EQ(it == ctrl, true);
-//			delete root;
-//		}
-//		});
-//}
+TEST(_Delete, _Delete) {
+	auto test = GenerateTest();
+	for_each(test.begin(), test.end(), [](auto it) {
+		Node* root = hw::FromList(it);
+		sort(it.begin(), it.end(), [](auto l, auto r) {
+			return l.receiptNumber < r.receiptNumber;
+			});
+		if (root) {
+			size_t out = RND.range<size_t>(0, it.size() - 1);
+			Receipt del = it[out];
+			it.erase(it.begin() + out);
+			root = Delete(root, del.receiptNumber);
+			auto ctrl = hw::FromNode(root);
+			EXPECT_EQ(it == ctrl, true);
+			delete root;
+		}
+		});
+}
 
 //TEST(GetNext, GetNext) {
 //	auto test = GenerateTest();

@@ -9,11 +9,11 @@ namespace Homework {
 
 	std::vector<Receipt> FromNode(Node* root);
 
-	double GetAmount(Node* root, size_t receiptNumber);
+	double GetAmount(const Node* root, size_t receiptNumber);
 
-	bool CheckTree(Node* root);
+	bool CheckTree(const Node* root);
 
-	Node* Delete(Node* root, size_t receipt);
+	Node* Delete(Node* root, size_t receiptNumber);
 
 	Receipt GetNext(Node* root, const Receipt& receipt);
 }
