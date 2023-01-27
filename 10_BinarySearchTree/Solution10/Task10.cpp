@@ -128,41 +128,50 @@ namespace Homework {
 	}
 	Node* Delete(Node* root, size_t receiptNumber) {
 		enum CHILD {
-			LEFT,
-			RIGHT
+			LEFT_CHILD,
+			RIGHT_CHILD
 		};
 		auto nodeToDelete = searchNodeToDelete(root, receiptNumber);
 
 		auto deleteLeaf = [](Node* nodeToDelete) {
-			(nodeToDelete->x.receiptNumber < nodeToDelete->parent->x.receiptNumber)
+			(nodeToDelete->parent->left == nodeToDelete)
 				? nodeToDelete->parent->left = nullptr
 				: nodeToDelete->parent->right = nullptr;
+			delete[] nodeToDelete;
 		};
 
-		auto deleteOneChildParent = [](Node* nodeToDelete, CHILD childSide) {
-			(nodeToDelete->x.receiptNumber < nodeToDelete->parent->x.receiptNumber)
-				? (childSide == LEFT) ? nodeToDelete->parent->left = nodeToDelete->left : nodeToDelete->parent->left = nodeToDelete->right
-				: (childSide == LEFT) ? nodeToDelete->parent->right = nodeToDelete->left : nodeToDelete->parent->right = nodeToDelete->right;
-
-			(childSide == LEFT) ? nodeToDelete->left->parent = nodeToDelete->parent : nodeToDelete->right->parent = nodeToDelete->parent;
+		auto deleteOneChildParent = [&deleteLeaf](Node* nodeToDelete, CHILD child) {
+			(child == LEFT_CHILD) ? nodeToDelete->x = nodeToDelete->left->x : nodeToDelete->x = nodeToDelete->right->x;
+			(child == LEFT_CHILD) ? deleteLeaf(nodeToDelete->left) : deleteLeaf(nodeToDelete->right);
 		};
 
-		auto deleteTwoChildrenParent = [](Node* nodeToDelete) {
-			
+		auto deleteTwoChildrenParent = [&deleteLeaf, &deleteOneChildParent](Node* nodeToDelete) {
+			if (nodeToDelete->right->left == nullptr) {
+				nodeToDelete->x = nodeToDelete->right->x;
+				nodeToDelete->right = nodeToDelete->right->right;
+				delete[] nodeToDelete->right;
+			}
+			else {
+				Node* leftMostNode = nodeToDelete->right->left;
+				while (leftMostNode->left != nullptr)
+					leftMostNode = leftMostNode->left;
+				nodeToDelete->x = leftMostNode->x;
+				
+				(leftMostNode->right == nullptr) ? deleteLeaf(leftMostNode) : deleteOneChildParent(leftMostNode, RIGHT_CHILD);
+			}
 		};
 
 		if (nodeToDelete->left == nullptr && nodeToDelete->right == nullptr) // leaf
 			deleteLeaf(nodeToDelete);
 			
 		else if (nodeToDelete->left != nullptr && nodeToDelete->right != nullptr) { // left child + right child
-			
+			deleteTwoChildrenParent(nodeToDelete);
 		}
 
 		else (nodeToDelete->left != nullptr) // only left child or only right child
-			? deleteOneChildParent(nodeToDelete, LEFT) : deleteOneChildParent(nodeToDelete, RIGHT);
+			? deleteOneChildParent(nodeToDelete, LEFT_CHILD) : deleteOneChildParent(nodeToDelete, RIGHT_CHILD);
 			
-		delete[] nodeToDelete;
-		return nullptr;
+		return root;
 	}
 
 	Receipt GetNext(Node* root, const Receipt& receipt) {
