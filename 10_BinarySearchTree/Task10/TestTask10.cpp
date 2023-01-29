@@ -18,11 +18,11 @@ using Test = vector<vector<hw::Receipt>>;
 Test GenerateTest() {
 	Test ret(100);
 	generate(ret.begin(), ret.end(), [] {
-		vector<hw::Receipt> out(RND.range<size_t>(0, 100));
+		vector<hw::Receipt> out(RND.range<size_t>(0, 1000));
 		map<size_t, double> val;
 		generate(out.begin(), out.end(), [&] {
 			while (true) {
-				pair<size_t, double> x{ RND.range<size_t>(0, 1000), RND.range<double>(1.0, 1000.0) };
+				pair<size_t, double> x{ RND.range<size_t>(0, SIZE_MAX), RND.range<double>(1.0, 1000.0) };
 				if (val.insert(x).second) return Receipt{ x.first,x.second };
 			}
 			return Receipt{};

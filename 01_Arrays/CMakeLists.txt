@@ -84,9 +84,7 @@ set(TASK10_SOURCE
     ..//10_BinarySearchTree/Task10/BST.cpp
 
     ..//10_BinarySearchTree/Solution10/BST.cpp
-    ..//10_BinarySearchTree/Solution10/Node.cpp
     ..//10_BinarySearchTree/Solution10/Receipt.cpp
-    ..//10_BinarySearchTree/Solution10/Task10.cpp
 )
 add_executable(Task10 ${TASK10_HEADER} ${TASK10_SOURCE})
 

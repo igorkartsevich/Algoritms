@@ -15,5 +15,4 @@ namespace Homework {
 			if (right) delete right;
 		}*/
 	};
-
 }
