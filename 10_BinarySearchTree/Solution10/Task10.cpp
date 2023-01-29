@@ -10,34 +10,21 @@ namespace Homework {
 	using Homework::Receipt;
 	using Homework::Node;
 
+	//***********************************
+
+	void addNewNode(Node*& node, Receipt& receipt) {
+		if (node == nullptr)
+			node = new Node(receipt, nullptr);
+		else
+			(receipt.receiptNumber < node->x.receiptNumber)
+			? (node->left != nullptr) ? addNewNode(node->left, receipt) : node->left = new Node(receipt, node)
+			: (node->right != nullptr) ? addNewNode(node->right, receipt) : node->right = new Node(receipt, node);
+	}
 	Node* makeBST(Node* root, std::vector<Receipt>& receipts, int left, int right) {
 		if (left == right) return root;
 
 		int middle = left + (right - left) / 2;
-		Receipt newReceipt = receipts[middle];
-
-		if (root == nullptr) root = new Node(newReceipt, nullptr);
-		else {
-			auto currentNode = root;
-			while (true) {
-				if (newReceipt.receiptNumber < currentNode->x.receiptNumber) {
-					if (currentNode->left == nullptr) {
-						currentNode->left = new Node(newReceipt, currentNode);
-						break;
-					}
-					else
-						currentNode = currentNode->left;
-				}
-				else if (newReceipt.receiptNumber > currentNode->x.receiptNumber) {
-					if (currentNode->right == nullptr) {
-						currentNode->right = new Node(newReceipt, currentNode);
-						break;
-					}
-					else
-						currentNode = currentNode->right;
-				}
-			}
-		}
+		addNewNode(root, receipts[middle]);
 
 		makeBST(root, receipts, left, middle);
 		makeBST(root, receipts, middle + 1, right);
@@ -46,14 +33,14 @@ namespace Homework {
 		if (elements.empty()) return nullptr;
 
 		auto tmpVector = elements;
-		std::sort(begin(tmpVector), end(tmpVector), [](Receipt rec1, Receipt rec2) {
-			return (rec1.receiptNumber < rec2.receiptNumber);
-			});
+		std::qsort(&tmpVector[0], elements.size(), sizeof(Receipt), comparator);
 
 		return makeBST(nullptr, tmpVector, 0, tmpVector.size());
 	}
 
-	void bypassBST_LnR(Node* node, std::vector<Receipt>& receipts) {
+	//***********************************
+
+	void bypassBST_LnR(Node*& node, std::vector<Receipt>& receipts) {
 		if (node == nullptr) return;
 
 		bypassBST_LnR(node->left, receipts);
@@ -69,29 +56,32 @@ namespace Homework {
 		return receipts;
 	}
 
+	//***********************************
+
 	double GetAmount(const Node* root, size_t receiptNumber) {
-		auto currentNode = root;
+		if (root == nullptr) return 0.0;
+		
+		Node* node = (Node*)root;
 		while (true) {
-			if (receiptNumber < currentNode->x.receiptNumber) {
-				if (currentNode->left == nullptr)
-					return 0.0;
+			if(receiptNumber == node->x.receiptNumber)
+				return node->x.amount;
+
+			if (receiptNumber < node->x.receiptNumber) {
+				if (node->left != nullptr)
+					node = node->left;
 				else
-					if (receiptNumber == currentNode->left->x.receiptNumber)
-						return currentNode->left->x.amount;
-					else
-						currentNode = currentNode->left;
+					return 0.0;
 			}
 			else {
-				if (currentNode->right == nullptr)
-					return 0.0;
+				if (node->right != nullptr)
+					node = node->right;
 				else
-					if (receiptNumber == currentNode->right->x.receiptNumber)
-						return currentNode->right->x.amount;
-					else
-						currentNode = currentNode->right;
+					return 0.0;
 			}
 		}
 	}
+	
+	//***********************************
 
 	bool CheckTree(const Node* root) {
 		if (root == nullptr) return false;
@@ -100,16 +90,14 @@ namespace Homework {
 
 		while (true) {
 			if (currentNode->left != nullptr)
-				if (currentNode->left->x.receiptNumber < currentNode->x.receiptNumber)
+				if (currentNode->left->x < currentNode->x)
 					nodeQueue.push(currentNode->left);
-				else
-					return false;
+				else return false;
 
 			if (currentNode->right != nullptr)
-				if (currentNode->right->x.receiptNumber > currentNode->x.receiptNumber)
+				if (currentNode->right->x > currentNode->x)
 					currentNode = currentNode->right;
-				else
-					return false;
+				else return false;
 			else {
 				if (nodeQueue.empty()) return true;
 				currentNode = nodeQueue.front();
@@ -118,64 +106,77 @@ namespace Homework {
 		}
 	}
 
-	Node* searchNodeToDelete(Node* node, size_t receiptNumber) {
+	//***********************************
+
+	Node* searchReceipt(Node* node, size_t receiptNumber) {
 		if (node == nullptr) return nullptr;
 		if (receiptNumber == node->x.receiptNumber) return node;
 
 		(receiptNumber < node->x.receiptNumber)
-			? searchNodeToDelete(node->left, receiptNumber)
-			: searchNodeToDelete(node->right, receiptNumber);
+			? searchReceipt(node->left, receiptNumber)
+			: searchReceipt(node->right, receiptNumber);
 	}
 	Node* Delete(Node* root, size_t receiptNumber) {
-		enum CHILD {
-			LEFT_CHILD,
-			RIGHT_CHILD
-		};
-		auto nodeToDelete = searchNodeToDelete(root, receiptNumber);
+		Node* nodeToDelete = searchReceipt(root, receiptNumber);
 
-		auto deleteLeaf = [](Node* nodeToDelete) {
-			(nodeToDelete->parent->left == nodeToDelete)
-				? nodeToDelete->parent->left = nullptr
-				: nodeToDelete->parent->right = nullptr;
+		auto deleteLeaf = [&](Node* nodeToDelete) {
+			if (nodeToDelete->parent == nullptr) root = nullptr;
+			else {
+				(nodeToDelete->x.receiptNumber < nodeToDelete->parent->x.receiptNumber)
+					? nodeToDelete->parent->left = nullptr : nodeToDelete->parent->right = nullptr;
+				delete[] nodeToDelete;
+			}
+		};
+
+		auto deleteOneChildParent = [&](Node* nodeToDelete) {
+			if(nodeToDelete->parent == nullptr)
+				root = (nodeToDelete->left != nullptr) ? nodeToDelete->left : nodeToDelete->right;
+			else {
+				(nodeToDelete->x.receiptNumber < nodeToDelete->parent->x.receiptNumber)
+					? (nodeToDelete->left != nullptr)
+					? nodeToDelete->parent->left = nodeToDelete->left : nodeToDelete->parent->left = nodeToDelete->right
+					
+					: (nodeToDelete->left != nullptr)
+					? nodeToDelete->parent->right = nodeToDelete->left : nodeToDelete->parent->right = nodeToDelete->right;
+
+				(nodeToDelete->left != nullptr) ? nodeToDelete->left->parent = nodeToDelete->parent : nodeToDelete->right->parent = nodeToDelete->parent;
+			}
 			delete[] nodeToDelete;
 		};
 
-		auto deleteOneChildParent = [&deleteLeaf](Node* nodeToDelete, CHILD child) {
-			(child == LEFT_CHILD) ? nodeToDelete->x = nodeToDelete->left->x : nodeToDelete->x = nodeToDelete->right->x;
-			(child == LEFT_CHILD) ? deleteLeaf(nodeToDelete->left) : deleteLeaf(nodeToDelete->right);
-		};
-
-		auto deleteTwoChildrenParent = [&deleteLeaf, &deleteOneChildParent](Node* nodeToDelete) {
+		auto deleteTwoChildrenParent = [&](Node* nodeToDelete) {
 			if (nodeToDelete->right->left == nullptr) {
 				nodeToDelete->x = nodeToDelete->right->x;
-				nodeToDelete->right = nodeToDelete->right->right;
-				delete[] nodeToDelete->right;
+				if (nodeToDelete->right->right == nullptr)
+					deleteLeaf(nodeToDelete->right);
+				else {
+					nodeToDelete->right = nodeToDelete->right->right;
+					delete[] nodeToDelete->right;
+				}		
 			}
 			else {
-				Node* leftMostNode = nodeToDelete->right->left;
-				while (leftMostNode->left != nullptr)
-					leftMostNode = leftMostNode->left;
-				nodeToDelete->x = leftMostNode->x;
-				
-				(leftMostNode->right == nullptr) ? deleteLeaf(leftMostNode) : deleteOneChildParent(leftMostNode, RIGHT_CHILD);
+				Node* leftMost = nodeToDelete->right->left;
+				while (leftMost->left != nullptr)
+					leftMost = leftMost->left;
+
+				nodeToDelete->x = leftMost->x;
+				(leftMost->right == nullptr) ? deleteLeaf(leftMost) : deleteOneChildParent(leftMost);
 			}
 		};
 
-		if (nodeToDelete->left == nullptr && nodeToDelete->right == nullptr) // leaf
+		if (nodeToDelete->left == nullptr && nodeToDelete->right == nullptr)
 			deleteLeaf(nodeToDelete);
-			
-		else if (nodeToDelete->left != nullptr && nodeToDelete->right != nullptr) { // left child + right child
+		else if (nodeToDelete->left != nullptr && nodeToDelete->right != nullptr)
 			deleteTwoChildrenParent(nodeToDelete);
-		}
+		else
+			deleteOneChildParent(nodeToDelete);
 
-		else (nodeToDelete->left != nullptr) // only left child or only right child
-			? deleteOneChildParent(nodeToDelete, LEFT_CHILD) : deleteOneChildParent(nodeToDelete, RIGHT_CHILD);
-			
 		return root;
 	}
+
+	//***********************************
 
 	Receipt GetNext(Node* root, const Receipt& receipt) {
 		return {};
 	}
-
 }

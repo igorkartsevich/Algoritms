@@ -10,10 +10,10 @@ namespace Homework {
 		Node* right = nullptr;
 		Node* parent;
 		Node(const Receipt& rec, Node* _parent) :x(rec), parent(_parent) {}
-		~Node() {
+		/*~Node() {
 			if (left) delete left;
 			if (right) delete right;
-		}
+		}*/
 	};
 
 }
