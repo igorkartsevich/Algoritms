@@ -40,18 +40,18 @@ namespace Homework {
 
 	//***********************************
 
-	void bypassBST_LnR(Node*& node, std::vector<Receipt>& receipts) {
+	void bypassBST(Node*& node, std::vector<Receipt>& receipts) {
 		if (node == nullptr) return;
 
-		bypassBST_LnR(node->left, receipts);
+		bypassBST(node->left, receipts);
 		receipts.push_back(node->x);
-		bypassBST_LnR(node->right, receipts);
+		bypassBST(node->right, receipts);
 	}
 	std::vector<Receipt> FromNode(Node* root) {
 		if (root == nullptr) return{};
 
 		std::vector<Receipt> receipts;
-		bypassBST_LnR(root, receipts);
+		bypassBST(root, receipts);
 
 		return receipts;
 	}
