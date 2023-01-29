@@ -10,6 +10,8 @@ namespace Homework {
 	using Homework::Receipt;
 	using Homework::Node;
 
+	Node* searchReceipt(Node* node, size_t receiptNumber);
+
 	//***********************************
 
 	void addNewNode(Node*& node, Receipt& receipt) {
@@ -58,27 +60,16 @@ namespace Homework {
 
 	//***********************************
 
-	double GetAmount(const Node* root, size_t receiptNumber) {
-		if (root == nullptr) return 0.0;
-		
-		Node* node = (Node*)root;
-		while (true) {
-			if(receiptNumber == node->x.receiptNumber)
-				return node->x.amount;
+	Node* searchReceipt(Node* node, size_t receiptNumber) {
+		if (node == nullptr) return nullptr;
+		if (receiptNumber == node->x.receiptNumber) return node;
 
-			if (receiptNumber < node->x.receiptNumber) {
-				if (node->left != nullptr)
-					node = node->left;
-				else
-					return 0.0;
-			}
-			else {
-				if (node->right != nullptr)
-					node = node->right;
-				else
-					return 0.0;
-			}
-		}
+		(receiptNumber < node->x.receiptNumber)
+			? searchReceipt(node->left, receiptNumber)
+			: searchReceipt(node->right, receiptNumber);
+	}
+	double GetAmount(const Node* root, size_t receiptNumber) {
+		return (root == nullptr) ? 0.0 : searchReceipt((Node*)root, receiptNumber)->x.amount;
 	}
 	
 	//***********************************
@@ -108,14 +99,6 @@ namespace Homework {
 
 	//***********************************
 
-	Node* searchReceipt(Node* node, size_t receiptNumber) {
-		if (node == nullptr) return nullptr;
-		if (receiptNumber == node->x.receiptNumber) return node;
-
-		(receiptNumber < node->x.receiptNumber)
-			? searchReceipt(node->left, receiptNumber)
-			: searchReceipt(node->right, receiptNumber);
-	}
 	Node* Delete(Node* root, size_t receiptNumber) {
 		Node* nodeToDelete = searchReceipt(root, receiptNumber);
 
@@ -177,6 +160,26 @@ namespace Homework {
 	//***********************************
 
 	Receipt GetNext(Node* root, const Receipt& receipt) {
-		return {};
+		Node* currentReceipt = searchReceipt((Node*)root, receipt.receiptNumber);
+		Node* nextReceipt = nullptr;
+
+		if (currentReceipt->right == nullptr) {
+			nextReceipt = currentReceipt->parent;
+			while (nextReceipt != nullptr) {
+				if (nextReceipt->x.receiptNumber > receipt.receiptNumber)
+					return nextReceipt->x;
+				else
+					nextReceipt = nextReceipt->parent;
+			}
+			return {};
+		}
+		else if(currentReceipt->right->left == nullptr)
+			return currentReceipt->right->x;
+		else {
+			nextReceipt = currentReceipt->right->left;
+			while (nextReceipt->left != nullptr)
+				nextReceipt = nextReceipt->left;
+			return nextReceipt->x;
+		}
 	}
 }

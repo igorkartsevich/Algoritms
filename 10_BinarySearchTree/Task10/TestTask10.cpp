@@ -58,16 +58,16 @@ TEST(FromNode, FromNode) {
 		});
 }
 
-//TEST(GetAmount, GetAmount) {
-//	auto test = GenerateTest();
-//	for_each(test.begin(), test.end(), [](auto it) {
-//		Node* root = hw::FromList(it);
-//		Receipt ctrl = it[RND.range<size_t>(0, it.size() - 1)];
-//		double ans = hw::GetAmount(root, ctrl.receiptNumber);
-//		EXPECT_EQ(ctrl.amount, ans);
-//		delete root;
-//		});
-//}
+TEST(GetAmount, GetAmount) {
+	/*auto test = GenerateTest();
+	for_each(test.begin(), test.end(), [](auto it) {
+		Node* root = hw::FromList(it);
+		Receipt ctrl = it[RND.range<size_t>(0, it.size() - 1)];
+		double ans = hw::GetAmount(root, ctrl.receiptNumber);
+		EXPECT_EQ(ctrl.amount, ans);
+		delete root;
+		});*/
+}
 
 TEST(CheckTree, CheckTree) {
 	auto test = GenerateTest();
@@ -100,22 +100,22 @@ TEST(_Delete, _Delete) {
 		});
 }
 
-//TEST(GetNext, GetNext) {
-//	auto test = GenerateTest();
-//	for_each(test.begin(), test.end(), [](auto it) {
-//		if (it.size() > 1) {
-//			Node* root = hw::FromList(it);
-//			sort(it.begin(), it.end(), [](auto l, auto r) {
-//				return l.receiptNumber < r.receiptNumber;
-//				});
-//			if (root) {
-//				size_t t = RND.range<size_t>(0, it.size() - 2);
-//				Receipt prev = it[t];
-//				Receipt next = it[t + 1];
-//				Receipt answ = hw::GetNext(root, prev);
-//				EXPECT_EQ(next == answ, true);
-//				delete root;
-//			}
-//		}
-//		});
-//}
+TEST(GetNext, GetNext) {
+	auto test = GenerateTest();
+	for_each(test.begin(), test.end(), [](auto it) {
+		if (it.size() > 1) {
+			Node* root = hw::FromList(it);
+			sort(it.begin(), it.end(), [](auto l, auto r) {
+				return l.receiptNumber < r.receiptNumber;
+				});
+			if (root) {
+				size_t t = RND.range<size_t>(0, it.size() - 2);
+				Receipt prev = it[t];
+				Receipt next = it[t + 1];
+				Receipt answ = hw::GetNext(root, prev);
+				EXPECT_EQ(next == answ, true);
+				delete root;
+			}
+		}
+		});
+}
