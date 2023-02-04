@@ -18,7 +18,7 @@ using Test = vector<vector<hw::Receipt>>;
 Test GenerateTest() {
 	Test ret(100);
 	generate(ret.begin(), ret.end(), [] {
-		vector<hw::Receipt> out(RND.range<size_t>(0, 1000));
+		vector<bm::Receipt> out(RND.range<size_t>(0, 1000));
 		map<size_t, double> val;
 		generate(out.begin(), out.end(), [&] {
 			while (true) {
@@ -59,14 +59,14 @@ TEST(FromNode, FromNode) {
 }
 
 TEST(GetAmount, GetAmount) {
-	/*auto test = GenerateTest();
+	auto test = GenerateTest();
 	for_each(test.begin(), test.end(), [](auto it) {
 		Node* root = hw::FromList(it);
 		Receipt ctrl = it[RND.range<size_t>(0, it.size() - 1)];
 		double ans = hw::GetAmount(root, ctrl.receiptNumber);
 		EXPECT_EQ(ctrl.amount, ans);
 		delete root;
-		});*/
+		});
 }
 
 TEST(CheckTree, CheckTree) {

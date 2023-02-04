@@ -101,28 +101,30 @@ namespace Homework {
 		Node* nodeToDelete = searchReceipt(root, receiptNumber);
 
 		auto deleteLeaf = [&](Node* nodeToDelete) {
-			if (nodeToDelete->parent == nullptr) root = nullptr;
-			else {
-				(nodeToDelete->x.receiptNumber < nodeToDelete->parent->x.receiptNumber)
+			if (nodeToDelete->parent == nullptr)
+				root = nullptr;
+			else
+				(nodeToDelete->parent->left == nodeToDelete)
 					? nodeToDelete->parent->left = nullptr : nodeToDelete->parent->right = nullptr;
-				delete[] nodeToDelete;
-			}
+			delete nodeToDelete;
 		};
 
 		auto deleteOneChildParent = [&](Node* nodeToDelete) {
-			if (nodeToDelete->parent == nullptr)
+			if (nodeToDelete->parent == nullptr) {
 				root = (nodeToDelete->left != nullptr) ? nodeToDelete->left : nodeToDelete->right;
-			else {
-				(nodeToDelete->x.receiptNumber < nodeToDelete->parent->x.receiptNumber)
-					? (nodeToDelete->left != nullptr)
-					? nodeToDelete->parent->left = nodeToDelete->left : nodeToDelete->parent->left = nodeToDelete->right
-
-					: (nodeToDelete->left != nullptr)
-					? nodeToDelete->parent->right = nodeToDelete->left : nodeToDelete->parent->right = nodeToDelete->right;
-
-				(nodeToDelete->left != nullptr) ? nodeToDelete->left->parent = nodeToDelete->parent : nodeToDelete->right->parent = nodeToDelete->parent;
+				root->parent = nullptr;
 			}
-			delete[] nodeToDelete;
+			else {
+				(nodeToDelete->parent->left == nodeToDelete)
+					? nodeToDelete->parent->left = (nodeToDelete->left != nullptr) ? nodeToDelete->left : nodeToDelete->right
+					: nodeToDelete->parent->right = (nodeToDelete->left != nullptr) ? nodeToDelete->left : nodeToDelete->right;
+
+				(nodeToDelete->left != nullptr)
+					? nodeToDelete->left->parent = nodeToDelete->parent : nodeToDelete->right->parent = nodeToDelete->parent;
+
+				nodeToDelete->left = nullptr; nodeToDelete->right = nullptr;
+			}
+			delete nodeToDelete;
 		};
 
 		auto deleteTwoChildrenParent = [&](Node* nodeToDelete) {
@@ -132,7 +134,7 @@ namespace Homework {
 					deleteLeaf(nodeToDelete->right);
 				else {
 					nodeToDelete->right = nodeToDelete->right->right;
-					delete[] nodeToDelete->right;
+					delete nodeToDelete->right;
 				}
 			}
 			else {

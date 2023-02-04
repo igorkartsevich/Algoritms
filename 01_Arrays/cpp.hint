@@ -1,0 +1,7 @@
+// Файлы указаний помогают среде IDE Visual Studio интерпретировать идентификаторы Visual C++
+// (например, имена функций и макросов).
+// Дополнительные сведения: https://go.microsoft.com/fwlink/?linkid=865984
+#define GTEST_API_ __declspec(dllimport)
+#define GTEST_API_ __declspec(dllexport)
+#define GTEST_API_ __attribute__((visibility ("default")))
+#define GTEST_API_
