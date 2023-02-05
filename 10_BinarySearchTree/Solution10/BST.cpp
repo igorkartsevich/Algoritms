@@ -20,6 +20,7 @@ namespace Homework {
 			? (node->left != nullptr) ? addNewNode(node->left, receipt) : node->left = new Node(receipt, node)
 			: (node->right != nullptr) ? addNewNode(node->right, receipt) : node->right = new Node(receipt, node);
 	}
+
 	Node* makeBST(Node* root, std::vector<Receipt>& receipts, int left, int right) {
 		if (left == right) return root;
 
@@ -29,6 +30,7 @@ namespace Homework {
 		makeBST(root, receipts, left, middle);
 		makeBST(root, receipts, middle + 1, right);
 	}
+
 	Node* Homework::FromList(const std::vector<Receipt>& elements) {
 		if (elements.empty()) return nullptr;
 
@@ -47,6 +49,7 @@ namespace Homework {
 		receipts.push_back(node->x);
 		bypassBST(node->right, receipts);
 	}
+
 	std::vector<Receipt> FromNode(Node* root) {
 		if (root == nullptr) return{};
 
@@ -66,6 +69,7 @@ namespace Homework {
 			? searchReceipt(node->left, receiptNumber)
 			: searchReceipt(node->right, receiptNumber);
 	}
+
 	double GetAmount(const Node* root, size_t receiptNumber) {
 		return (root == nullptr) ? 0.0 : searchReceipt((Node*)root, receiptNumber)->x.amount;
 	}
@@ -110,38 +114,31 @@ namespace Homework {
 		};
 
 		auto deleteOneChildParent = [&](Node* nodeToDelete) {
-			if (nodeToDelete->parent == nullptr) {
-				root = (nodeToDelete->left != nullptr) ? nodeToDelete->left : nodeToDelete->right;
-				root->parent = nullptr;
-			}
-			else {
-				(nodeToDelete->parent->left == nodeToDelete)
-					? nodeToDelete->parent->left = (nodeToDelete->left != nullptr) ? nodeToDelete->left : nodeToDelete->right
-					: nodeToDelete->parent->right = (nodeToDelete->left != nullptr) ? nodeToDelete->left : nodeToDelete->right;
-
-				(nodeToDelete->left != nullptr)
-					? nodeToDelete->left->parent = nodeToDelete->parent : nodeToDelete->right->parent = nodeToDelete->parent;
-
-				nodeToDelete->left = nullptr; nodeToDelete->right = nullptr;
-			}
-			delete nodeToDelete;
+			nodeToDelete->x = (nodeToDelete->left != nullptr)
+				? nodeToDelete->left->x : nodeToDelete->right->x;
+			
+			(nodeToDelete->left != nullptr)
+				? nodeToDelete->left = nodeToDelete->left->left
+				: nodeToDelete->right = nodeToDelete->right->right;
+			
+			(nodeToDelete->left != nullptr)
+				? delete nodeToDelete->left : delete nodeToDelete->right;
 		};
 
 		auto deleteTwoChildrenParent = [&](Node* nodeToDelete) {
 			if (nodeToDelete->right->left == nullptr) {
-				nodeToDelete->x = nodeToDelete->right->x;
-				if (nodeToDelete->right->right == nullptr)
+				if (nodeToDelete->right->right == nullptr) {
+					nodeToDelete->x = nodeToDelete->right->x;
 					deleteLeaf(nodeToDelete->right);
-				else {
-					nodeToDelete->right = nodeToDelete->right->right;
-					delete nodeToDelete->right;
 				}
+				else
+					deleteOneChildParent(nodeToDelete);
 			}
 			else {
 				Node* leftMost = nodeToDelete->right->left;
-				while (leftMost->left != nullptr)
+				while (leftMost->left != nullptr) {
 					leftMost = leftMost->left;
-
+				}
 				nodeToDelete->x = leftMost->x;
 				(leftMost->right == nullptr) ? deleteLeaf(leftMost) : deleteOneChildParent(leftMost);
 			}
