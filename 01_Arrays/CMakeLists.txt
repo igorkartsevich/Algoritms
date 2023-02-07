@@ -68,7 +68,6 @@ set(LIB_TASK9_SOURCE
     ..//09_Greedy/Lib/rnd.cpp
 )
 add_library(LibTask9 ${LIB_TASK9_HEADER} ${LIB_TASK9_SOURCE})
-
 target_link_libraries(Task9 LibTask9 gtest_main)
 
 
@@ -97,5 +96,17 @@ set(LIB_TASK10_SOURCE
     ..//10_BinarySearchTree/Lib/rnd.cpp
 )
 add_library(LibTask10 ${LIB_TASK10_HEADER} ${LIB_TASK10_SOURCE})
-
 target_link_libraries(Task10 LibTask10 gtest_main)
+
+set(TASK11_HEADER
+    ..//11_Tree/Tree.h
+    ..//11_Tree/Node.h
+    ..//11_Tree/Virus.h
+)
+set(TASK11_SOURCE
+    ..//11_Tree/Tree.cpp
+    ..//11_Tree/Node.cpp
+
+    ..//11_Tree/TreeTest.cpp
+)
+add_executable(Task11 ${TASK11_HEADER} ${TASK11_SOURCE})

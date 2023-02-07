@@ -1,33 +1,8 @@
 #pragma once
+
+#include "Virus.h"
+#include "Node.h"
 #include <vector>
-
-class Virus {
-public:
-    Virus() {};
-    virtual ~Virus() {};
-};
-
-class Node {
-public:
-    Node() {};
-
-    Node(Virus virus) {
-        this->virus = virus;
-    }
-
-    virtual ~Node() {
-
-    }
-
-    Virus getVirus() {
-        return virus;
-    }
-
-    std::vector<Node*> v;
-protected:
-    Virus virus;    
-};
-
 
 class Tree {
 public:

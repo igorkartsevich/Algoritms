@@ -1,12 +1,14 @@
-#include Tree.h"
+#include "Tree.h"
 #include<iostream>
 #include<cassert>
+#include <algorithm>
 
 class TestNode : public Node {
 private:
     int m_id = -1;
     TestNode* parent;
     int m_currentDepth;
+
 public:     
     TestNode(int currentDepth) : Node() {
         this->m_currentDepth = currentDepth;
