@@ -2,5 +2,5 @@
 
 Virus Node::getVirus()
 {
-	return virus;
+	return m_virus;
 }

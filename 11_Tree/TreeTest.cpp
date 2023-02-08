@@ -1,12 +1,12 @@
 #include "Tree.h"
-#include<iostream>
-#include<cassert>
+#include <iostream>
+#include <cassert>
 #include <algorithm>
 
 class TestNode : public Node {
 private:
     int m_id = -1;
-    TestNode* parent;
+    TestNode* parent = nullptr;
     int m_currentDepth;
 
 public:     
@@ -15,8 +15,14 @@ public:
     }
     virtual ~TestNode() {}
 
-    int id() { return m_id; };
-    TestNode* getParent() { return parent; };
+    int id() {
+        return m_id;
+    };
+
+    TestNode* getParent() {
+        return parent;
+    };
+    
     int currentDepth() {
         return m_currentDepth;
     };
