@@ -9,19 +9,11 @@ public:
     Tree() {}
     virtual ~Tree() {}
 
-    static int fromList(Node* root) {
-        return -1;
-    }
+    static int fromList(Node* root);
 
-    static Node* fromList(const std::vector<int> &index, std::vector<Virus> &elements) {
-        return nullptr;
-    }
+    static Node* fromList(const std::vector<int>& index, std::vector<Virus>& elements);
 
-    static std::vector<Node*> allOnCurrDepth(Node* root, int generation) {
-        return {};
-    }
+    //static std::vector<Node*> allOnCurrDepth(Node* root, int generation);
 
-    static Node* lca(Node* first, Node* second) {
-        return nullptr;
-    }
+    //static Node* lca(Node* first, Node* second);
 };
