@@ -13,7 +13,7 @@ public:
 
     static Node* fromList(const std::vector<int>& index, std::vector<Virus>& elements);
 
-    //static std::vector<Node*> allOnCurrDepth(Node* root, int generation);
+    static std::vector<Node*> allOnCurrDepth(Node* root, int generation);
 
     //static Node* lca(Node* first, Node* second);
 };

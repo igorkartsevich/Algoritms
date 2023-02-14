@@ -119,27 +119,27 @@ void buildTree(int minDepth) {
     }
     assert(depth == maxDepth(Tree::fromList(links, arr)));
 }
-//
-//void currentDepth(int minDepth) {
-//    std::cout << "allOnCurrDepth. Build tree #" << minDepth << std::endl;
-//    std::vector<TestNode*> set;
-//    auto testNode = treeCreator(10, minDepth, set);
-//    std::vector<TestNode*> currDepth;
-//    for (auto& cur : set) {
-//        if (cur->currentDepth() == minDepth - 1) {
-//            currDepth.push_back(cur);
-//        }
-//    }
-//
-//    auto userLst = Tree::allOnCurrDepth(testNode, minDepth - 1);
-//    for (auto& cur : currDepth) {
-//        assert(std::find(userLst.begin(), userLst.end(), cur) != userLst.end());
-//    }
-//    for (auto& cur : userLst) {
-//        assert(std::find(userLst.begin(), userLst.end(), cur) != userLst.end());
-//    }
-//}
-//
+
+void currentDepth(int minDepth) {
+    std::cout << "allOnCurrDepth. Build tree #" << minDepth << std::endl;
+    std::vector<TestNode*> set;
+    auto testNode = treeCreator(10, minDepth, set);
+    std::vector<TestNode*> currDepth;
+    for (auto& cur : set) {
+        if (cur->getCurrentDepth() == minDepth - 1) {
+            currDepth.push_back(cur);
+        }
+    }
+
+    auto userLst = Tree::allOnCurrDepth(testNode, minDepth - 1);
+    for (auto& cur : currDepth) {
+        assert(std::find(userLst.begin(), userLst.end(), cur) != userLst.end());
+    }
+    for (auto& cur : userLst) {
+        assert(std::find(userLst.begin(), userLst.end(), cur) != userLst.end());
+    }
+}
+
 //void lcaTest(int minDepth) {
 //    std::cout << "LCA. Build #" << minDepth << std::endl;
 //    std::vector<TestNode*> list;
@@ -176,8 +176,8 @@ int main() {
     testDepth();
     for (auto &minDepth : { 5, 6, 7, 8, 9 }) {        
         buildTree(minDepth);
-        /*currentDepth(minDepth);
-        lcaTest(minDepth);*/
+        currentDepth(minDepth);
+        //lcaTest(minDepth);
     }
   std::cout << "All tests passed successfully! Congrats";
   return 0;

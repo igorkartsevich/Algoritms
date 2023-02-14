@@ -1,5 +1,6 @@
 #include "Tree.h"
 #include <stack>
+#include <queue>
 
 int Tree::fromList(Node* root) {
     if (root == nullptr) return 0;
@@ -52,8 +53,41 @@ Node* Tree::fromList(const std::vector<int>& index, std::vector<Virus>& elements
     return tree[0];
 }
 
-static std::vector<Node*> allOnCurrDepth(Node* root, int generation) {
-    return {};
+std::vector<Node*> Tree::allOnCurrDepth(Node* root, int generation) {
+    std::vector<Node*> vectorGeneration;
+    if (root == nullptr) return vectorGeneration;
+
+    Node* currentNode = root;
+    std::queue<Node*> queueNode;
+    std::queue<int> queueGeneration;
+
+    int currentGeneration{0};
+
+    while (true) {
+        if (!currentNode->v.empty()) {
+            if (++currentGeneration < generation) {
+                for (int i{ 1 }; i < currentNode->v.size(); ++i) {
+                    queueNode.push(currentNode->v[i]);
+                    queueGeneration.push(currentGeneration);
+                }
+                currentNode = currentNode->v[0];
+                continue;
+            }
+            else
+                for (auto& node : currentNode->v)
+                    vectorGeneration.emplace_back(node);
+        }
+
+        if (queueNode.empty()) return vectorGeneration;
+        else {
+            currentNode = queueNode.front();
+            queueNode.pop();
+            currentGeneration = queueGeneration.front();
+            queueGeneration.pop();
+        }
+    }
+
+    return vectorGeneration;
 }
 
 static Node* lca(Node* first, Node* second) {
