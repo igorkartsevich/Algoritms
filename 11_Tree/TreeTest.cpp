@@ -1,4 +1,4 @@
-#include "Tree.h"
+#include "TreeSolution.h"
 #include "TestNode.h"
 #include <iostream>
 #include <cassert>
@@ -140,7 +140,7 @@ int main() {
     for (auto &minDepth : { 5, 6, 7, 8, 9 }) {        
         buildTree(minDepth);
         currentDepth(minDepth);
-        //lcaTest(minDepth);
+        lcaTest(minDepth);
     }
   std::cout << "All tests passed successfully! Congrats";
   return 0;

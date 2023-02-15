@@ -1,4 +1,4 @@
-#include "Tree.h"
+#include "TreeSolution.h"
 #include "TestNode.h"
 #include <stack>
 #include <queue>
@@ -92,6 +92,22 @@ std::vector<Node*> Tree::allOnCurrDepth(Node* root, int generation) {
 }
 
 Node* Tree::lca(TestNode* first, TestNode* second) {
+    auto node1 = first;
+    auto node2 = second;
+    int node1Depth = first->getCurrentDepth();
+    int node2Depth = second->getCurrentDepth();
 
-    return nullptr;
+    if (node1Depth < node2Depth)
+        for (int i{}; i < node2Depth - node1Depth; ++i)
+            node2 = node2->getParent();
+    else
+        for (int i{}; i < node1Depth - node2Depth; ++i)
+            node1 = node1->getParent();
+
+    while (node1 != node2) {
+        node1 = node1->getParent();
+        node2 = node2->getParent();
+    }
+
+    return node1;
 }

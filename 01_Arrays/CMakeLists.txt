@@ -99,13 +99,13 @@ add_library(LibTask10 ${LIB_TASK10_HEADER} ${LIB_TASK10_SOURCE})
 target_link_libraries(Task10 LibTask10 gtest_main)
 
 set(TASK11_HEADER
-    ..//11_Tree/Tree.h
+    ..//11_Tree/TreeSolution.h
     ..//11_Tree/TestNode.h
     ..//11_Tree/Node.h
     ..//11_Tree/Virus.h
 )
 set(TASK11_SOURCE
-    ..//11_Tree/Tree.cpp
+    ..//11_Tree/TreeSolution.cpp
     ..//11_Tree/TestNode.cpp
     ..//11_Tree/Node.cpp
 
