@@ -1,45 +1,8 @@
 #include "Tree.h"
+#include "TestNode.h"
 #include <iostream>
 #include <cassert>
 #include <algorithm>
-
-class TestNode : public Node {
-private:
-    int m_id = -1;
-    TestNode* parent = nullptr;
-    int m_currentDepth;
-
-public:     
-    TestNode(int currentDepth) : Node() {
-        this->m_currentDepth = currentDepth;
-    }
-    virtual ~TestNode() {}
-
-    //int id() {}
-    int getId() { 
-        return m_id;
-    };
-
-    TestNode* getParent() {
-        return parent;
-    };
-    
-    /*int currentDepth() {
-        return m_currentDepth;
-    };*/
-
-    void setId(int id) {
-        this->m_id = id;
-    }
-
-    void setParent(TestNode* parent) {
-        this->parent = parent;
-    }
-
-    int getCurrentDepth() {
-        return m_currentDepth;
-    }
-};
 
 int maxDepth(Node* node) {
     if (!node)
@@ -140,37 +103,37 @@ void currentDepth(int minDepth) {
     }
 }
 
-//void lcaTest(int minDepth) {
-//    std::cout << "LCA. Build #" << minDepth << std::endl;
-//    std::vector<TestNode*> list;
-//    auto testNode = treeCreator(10, minDepth, list); 
-//    auto first = list[0];
-//    auto second = list[list.size() - 1];
-//
-//    std::vector<TestNode*> firstParents;
-//    TestNode* node = first;
-//    while (true) {
-//        firstParents.push_back(node);
-//        if (!node->getParent()) { 
-//            break; 
-//        }
-//        node = node->getParent();
-//    }
-//
-//    std::vector<TestNode*> secondParents;
-//    node = second;
-//    while (true) {
-//        secondParents.push_back(node);
-//        if (!node->getParent()) break;
-//        node = node->getParent();
-//    }
-//    auto newFirst = std::remove_if(firstParents.begin(), firstParents.end(),
-//        [&secondParents](TestNode* val) {return std::find(secondParents.begin(), secondParents.end(), val) != secondParents.end(); });
-//    firstParents.erase(newFirst, firstParents.end());
-//    auto ans = firstParents.size() > 0 ? *std::min_element(firstParents.begin(), firstParents.end(), 
-//        [](TestNode* a, TestNode* b) {return a->getCurrentDepth() < b->getCurrentDepth(); }) : testNode;
-//    assert(ans == Tree::lca(first, second));
-//}
+void lcaTest(int minDepth) {
+    std::cout << "LCA. Build #" << minDepth << std::endl;
+    std::vector<TestNode*> list;
+    auto testNode = treeCreator(10, minDepth, list); 
+    auto first = list[0];
+    auto second = list[list.size() - 1];
+
+    std::vector<TestNode*> firstParents;
+    TestNode* node = first;
+    while (true) {
+        firstParents.push_back(node);
+        if (!node->getParent()) { 
+            break; 
+        }
+        node = node->getParent();
+    }
+
+    std::vector<TestNode*> secondParents;
+    node = second;
+    while (true) {
+        secondParents.push_back(node);
+        if (!node->getParent()) break;
+        node = node->getParent();
+    }
+    auto newFirst = std::remove_if(firstParents.begin(), firstParents.end(),
+        [&secondParents](TestNode* val) {return std::find(secondParents.begin(), secondParents.end(), val) != secondParents.end(); });
+    firstParents.erase(newFirst, firstParents.end());
+    auto ans = firstParents.size() > 0 ? *std::min_element(firstParents.begin(), firstParents.end(), 
+        [](TestNode* a, TestNode* b) {return a->getCurrentDepth() < b->getCurrentDepth(); }) : testNode;
+    assert(ans == Tree::lca(first, second));
+}
 
 int main() {
     testDepth();

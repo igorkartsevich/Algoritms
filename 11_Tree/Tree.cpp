@@ -1,4 +1,5 @@
 #include "Tree.h"
+#include "TestNode.h"
 #include <stack>
 #include <queue>
 
@@ -90,6 +91,7 @@ std::vector<Node*> Tree::allOnCurrDepth(Node* root, int generation) {
     return vectorGeneration;
 }
 
-static Node* lca(Node* first, Node* second) {
+Node* Tree::lca(TestNode* first, TestNode* second) {
+
     return nullptr;
 }

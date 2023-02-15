@@ -2,6 +2,7 @@
 
 #include "Virus.h"
 #include "Node.h"
+#include "TestNode.h"
 #include <vector>
 
 class Tree {
@@ -15,5 +16,5 @@ public:
 
     static std::vector<Node*> allOnCurrDepth(Node* root, int generation);
 
-    //static Node* lca(Node* first, Node* second);
+    static Node* lca(TestNode* first, TestNode* second);
 };
