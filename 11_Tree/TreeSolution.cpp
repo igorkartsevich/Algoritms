@@ -3,6 +3,8 @@
 #include <stack>
 #include <queue>
 
+//***************************************************
+
 int Tree::fromList(Node* root) {
     if (root == nullptr) return 0;
     
@@ -37,6 +39,8 @@ int Tree::fromList(Node* root) {
     }
 }
 
+//***************************************************
+
 Node* Tree::fromList(const std::vector<int>& index, std::vector<Virus>& elements) {
     auto size = index.size();
     std::vector<Node*> treeTMP(size, nullptr);
@@ -53,6 +57,8 @@ Node* Tree::fromList(const std::vector<int>& index, std::vector<Virus>& elements
 
     return tree[0];
 }
+
+//***************************************************
 
 std::vector<Node*> Tree::allOnCurrDepth(Node* root, int generation) {
     std::vector<Node*> vectorGeneration;
@@ -91,6 +97,8 @@ std::vector<Node*> Tree::allOnCurrDepth(Node* root, int generation) {
 
     return vectorGeneration;
 }
+
+//***************************************************
 
 Node* Tree::lca(TestNode* first, TestNode* second) { //Node* Tree::lca(Node* first, Node* second)
     auto node1 = first;
