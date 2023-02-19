@@ -58,19 +58,21 @@ std::vector<Node*> Tree::allOnCurrDepth(Node* root, int generation) {
     std::vector<Node*> vectorGeneration;
     if (root == nullptr) return vectorGeneration;
 
-    Node* currentNode = root;
-    std::queue<Node*> queueNode;
-    std::queue<int> queueGeneration;
+    struct ToRemember {
+        Node* node;
+        int generation;
+        ToRemember(Node* _node, int _generation) : node(_node), generation(_generation) {};
+    };
 
+    Node* currentNode = root;
+    std::queue<ToRemember> queueToRemember;
     int currentGeneration{0};
 
     while (true) {
         if (!currentNode->v.empty()) {
             if (++currentGeneration < generation) {
-                for (int i{ 1 }; i < currentNode->v.size(); ++i) {
-                    queueNode.push(currentNode->v[i]);
-                    queueGeneration.push(currentGeneration);
-                }
+                for (int i{ 1 }; i < currentNode->v.size(); ++i)
+                    queueToRemember.push(ToRemember(currentNode->v[i], currentGeneration));
                 currentNode = currentNode->v[0];
                 continue;
             }
@@ -79,12 +81,11 @@ std::vector<Node*> Tree::allOnCurrDepth(Node* root, int generation) {
                     vectorGeneration.emplace_back(node);
         }
 
-        if (queueNode.empty()) return vectorGeneration;
+        if (queueToRemember.empty()) return vectorGeneration;
         else {
-            currentNode = queueNode.front();
-            queueNode.pop();
-            currentGeneration = queueGeneration.front();
-            queueGeneration.pop();
+            currentNode = queueToRemember.front().node;
+            currentGeneration = queueToRemember.front().generation;
+            queueToRemember.pop();
         }
     }
 
