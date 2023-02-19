@@ -2,6 +2,7 @@
 #include <vector>
 #include <algorithm>
 #include <queue>
+#include <stack>
 
 namespace Homework {
 
@@ -78,23 +79,45 @@ namespace Homework {
 
 	bool CheckTree(const Node* root) {
 		if (root == nullptr) return false;
-		auto currentNode = root;
-		std::queue<Node*> nodeQueue;
 
-		while (true) {
-			if (currentNode->left != nullptr)
-				if (currentNode->left->x < currentNode->x)
-					nodeQueue.push(currentNode->left);
-				else return false;
+		struct ToRemember {
+			Node* node;
+			std::pair<int, int> range;
+			ToRemember(Node* _node, int _left, int _right) : node(_node), range(std::make_pair(_left, _right)) {};
+		};
 
-			if (currentNode->right != nullptr)
-				if (currentNode->right->x > currentNode->x)
-					currentNode = currentNode->right;
+		auto currentNode = (Node*)root;
+		std::stack<ToRemember> stackToRemember;
+		size_t left{ 0 }, right{ currentNode->x.receiptNumber };
+
+		while(true) {
+			if (currentNode->left != nullptr) {
+				if (currentNode->right != nullptr)
+					stackToRemember.push(ToRemember(currentNode, left, right));
+
+				if (currentNode->left->x.receiptNumber < right) {
+					right = currentNode->left->x.receiptNumber;
+					currentNode = currentNode->left;
+				}
 				else return false;
+			}
 			else {
-				if (nodeQueue.empty()) return true;
-				currentNode = nodeQueue.front();
-				nodeQueue.pop();
+				if (currentNode->right != nullptr) {
+					if (currentNode->right->x.receiptNumber < right) {
+						left = currentNode->right->x.receiptNumber;
+						currentNode = currentNode->right;
+					}
+					else return false;
+				}
+				else {
+					if (stackToRemember.empty()) return true;
+					else {
+						currentNode = stackToRemember.top().node;
+						left = stackToRemember.top().range.first;
+						right = stackToRemember.top().range.second;
+						stackToRemember.pop();
+					}
+				}
 			}
 		}
 	}
