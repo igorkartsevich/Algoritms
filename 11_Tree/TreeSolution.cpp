@@ -92,7 +92,7 @@ std::vector<Node*> Tree::allOnCurrDepth(Node* root, int generation) {
     return vectorGeneration;
 }
 
-Node* Tree::lca(TestNode* first, TestNode* second) {
+Node* Tree::lca(TestNode* first, TestNode* second) { //Node* Tree::lca(Node* first, Node* second)
     auto node1 = first;
     auto node2 = second;
     int node1Depth = first->getCurrentDepth();
