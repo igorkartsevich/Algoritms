@@ -21,16 +21,8 @@ public:
         }
     };
 	
-	static void buildHeapFromArray(const std::vector<int>& checks) {
-		
-    }
-
-    static std::vector<TruckCoordinate> kClosestTrucks(const std::vector<TruckCoordinate>& truckCoordinateList, int k) {
-        return std::vector<TruckCoordinate>{};
-    }
-
-    static std::vector<int> unloadingTruck(int n, const std::vector<int>& times) {
-        return std::vector<int>{};
-    }
+    static void buildHeapFromArray(std::vector<int>& checks); //static void buildHeapFromArray(const std::vector<int>& checks);
+    static std::vector<TruckCoordinate> kClosestTrucks(const std::vector<TruckCoordinate>& truckCoordinateList, int k);
+    static std::vector<int> unloadingTruck(int n, const std::vector<int>& times);
 };
 

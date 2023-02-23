@@ -24,16 +24,21 @@ int getRandomNumber(int min, int max) {
     return rand() % (max - min + 1) + min;
 }
 
-
-void buildHeapTest(const std::vector<int>& arr) {
-    std::cout << "Heap build";
+void buildHeapTest(std::vector<int>& arr) { //void buildHeapTest(const std::vector<int>& arr)
+    std::cout << "Heap build" << std::endl; //std::cout << "Heap build";
     Heap::buildHeapFromArray(arr);
     assert(isHeap(arr, arr.size() - 1));
 }
 
 ///////////////////
+class LowerPriority {
+public:
+    bool operator() (const Heap::TruckCoordinate& data_1, const Heap::TruckCoordinate& data_2) {
+        return data_2 < data_1;
+    }
+};
 std::vector<Heap::TruckCoordinate> closestTrucks(const std::vector<Heap::TruckCoordinate>& points, int k) {
-     std::priority_queue<Heap::TruckCoordinate> priorityQueue;
+     std::priority_queue<Heap::TruckCoordinate, std::vector<Heap::TruckCoordinate>, LowerPriority> priorityQueue; //std::priority_queue<Heap::TruckCoordinate> priorityQueue;
      for (auto& point : points){
          priorityQueue.push(point);
      }
@@ -49,10 +54,10 @@ std::vector<Heap::TruckCoordinate> closestTrucks(const std::vector<Heap::TruckCo
 }
 
 void kClosestTrucksTest(const std::vector<int>& arr) {
-    std::cout << "Find trucks";
+    std::cout << "Find trucks" << std::endl;
     std::vector<Heap::TruckCoordinate> lst;
     for (int i = 0; i < arr[0]; ++i){      
-      lst.push_back(Heap::TruckCoordinate{rand(), rand()});
+      lst.push_back(Heap::TruckCoordinate{rand(), 0});
     }
 
     auto ans = Heap::kClosestTrucks(lst, arr[1]);
@@ -111,12 +116,12 @@ void unloadedTrucksTest() {
     }
 }
 
-
 int main() {
-    buildHeapTest({1, 2, -1});
-    buildHeapTest({});
-    buildHeapTest({1});
-    std::vector<int> vec(1000);
+    buildHeapTest(std::vector<int> {1, 2, -1}); // buildHeapTest({1, 2, -1});
+    buildHeapTest(std::vector<int> {}); // buildHeapTest({});
+    buildHeapTest(std::vector<int> {1}); // buildHeapTest({1});
+    buildHeapTest(std::vector<int> {5, 6, 3, 2, 7, 9, 10, 4, 10});
+    std::vector<int> vec(100000);
     std::generate(vec.begin(), vec.end(), [](){ return rand();});
     buildHeapTest(vec);
 
@@ -126,6 +131,6 @@ int main() {
     kClosestTrucksTest({10, 500});
     kClosestTrucksTest({10000, 500});
 
-    unloadedTrucksTest() ;
+    //unloadedTrucksTest();
     return 0;
 }

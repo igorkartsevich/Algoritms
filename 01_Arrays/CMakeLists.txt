@@ -112,3 +112,5 @@ set(TASK11_SOURCE
     ..//11_Tree/TreeTest.cpp
 )
 add_executable(Task11 ${TASK11_HEADER} ${TASK11_SOURCE})
+
+add_executable(Task12 ..//12_Heap/Heap.cpp ..//12_Heap/Heap.h ..//12_Heap/HeapTest.cpp)
