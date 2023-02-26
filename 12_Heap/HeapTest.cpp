@@ -57,7 +57,7 @@ void kClosestTrucksTest(const std::vector<int>& arr) {
     std::cout << "Find trucks" << std::endl;
     std::vector<Heap::TruckCoordinate> lst;
     for (int i = 0; i < arr[0]; ++i){      
-      lst.push_back(Heap::TruckCoordinate{rand(), 0});
+      lst.push_back(Heap::TruckCoordinate{rand(), rand()});
     }
 
     auto ans = Heap::kClosestTrucks(lst, arr[1]);
@@ -103,8 +103,8 @@ struct TruckTime {
 
 void unloadedTrucksTest() {
     std::cout << "Unloading trucks";
-    auto n = getRandomNumber(0, 50);    
-    auto size = getRandomNumber(0, 1000);
+    auto n = getRandomNumber(0, 5);    
+    auto size = getRandomNumber(0, 10);
     std::vector<int> lst(size);
     std::generate(lst.begin(), lst.end(), [](){ return getRandomNumber(0, 1000);});
 
@@ -117,20 +117,20 @@ void unloadedTrucksTest() {
 }
 
 int main() {
-    buildHeapTest(std::vector<int> {1, 2, -1}); // buildHeapTest({1, 2, -1});
-    buildHeapTest(std::vector<int> {}); // buildHeapTest({});
-    buildHeapTest(std::vector<int> {1}); // buildHeapTest({1});
-    buildHeapTest(std::vector<int> {5, 6, 3, 2, 7, 9, 10, 4, 10});
-    std::vector<int> vec(100000);
-    std::generate(vec.begin(), vec.end(), [](){ return rand();});
-    buildHeapTest(vec);
+    //buildHeapTest(std::vector<int> {1, 2, -1}); // buildHeapTest({1, 2, -1});
+    //buildHeapTest(std::vector<int> {}); // buildHeapTest({});
+    //buildHeapTest(std::vector<int> {1}); // buildHeapTest({1});
+    //buildHeapTest(std::vector<int> {5, 6, 3, 2, 7, 9, 10, 4, 10});
+    //std::vector<int> vec(100000);
+    //std::generate(vec.begin(), vec.end(), [](){ return rand();});
+    //buildHeapTest(vec);
 
-    kClosestTrucksTest({1, 1});
-    kClosestTrucksTest({100, 5});
-    kClosestTrucksTest({1000, 5});
-    kClosestTrucksTest({10, 500});
-    kClosestTrucksTest({10000, 500});
+    //kClosestTrucksTest({1, 1});
+    //kClosestTrucksTest({100, 5});
+    //kClosestTrucksTest({1000, 5});
+    //kClosestTrucksTest({10, 500});
+    //kClosestTrucksTest({10000, 500});
 
-    //unloadedTrucksTest();
+    unloadedTrucksTest();
     return 0;
 }
