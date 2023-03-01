@@ -94,7 +94,7 @@ void siftDOWN_byStorage(std::vector<UnloadingUnit>& heap, size_t index, size_t b
 }
 
 void siftUP_byStorage(std::vector<UnloadingUnit>& heap, size_t index) {
-    size_t indexToSift = (index - 1) << 1;
+    size_t indexToSift = (index - 1) >> 1;
     if (index == 0 || indexToSift < 0) return;
 
     if (heap[index].storageNumber < heap[indexToSift].storageNumber) {
@@ -120,12 +120,12 @@ void siftDOWN_byTime(std::vector<UnloadingUnit>& heap, size_t index, size_t bord
 }
 
 std::vector<int> Heap::unloadingTruck(int n, const std::vector<int>& times) {
-    if (times.empty()) return{};
+    if (n == 0 || times.empty()) return{};
 
     int globalTime{};
     std::vector<int> result;
 
-    size_t freeStorageCount{ (size_t)n };
+    /*size_t freeStorageCount{ (size_t)n };
     std::vector<UnloadingUnit> heapFreeStorage(n);
     setHeap(heapFreeStorage, 1);
 
@@ -139,14 +139,11 @@ std::vector<int> Heap::unloadingTruck(int n, const std::vector<int>& times) {
             heapFreeStorage[0].unloadingTime = times[timesCount++];
             result.push_back(globalTime);
 
-            ++busyStorageCount;
-            heapBuzyStorage[busyStorageCount - 1] = heapFreeStorage[0];
+            heapBuzyStorage[++busyStorageCount - 1] = heapFreeStorage[0];
             siftUP_byTime(heapBuzyStorage, busyStorageCount - 1);
 
-
             heapFreeStorage[0] = heapFreeStorage[freeStorageCount - 1];
-            --freeStorageCount;
-            siftDOWN_byStorage(heapFreeStorage, 0, freeStorageCount);
+            siftDOWN_byStorage(heapFreeStorage, 0, --freeStorageCount);
         }
 
         if (timesCount == times.size()) return result;
@@ -163,5 +160,42 @@ std::vector<int> Heap::unloadingTruck(int n, const std::vector<int>& times) {
             heapBuzyStorage[0] = heapBuzyStorage[busyStorageCount - 1];
             siftDOWN_byTime(heapBuzyStorage, 0, --busyStorageCount);
         }   
+    }*/
+
+    std::vector<UnloadingUnit> heapFreeStorage(n);
+    setHeap(heapFreeStorage, 1);
+
+    std::vector<UnloadingUnit> heapBuzyStorage;
+
+    size_t timesCount{};
+    while (true) {
+        while(!heapFreeStorage.empty()) {
+            heapFreeStorage[0].unloadingTime = times[timesCount++];
+            result.push_back(globalTime);
+
+            if (timesCount == times.size()) return result;
+
+            heapBuzyStorage.push_back(heapFreeStorage[0]);
+            siftUP_byTime(heapBuzyStorage, heapBuzyStorage.size() - 1);
+
+            heapFreeStorage[0] = heapFreeStorage.back();
+            siftDOWN_byStorage(heapFreeStorage, 0, heapFreeStorage.size() - 1);
+            heapFreeStorage.pop_back();
+        }
+
+        int timeJump = heapBuzyStorage[0].unloadingTime;
+        for (auto& node : heapBuzyStorage)
+            node.unloadingTime -= timeJump;
+        globalTime += timeJump;
+
+        while (!heapBuzyStorage.empty() && heapBuzyStorage[0].unloadingTime == 0) {
+            heapFreeStorage.push_back(heapBuzyStorage[0]);
+            siftUP_byStorage(heapFreeStorage, heapFreeStorage.size() - 1);
+
+            heapBuzyStorage[0] = heapBuzyStorage.back();
+            siftDOWN_byTime(heapBuzyStorage, 0, heapBuzyStorage.size() - 1);
+            heapBuzyStorage.pop_back();
+        }
     }
+
 }

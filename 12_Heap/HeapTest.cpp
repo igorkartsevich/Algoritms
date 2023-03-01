@@ -21,7 +21,7 @@ bool isHeap(const std::vector<int>& arr, int n) {
 }
 
 int getRandomNumber(int min, int max) {
-    return rand() % (max - min + 1) + min;
+    return min + rand() % (max - min); //return rand() % (max - min + 1) + min;
 }
 
 void buildHeapTest(std::vector<int>& arr) { //void buildHeapTest(const std::vector<int>& arr)
@@ -82,9 +82,11 @@ struct TruckTime {
      {
          if (left.time == right.time)
              return left.id == right.id;
-         return left.time < right.time;
+         return left.time > right.time; // return left.time < right.time;
      };
-     std::priority_queue<TruckTime, std::vector<TruckTime>, decltype(cmp)> queue(cmp);
+     std::priority_queue<TruckTime, std::vector<TruckTime>, decltype(cmp) > queue(cmp);
+
+     if (n == 0 || tasks.empty()) return {}; // added code
 
      for (int i = 0; i < n; i++)
          queue.push(TruckTime(i));
@@ -96,6 +98,7 @@ struct TruckTime {
          auto truckTime = queue.top();
          records.push_back(truckTime.time);
          truckTime.time += task;
+         queue.pop(); // added code
          queue.push(truckTime);
      }
      return records;
@@ -103,33 +106,33 @@ struct TruckTime {
 
 void unloadedTrucksTest() {
     std::cout << "Unloading trucks";
-    auto n = getRandomNumber(0, 5);    
-    auto size = getRandomNumber(0, 10);
+    auto n = getRandomNumber(0, 10);
+    auto size = getRandomNumber(0, 1000);
     std::vector<int> lst(size);
-    std::generate(lst.begin(), lst.end(), [](){ return getRandomNumber(0, 1000);});
+    std::generate(lst.begin(), lst.end(), []() { return getRandomNumber(0, 1000); });
 
     auto ans = Heap::unloadingTruck(n, lst);
     auto test = handleTrucks(n, lst);
     assert(ans.size() == test.size());
-    for (auto& val : test){
+    for (auto& val : test) {
         assert(std::find(ans.begin(), ans.end(), val) != ans.end());
     }
 }
 
 int main() {
-    //buildHeapTest(std::vector<int> {1, 2, -1}); // buildHeapTest({1, 2, -1});
-    //buildHeapTest(std::vector<int> {}); // buildHeapTest({});
-    //buildHeapTest(std::vector<int> {1}); // buildHeapTest({1});
-    //buildHeapTest(std::vector<int> {5, 6, 3, 2, 7, 9, 10, 4, 10});
-    //std::vector<int> vec(100000);
-    //std::generate(vec.begin(), vec.end(), [](){ return rand();});
-    //buildHeapTest(vec);
+    buildHeapTest(std::vector<int> {1, 2, -1}); // buildHeapTest({1, 2, -1});
+    buildHeapTest(std::vector<int> {}); // buildHeapTest({});
+    buildHeapTest(std::vector<int> {1}); // buildHeapTest({1});
+    buildHeapTest(std::vector<int> {5, 6, 3, 2, 7, 9, 10, 4, 10});
+    std::vector<int> vec(100000);
+    std::generate(vec.begin(), vec.end(), [](){ return rand();});
+    buildHeapTest(vec);
 
-    //kClosestTrucksTest({1, 1});
-    //kClosestTrucksTest({100, 5});
-    //kClosestTrucksTest({1000, 5});
-    //kClosestTrucksTest({10, 500});
-    //kClosestTrucksTest({10000, 500});
+    kClosestTrucksTest({1, 1});
+    kClosestTrucksTest({100, 5});
+    kClosestTrucksTest({1000, 5});
+    kClosestTrucksTest({10, 500});
+    kClosestTrucksTest({10000, 500});
 
     unloadedTrucksTest();
     return 0;
