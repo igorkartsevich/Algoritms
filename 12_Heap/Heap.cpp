@@ -56,65 +56,55 @@ std::vector<Heap::TruckCoordinate> Heap::kClosestTrucks(const std::vector<Heap::
 }
 
 //***************************************
+enum SiftBy_Type {
+    BY_STORAGE,
+    BY_TIME
+};
+
 struct UnloadingUnit {
     int storageNumber;
     int unloadingTime;
 };
 
-void setHeap(std::vector<UnloadingUnit>& heap, int k) {
-    for (int i{}; i < heap.size(); ++i) {
-        heap[i].storageNumber = i * k;
-        heap[i].unloadingTime = 0;
-    }
-}
-
-void siftUP_byTime(std::vector<UnloadingUnit>& heap, size_t index) {
+void siftUP(std::vector<UnloadingUnit>& heap, size_t index, SiftBy_Type type) {
     size_t indexToSift = (index - 1) >> 1;
     if (index == 0 || indexToSift < 0) return;
-    if (heap[index].unloadingTime < heap[indexToSift].unloadingTime) {
+
+    bool compare = (type == BY_STORAGE)
+        ? heap[index].storageNumber < heap[indexToSift].storageNumber
+        : heap[index].unloadingTime < heap[indexToSift].unloadingTime;
+
+    if (compare) {
         std::swap(heap[index], heap[indexToSift]);
-        siftUP_byTime(heap, indexToSift);
+        siftUP(heap, indexToSift, type);
     }
     else return;
 }
 
-void siftDOWN_byStorage(std::vector<UnloadingUnit>& heap, size_t index, size_t border) {
+void siftDOWN(std::vector<UnloadingUnit>& heap, size_t index, size_t border, SiftBy_Type type) {
     int indexLeft = (index << 1) + 1;
     if (indexLeft >= border) return;
     
     int indexRight = indexLeft + 1;
-    int indexToSift = (indexRight >= border) ? indexLeft
-        : (heap[indexLeft].storageNumber < heap[indexRight].storageNumber) ? indexLeft : indexRight;
+    int indexToSift;
 
-    if (heap[indexToSift].storageNumber < heap[index].storageNumber) {
-        std::swap(heap[index], heap[indexToSift]);
-        siftDOWN_byStorage(heap, indexToSift, border);
+    if (indexRight >= border)
+        indexToSift = indexLeft;
+    else {
+        bool compare = (type == BY_STORAGE)
+            ? heap[indexLeft].storageNumber < heap[indexRight].storageNumber
+            : heap[indexLeft].unloadingTime < heap[indexRight].unloadingTime;
+        
+        indexToSift = (compare) ? indexLeft : indexRight;
     }
-    else return;
-}
 
-void siftUP_byStorage(std::vector<UnloadingUnit>& heap, size_t index) {
-    size_t indexToSift = (index - 1) >> 1;
-    if (index == 0 || indexToSift < 0) return;
+    bool compare = (type == BY_STORAGE)
+        ? heap[indexToSift].storageNumber < heap[index].storageNumber
+        : heap[indexToSift].unloadingTime < heap[index].unloadingTime;
 
-    if (heap[index].storageNumber < heap[indexToSift].storageNumber) {
+    if (compare) {
         std::swap(heap[index], heap[indexToSift]);
-        siftUP_byStorage(heap, indexToSift);
-    }
-    else return;
-}
-
-void siftDOWN_byTime(std::vector<UnloadingUnit>& heap, size_t index, size_t border) {
-    int indexLeft = (index << 1) + 1;
-    if (indexLeft >= border) return;
-
-    int indexRight = indexLeft + 1;
-    int indexToSift = (indexRight >= border) ? indexLeft
-        : (heap[indexLeft].unloadingTime < heap[indexRight].unloadingTime) ? indexLeft : indexRight;
-
-    if (heap[indexToSift].unloadingTime < heap[index].unloadingTime) {
-        std::swap(heap[index], heap[indexToSift]);
-        siftDOWN_byTime(heap, indexToSift, border);
+        siftDOWN(heap, indexToSift, border, type);
     }
     else return;
 }
@@ -126,7 +116,11 @@ std::vector<int> Heap::unloadingTruck(int n, const std::vector<int>& times) {
     std::vector<int> result;
 
     std::vector<UnloadingUnit> heapFreeStorage(n);
-    setHeap(heapFreeStorage, 1);
+    for (int i{}; i < heapFreeStorage.size(); ++i) {
+        heapFreeStorage[i].storageNumber = i;
+        heapFreeStorage[i].unloadingTime = 0;
+    }
+
     std::vector<UnloadingUnit> heapBuzyStorage;
 
     size_t timesCount{};
@@ -138,10 +132,10 @@ std::vector<int> Heap::unloadingTruck(int n, const std::vector<int>& times) {
             if (timesCount == times.size()) return result;
 
             heapBuzyStorage.push_back(heapFreeStorage[0]);
-            siftUP_byTime(heapBuzyStorage, heapBuzyStorage.size() - 1);
+            siftUP(heapBuzyStorage, heapBuzyStorage.size() - 1, BY_TIME);
 
             heapFreeStorage[0] = heapFreeStorage.back();
-            siftDOWN_byStorage(heapFreeStorage, 0, heapFreeStorage.size() - 1);
+            siftDOWN(heapFreeStorage, 0, heapFreeStorage.size() - 1, BY_STORAGE);
             heapFreeStorage.pop_back();
         }
 
@@ -152,12 +146,11 @@ std::vector<int> Heap::unloadingTruck(int n, const std::vector<int>& times) {
 
         while (!heapBuzyStorage.empty() && heapBuzyStorage[0].unloadingTime == 0) {
             heapFreeStorage.push_back(heapBuzyStorage[0]);
-            siftUP_byStorage(heapFreeStorage, heapFreeStorage.size() - 1);
+            siftUP(heapFreeStorage, heapFreeStorage.size() - 1, BY_STORAGE);
 
             heapBuzyStorage[0] = heapBuzyStorage.back();
-            siftDOWN_byTime(heapBuzyStorage, 0, heapBuzyStorage.size() - 1);
+            siftDOWN(heapBuzyStorage, 0, heapBuzyStorage.size() - 1, BY_TIME);
             heapBuzyStorage.pop_back();
         }
     }
-
 }
