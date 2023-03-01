@@ -82,7 +82,7 @@ void siftDOWN_byStorage(std::vector<UnloadingUnit>& heap, size_t index, size_t b
     int indexLeft = (index << 1) + 1;
     if (indexLeft >= border) return;
     
-    int indexRight = (index << 1) + 2;
+    int indexRight = indexLeft + 1;
     int indexToSift = (indexRight >= border) ? indexLeft
         : (heap[indexLeft].storageNumber < heap[indexRight].storageNumber) ? indexLeft : indexRight;
 
@@ -108,13 +108,13 @@ void siftDOWN_byTime(std::vector<UnloadingUnit>& heap, size_t index, size_t bord
     int indexLeft = (index << 1) + 1;
     if (indexLeft >= border) return;
 
-    int indexRight = (index << 1) + 2;
+    int indexRight = indexLeft + 1;
     int indexToSift = (indexRight >= border) ? indexLeft
         : (heap[indexLeft].unloadingTime < heap[indexRight].unloadingTime) ? indexLeft : indexRight;
 
     if (heap[indexToSift].unloadingTime < heap[index].unloadingTime) {
         std::swap(heap[index], heap[indexToSift]);
-        siftDOWN_byStorage(heap, indexToSift, border);
+        siftDOWN_byTime(heap, indexToSift, border);
     }
     else return;
 }
@@ -125,46 +125,8 @@ std::vector<int> Heap::unloadingTruck(int n, const std::vector<int>& times) {
     int globalTime{};
     std::vector<int> result;
 
-    /*size_t freeStorageCount{ (size_t)n };
     std::vector<UnloadingUnit> heapFreeStorage(n);
     setHeap(heapFreeStorage, 1);
-
-    size_t busyStorageCount{};
-    std::vector<UnloadingUnit> heapBuzyStorage(n);
-    setHeap(heapBuzyStorage, 0);
-
-    size_t timesCount{};
-    while(true) {
-        while (freeStorageCount > 0) {
-            heapFreeStorage[0].unloadingTime = times[timesCount++];
-            result.push_back(globalTime);
-
-            heapBuzyStorage[++busyStorageCount - 1] = heapFreeStorage[0];
-            siftUP_byTime(heapBuzyStorage, busyStorageCount - 1);
-
-            heapFreeStorage[0] = heapFreeStorage[freeStorageCount - 1];
-            siftDOWN_byStorage(heapFreeStorage, 0, --freeStorageCount);
-        }
-
-        if (timesCount == times.size()) return result;
-        
-        int timeJump = heapBuzyStorage[0].unloadingTime;
-        for (auto& node : heapBuzyStorage)
-            node.unloadingTime -= timeJump;
-        globalTime += timeJump;
-
-        while (heapBuzyStorage[0].unloadingTime == 0) {
-            heapFreeStorage[++freeStorageCount - 1] = heapBuzyStorage[0];
-            siftUP_byStorage(heapFreeStorage, freeStorageCount - 1);
-
-            heapBuzyStorage[0] = heapBuzyStorage[busyStorageCount - 1];
-            siftDOWN_byTime(heapBuzyStorage, 0, --busyStorageCount);
-        }   
-    }*/
-
-    std::vector<UnloadingUnit> heapFreeStorage(n);
-    setHeap(heapFreeStorage, 1);
-
     std::vector<UnloadingUnit> heapBuzyStorage;
 
     size_t timesCount{};

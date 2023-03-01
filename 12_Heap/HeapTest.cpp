@@ -73,8 +73,7 @@ struct TruckTime {
     int id;
     long time = 0;
 
-    TruckTime(int _id) :id(_id) {
-    }
+    TruckTime(int _id) : id(_id) {}
  };
 
  std::vector<int> handleTrucks(int n, const std::vector<int> &tasks) {
@@ -106,7 +105,7 @@ struct TruckTime {
 
 void unloadedTrucksTest() {
     std::cout << "Unloading trucks";
-    auto n = getRandomNumber(0, 10);
+    auto n = getRandomNumber(0, 50);
     auto size = getRandomNumber(0, 1000);
     std::vector<int> lst(size);
     std::generate(lst.begin(), lst.end(), []() { return getRandomNumber(0, 1000); });
