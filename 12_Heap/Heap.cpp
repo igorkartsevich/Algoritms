@@ -66,7 +66,7 @@ struct UnloadingUnit {
     int unloadingTime;
 };
 
-void siftUP(std::vector<UnloadingUnit>& heap, size_t index, SiftBy_Type type) {
+void siftUP(std::vector<UnloadingUnit>& heap, size_t index, const SiftBy_Type type) {
     size_t indexToSift = (index - 1) >> 1;
     if (index == 0 || indexToSift < 0) return;
 
@@ -81,7 +81,7 @@ void siftUP(std::vector<UnloadingUnit>& heap, size_t index, SiftBy_Type type) {
     else return;
 }
 
-void siftDOWN(std::vector<UnloadingUnit>& heap, size_t index, size_t border, SiftBy_Type type) {
+void siftDOWN(std::vector<UnloadingUnit>& heap, size_t index, size_t border, const SiftBy_Type type) {
     int indexLeft = (index << 1) + 1;
     if (indexLeft >= border) return;
     
