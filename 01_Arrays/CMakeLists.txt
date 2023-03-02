@@ -114,3 +114,4 @@ set(TASK11_SOURCE
 add_executable(Task11 ${TASK11_HEADER} ${TASK11_SOURCE})
 
 add_executable(Task12 ..//12_Heap/Heap.cpp ..//12_Heap/Heap.h ..//12_Heap/HeapTest.cpp)
+add_executable(WretchedPriorityQueue ..//12_Heap/WretchedPriorityQueue.h ..//12_Heap/WretchedPriorityQueue.cpp ..//12_Heap/WretchedPriorityQueueTest.cpp)

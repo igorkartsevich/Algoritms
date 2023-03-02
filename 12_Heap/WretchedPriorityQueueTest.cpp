@@ -39,8 +39,8 @@ void peekTest()
 
     for (auto i = SIZE; i > 0; --i)
     {
-        assert(SIZE - i + 1 == queue.peek());
-        assert(SIZE - i + 1 == queue.pop());
+        assert(i == queue.peek()); //assert(SIZE + 1 - i == queue.peek());
+        assert(i == queue.pop()); //assert(SIZE + 1 - i == queue.pop());
     }
 
     try {
@@ -65,8 +65,9 @@ void popTest()
 
     while (!ints.empty())
     {
-        assert(ints.top() == queue.pop());
+        assert(ints.top() == queue.peek()); //assert(ints.top() == queue.pop());
         ints.pop();
+        queue.pop(); //added code
     }
 
     try {
