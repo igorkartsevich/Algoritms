@@ -70,11 +70,11 @@ void siftUP(std::vector<UnloadingUnit>& heap, size_t index, const SiftBy_Type ty
     size_t indexToSift = (index - 1) >> 1;
     if (index == 0 || indexToSift < 0) return;
 
-    bool compare = (type == BY_STORAGE)
+    bool comparison = (type == BY_STORAGE)
         ? heap[index].storageNumber < heap[indexToSift].storageNumber
         : heap[index].unloadingTime < heap[indexToSift].unloadingTime;
 
-    if (compare) {
+    if (comparison) {
         std::swap(heap[index], heap[indexToSift]);
         siftUP(heap, indexToSift, type);
     }
@@ -91,18 +91,18 @@ void siftDOWN(std::vector<UnloadingUnit>& heap, size_t index, size_t border, con
     if (indexRight >= border)
         indexToSift = indexLeft;
     else {
-        bool compare = (type == BY_STORAGE)
+        bool comparison = (type == BY_STORAGE)
             ? heap[indexLeft].storageNumber < heap[indexRight].storageNumber
             : heap[indexLeft].unloadingTime < heap[indexRight].unloadingTime;
         
-        indexToSift = (compare) ? indexLeft : indexRight;
+        indexToSift = (comparison) ? indexLeft : indexRight;
     }
 
-    bool compare = (type == BY_STORAGE)
+    bool comparison = (type == BY_STORAGE)
         ? heap[indexToSift].storageNumber < heap[index].storageNumber
         : heap[indexToSift].unloadingTime < heap[index].unloadingTime;
 
-    if (compare) {
+    if (comparison) {
         std::swap(heap[index], heap[indexToSift]);
         siftDOWN(heap, indexToSift, border, type);
     }
