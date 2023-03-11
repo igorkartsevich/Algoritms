@@ -1,22 +1,20 @@
 #pragma once
+#include "Node.h"
 #include <vector>
 
 class BTree {
+    Node* root;
 
 public:
     BTree() {
-        // Implement this
+        root = new Node();
     }
 
     // Добавляет число X в дерево
-    void add(int x) {
-        // Implement this
-    }
+    void add(int x);
 
     // Проверяет, было ли число X добавлено в дерево
-    bool contains(int x) {
-        return false;
-    }
+    bool contains(int x);
 
     // Выводит текущую максимальную глубину дерева
     int getMaxHeight() {
@@ -25,8 +23,5 @@ public:
     }
 
     // Возвращает список всех чисел, добавленных в дерево в возрастающем порядке
-    std::vector<int> getSorted() {
-        // Implement this
-        return {};
-    }
+    std::vector<int> getSorted();
 };

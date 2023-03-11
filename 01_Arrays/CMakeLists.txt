@@ -115,3 +115,15 @@ add_executable(Task11 ${TASK11_HEADER} ${TASK11_SOURCE})
 
 add_executable(Task12 ..//12_Heap/Heap.cpp ..//12_Heap/Heap.h ..//12_Heap/HeapTest.cpp)
 add_executable(WretchedPriorityQueue ..//12_Heap/WretchedPriorityQueue.h ..//12_Heap/WretchedPriorityQueue.cpp ..//12_Heap/WretchedPriorityQueueTest.cpp)
+
+set(TASK13_HEADER
+    ..//13_BTree/src/homework/BTree/Node.h
+    ..//13_BTree/src/homework/BTree/BTree.h
+)
+set(TASK13_SOURCE
+    ..//13_BTree/src/homework/BTree/Node.cpp
+    ..//13_BTree/src/homework/BTree/BTree.cpp
+
+    ..//13_BTree/src/homework/BTree/BTreeTest.cpp
+)
+add_executable(Task13 ${TASK13_HEADER} ${TASK13_SOURCE})
