@@ -1,35 +1,24 @@
 #include "BTree.h"
+#include "Node.h"
 #include <string>
 #include <stack>
 
 void BTree::add(int x) {
 	if (x < 0) return;
 
-	auto currentNode = root;
-	std::string str = std::to_string(x);
-
-	for (auto ch : str) {
-		currentNode = (!currentNode->getNextNode(currentNode, ch - 48))
-			? currentNode->makeNextNode(currentNode, ch - 48)
-			: currentNode->getNextNode(currentNode, ch - 48);
-	}
-	currentNode->markNodeLikeEnd(currentNode);
+	//search node to insert
+		//check node to capacity
+			//if fuul remade node
+	
+	//node - "leaf" is found
+		//check node to capacity
+			//if full remade node
 
 	return;
 }
 
 bool BTree::contains(int x) {
-	if (x < 0) return false;
-
-	auto currentNode = root;
-	std::string str = std::to_string(x);
-
-	for (auto ch : str) {
-		currentNode = currentNode->getNextNode(currentNode, ch - 48);
-		if (!currentNode) return false;
-	}
-
-	return currentNode->checkToEnd(currentNode);
+	return (!root->searchKeys(root, x)) ? false : true;
 }
 
 std::vector<int> BTree::getSorted() {

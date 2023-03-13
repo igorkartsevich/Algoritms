@@ -1,17 +1,20 @@
 #pragma once
 #include <vector>
+#include <unordered_set>
+
+const int t = 2;
 
 class Node {
 private:
-	bool isEnd;
-	std::vector<Node*> nextNodeVec;
+	Node* parentNode;
+	std::vector<Node*> childrenNodes;
+	int childrenCounter;
+	std::vector<int> keyList;
+	int keyCounter;
 
 public:
-	Node(bool _isEnd) : isEnd(_isEnd), nextNodeVec(10, nullptr) {}
-	Node() : Node(false) {}
-
-	Node* getNextNode(Node* node, int index);
-	Node* makeNextNode(Node* node, int index);
-	void markNodeLikeEnd(Node* node);
-	bool checkToEnd(Node* node);
+	Node() : parentNode(nullptr), childrenNodes(2 * t + 1, nullptr),
+			 childrenCounter{}, keyList(2 * t), keyCounter{} {}
+	
+	Node* Node::searchKeys(Node* node, const int key);
 };

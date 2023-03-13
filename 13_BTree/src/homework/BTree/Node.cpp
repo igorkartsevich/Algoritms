@@ -1,19 +1,22 @@
 #include "Node.h"
 
-Node* Node::getNextNode(Node* node, int index) {
-	return node->nextNodeVec[index];
-}
+Node* Node::searchKeys(Node* node, const int key) {
+	if (!node) return nullptr;
+	auto currentNode = node;
 
-Node* Node::makeNextNode(Node* node, int index) {
-	node->nextNodeVec[index] = new Node();
-	return node->nextNodeVec[index];
-}
+	while (currentNode) {
+		for (int i{}; i < currentNode->keyCounter; ++i) {
+			if (currentNode->keyList[i] == key)
+				return currentNode;
+			else if (currentNode->keyList[i] > key) {
+				currentNode = currentNode->childrenNodes[i];
+				break;
+			}
+		}
 
-void Node::markNodeLikeEnd(Node* node) {
-	node->isEnd = true;
-	return;
-}
+		if (key > currentNode->keyList.back())
+			currentNode = currentNode->childrenNodes.back();
+	}
 
-bool Node::checkToEnd(Node* node) {
-	return node->isEnd;
+	return nullptr;
 }
