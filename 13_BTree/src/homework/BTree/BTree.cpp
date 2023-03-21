@@ -1,27 +1,44 @@
 #include "BTree.h"
 #include "Node.h"
 #include <string>
-#include <stack>
+#include <queue>
 
-void BTree::add(int x) {
-	if (x < 0) return;
+void BTree::add(int key) {
+	if (key < 0) return;
+	auto currentNode = root;
 
-	//search node to insert
-		//check node to capacity
-			//if fuul remade node
-	
-	//node - "leaf" is found
-		//check node to capacity
-			//if full remade node
+	while (true) {
+		if (currentNode->isFullyLoaded())
+			currentNode = currentNode->redoNode(currentNode);
 
-	return;
+		if (currentNode->isRoot()) root = currentNode;
+
+		if (currentNode->isLeaf()) {
+			currentNode->addNewKey(key);
+			return;
+		}
+
+		currentNode = currentNode->getNextNode(key);
+	}
 }
 
-bool BTree::contains(int x) {
-	return (!root->searchKeys(root, x)) ? false : true;
+bool BTree::contains(int key) {
+	if (key < 0) return false;
+	auto currentNode = root;
+
+	while (true) {
+		if (currentNode->getIndexByKey(key) < 0)
+			return true;
+		else if (currentNode->isLeaf())
+			return false;
+		else
+			currentNode = currentNode->getNextNode(key);
+	}
 }
 
 std::vector<int> BTree::getSorted() {
-	
+
+
+
 	return {};
 }

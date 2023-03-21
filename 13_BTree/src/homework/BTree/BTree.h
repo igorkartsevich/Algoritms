@@ -11,7 +11,7 @@ public:
     }
 
     // Добавляет число X в дерево
-    void add(int x);
+    void add(int key);
 
     // Проверяет, было ли число X добавлено в дерево
     bool contains(int x);
