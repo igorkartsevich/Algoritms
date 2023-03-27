@@ -17,10 +17,7 @@ public:
     bool contains(int x);
 
     // Выводит текущую максимальную глубину дерева
-    int getMaxHeight() {
-        // Implement this
-        return 1;
-    }
+    int getMaxHeight();
 
     // Возвращает список всех чисел, добавленных в дерево в возрастающем порядке
     std::vector<int> getSorted();

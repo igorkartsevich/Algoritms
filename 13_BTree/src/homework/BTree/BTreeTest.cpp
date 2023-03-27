@@ -9,7 +9,7 @@ void test() {
       for (int i = 0; i < 1000000; ++i) {
           a.push_back(i * 2);
       }
-      //std::shuffle(a.begin(), a.end(), std::random_device()); // std::random_shuffle(a.begin(), a.end()); (c++17 deleted)
+      std::shuffle(a.begin(), a.end(), std::random_device()); // std::random_shuffle(a.begin(), a.end()); (c++17 deleted)
 
       for (int i = 0; i < 1000000; ++i) {
           t.add(a[i]); // t.add(i);
@@ -31,7 +31,7 @@ void test() {
           assert(ar[i] == i * 2);
       }
 
-      /*assert(t.getMaxHeight() < 1000);*/
+      assert(t.getMaxHeight() < 1000);
 }
 
 

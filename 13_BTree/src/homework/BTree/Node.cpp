@@ -82,6 +82,10 @@ Node* Node::redoNode(Node* currentNode) {
 	prevNode->childrenCounter += (currentNode->isRoot()) ? 2 : 1;
 	int indexInPrev = (prevNode->getIndexByKey(currentNode->keyList[indexSplit]) * -1) - 1; // ...* -1) - 1... for compensation return -(middle + 1) from int Node::getIndexByKey(const int key)
 
+	if (prevNode->keyCounter - 1 > indexInPrev) // if indexInPrev is not last one, move the node which more than indexInPrev one step forward
+		for (int i{ keyCounter }; i > indexInPrev; --i)
+			std::swap(prevNode->childrenList[i], prevNode->childrenList[i - 1]);
+
 	auto newLeftNode = new Node();
 	newLeftNode->parentNode = prevNode;
 	prevNode->childrenList[indexInPrev] = newLeftNode;
@@ -94,4 +98,20 @@ Node* Node::redoNode(Node* currentNode) {
 	delete currentNode;
 
 	return prevNode;
+}
+
+std::vector<int> Node::getKeyList() const {
+	return this->keyList;
+}
+
+int Node::getKeyCounter() const{
+	return this->keyCounter;
+}
+
+std::vector<Node*> Node::getChildrenList() const {
+	return this->childrenList;
+}
+
+int Node::getChildrenCounter() const {
+	return this->childrenCounter;
 }

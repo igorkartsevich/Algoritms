@@ -26,9 +26,16 @@ public:
 	bool isFullyLoaded() const;
 	bool isRoot() const;
 	bool isLeaf() const;
+
 	void addNewKey(const int key);
 	int getIndexByKey(const int key);
 	Node* getNextNode(const int key);
 	void splitNode(const int indexSplit, const int end, Node* leftNode, Node* rightNode);
 	Node* redoNode(Node* currentNode);
+
+	std::vector<int> getKeyList() const;
+	int getKeyCounter() const;
+
+	std::vector<Node*> getChildrenList() const;
+	int getChildrenCounter() const;
 };
