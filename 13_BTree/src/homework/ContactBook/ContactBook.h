@@ -29,25 +29,14 @@ public:
     }
 
     // Добавляет имя нового контакта в адресную книгу
-    void add(Contact s) {
-        // please implement this
-    }
+    void add(Contact s);
 
     // Возвращает true, если контакт с именем name есть в книге
-    bool contains(const std::string& name) {
-        return false;
-        // please implement this
-    }
+    bool contains(const std::string& name);
 
     // Возвращает количество контактов, добавленных в адресную книгу, имена которых начинаются с pref
-    int count_starts_with(const std::string& pref) {
-        return 0;
-        // please implement this
-    }
+    int count_starts_with(const std::string& pref);
 
     // Возвращает все контакты, имена которых начинаются с преффикса pref
-    std::vector<Contact> starts_with(const std::string& pref) {
-        return {};
-        // please implement this
-    }
+    std::vector<Contact> starts_with(const std::string& pref);
 };

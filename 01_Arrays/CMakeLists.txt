@@ -116,14 +116,25 @@ add_executable(Task11 ${TASK11_HEADER} ${TASK11_SOURCE})
 add_executable(Task12 ..//12_Heap/Heap.cpp ..//12_Heap/Heap.h ..//12_Heap/HeapTest.cpp)
 add_executable(WretchedPriorityQueue ..//12_Heap/WretchedPriorityQueue.h ..//12_Heap/WretchedPriorityQueue.cpp ..//12_Heap/WretchedPriorityQueueTest.cpp)
 
-set(TASK13_HEADER
+set(Task13_B_Tree_HEADER
     ..//13_BTree/src/homework/BTree/Node.h
     ..//13_BTree/src/homework/BTree/BTree.h
 )
-set(TASK13_SOURCE
+set(Task13_B_Tree_SOURCE
     ..//13_BTree/src/homework/BTree/Node.cpp
     ..//13_BTree/src/homework/BTree/BTree.cpp
 
     ..//13_BTree/src/homework/BTree/BTreeTest.cpp
 )
-add_executable(Task13 ${TASK13_HEADER} ${TASK13_SOURCE})
+add_executable(Task13_B_Tree ${Task13_B_Tree_HEADER} ${Task13_B_Tree_SOURCE})
+
+set(Task13_ContactBook_HEADER
+    ..//13_BTree/src/homework/ContactBook/Contact.h
+    ..//13_BTree/src/homework/ContactBook/ContactBook.h
+)
+set(Task13_ContactBook_SOURCE
+    ..//13_BTree/src/homework/ContactBook/ContactBook.cpp
+
+    ..//13_BTree/src/homework/ContactBook/ContactBookTest.cpp
+)
+add_executable(Task13_ContactBook ${Task13_ContactBook_HEADER} ${Task13_ContactBook_SOURCE})

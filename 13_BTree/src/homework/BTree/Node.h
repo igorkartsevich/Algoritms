@@ -15,10 +15,10 @@ private:
 public:
 	Node()
 		: parentNode(nullptr),
-		childrenList(2 * t, nullptr),
-		childrenCounter{},
-		keyList(2 * t - 1, 0),
-		keyCounter{}
+		  childrenList(2 * t, nullptr),
+		  childrenCounter{},
+		  keyList(2 * t - 1, 0),
+		  keyCounter{}
 	{}
 
 	~Node() {}
