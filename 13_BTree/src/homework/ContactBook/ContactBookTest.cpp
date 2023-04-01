@@ -11,7 +11,7 @@ std::vector<Contact> contacts {
         Contact("Jeff Dean", "79121267188"),
         Contact("Jeff King", "79121293782"),
         Contact("Jofrie King", "79123233126"),
-        Contact("Liam", "79161231256"),
+        Contact("Liam", "79161231256"), //Liam
         Contact("Nilson", "79612131512"),
         Contact("Abaca", "79167134212"),
         Contact("Abada", "79179675480"),
@@ -35,7 +35,7 @@ void testExists() {
         assert(book.contains("Mother"));
         assert(book.contains("Jeff Dean"));
         assert(book.contains("Jofrie King"));
-        assert(book.contains("Lian"));
+        assert(book.contains("Liam")); //assert(book.contains("Lian"));
         assert(book.contains("Adam Black"));
 }
 

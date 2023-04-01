@@ -20,7 +20,6 @@ void add(const Contact& s);
 // Возвращает true, если контакт с именем name есть в книге
 bool contains(const std::string& name);
 
-
 // Возвращает количество контактов, добавленных в адресную книгу, имена которых начинаются с pref
 int count_starts_with(const std::string& pref);
 

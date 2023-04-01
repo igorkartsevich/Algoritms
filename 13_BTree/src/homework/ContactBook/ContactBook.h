@@ -8,14 +8,16 @@ public:
 
     class Node {
     public:
-        std::vector<Node*> next{256};
-        std::vector<Contact> end_here;
-        int cnt = 0;
+        std::vector<Node*> nextNode{ 256 };
+        std::string phoneNumber;
         Node() {
             for (int i = 0; i < 256; ++i) {
-                next[i] = nullptr;
+                nextNode[i] = nullptr;
             }
         }
+        Node* getNextNode(char key);
+        Node* addNewNode(char key);
+        Node* getSubTreeRoot(const std::string& pref);
     };
 
     Node* root;

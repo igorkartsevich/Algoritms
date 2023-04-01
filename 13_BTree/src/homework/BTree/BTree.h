@@ -10,6 +10,10 @@ public:
         root = new Node();
     }
 
+    ~BTree() {
+        delete root;
+    }
+
     // Добавляет число X в дерево
     void add(int key);
 
