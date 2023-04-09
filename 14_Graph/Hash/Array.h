@@ -3,7 +3,5 @@
 
 class Array {
 public:
-    static bool canFinish(int numCourses, const std::vector<std::vector<int>> &prerequisites) {
-        return false; // Please implement
-    }
+    static bool canFinish(int numCourses, const std::vector<std::vector<int>>& prerequisites);
 };

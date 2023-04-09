@@ -138,3 +138,23 @@ set(Task13_ContactBook_SOURCE
     ..//13_BTree/src/homework/ContactBook/ContactBookTest.cpp
 )
 add_executable(Task13_ContactBook ${Task13_ContactBook_HEADER} ${Task13_ContactBook_SOURCE})
+
+set(Task14_Graph_RandomizedAlgorithms_HEADER
+    ..//14_Graph/RandomizedAlgorithms/Matrix.h
+)
+set(Task14_Graph_RandomizedAlgorithms_SOURCE
+    ..//14_Graph/RandomizedAlgorithms/Matrix.cpp
+
+    ..//14_Graph/RandomizedAlgorithms/MatrixTest.cpp
+)
+add_executable(Task14_Graph_RandomizedAlgorithms ${Task14_Graph_RandomizedAlgorithms_HEADER} ${Task14_Graph_RandomizedAlgorithms_SOURCE})
+
+set(Task14_SimpleGraph_HEADER
+    ..//14_Graph/SimpleGraph/SimpleGraph.h
+)
+set(Task14_SimpleGraph_SOURCE
+    ..//14_Graph/SimpleGraph/SimpleGraph.cpp
+
+    ..//14_Graph/SimpleGraph/SimpleGraphTest.cpp
+)
+add_executable(Task14_SimpleGraph ${Task14_SimpleGraph_HEADER} ${Task14_SimpleGraph_SOURCE})

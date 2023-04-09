@@ -28,13 +28,9 @@ struct Node {
 class SimpleGraph {
 public:
     // Task #1
-    static int getImportance(std::vector<Employee*> employees, int id) {
-        return -1; // Please implement
-    }
+    static int getImportance(std::vector<Employee*> employees, int id);
 
     // Task #2
-    static Node* cloneGraphVK(Node* node) {
-        return nullptr; // Please implement
-    }
+    static Node* cloneGraphVK(Node* node);
 };
 
