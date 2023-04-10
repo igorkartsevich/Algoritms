@@ -139,6 +139,16 @@ set(Task13_ContactBook_SOURCE
 )
 add_executable(Task13_ContactBook ${Task13_ContactBook_HEADER} ${Task13_ContactBook_SOURCE})
 
+set(Task14_Hash_HEADER
+    ..//14_Graph/Hash/Array.h
+)
+set(Task14_Hash_SOURCE
+    ..//14_Graph/Hash/Array.cpp
+
+    ..//14_Graph/Hash/ArrayTest.cpp
+)
+add_executable(Task14_Hash ${Task14_Hash_HEADER} ${Task14_Hash_SOURCE})
+
 set(Task14_Graph_RandomizedAlgorithms_HEADER
     ..//14_Graph/RandomizedAlgorithms/Matrix.h
 )
