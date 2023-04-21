@@ -62,13 +62,13 @@ void loadNeighborsToCopy(std::vector<Node*>& graphCopy, const std::unordered_map
 		auto currentNode = stack.top();
 		stack.pop();
 
-		int indexNode = indexMap.find(currentNode->val)->second;
+		int indexNode = indexMap.find(currentNode->val)->second; // index in the graphCopy
 
 		for (int i{}; i < currentNode->neighbors.size(); ++i) {
 			auto nextNeighbor = currentNode->neighbors[i];
 			int indexNeghbor = indexMap.find(nextNeighbor->val)->second;
 
-			graphCopy[indexNode]->neighbors[i] = graphCopy[indexNeghbor];
+			graphCopy[indexNode]->neighbors[i] = graphCopy[indexNeghbor]; // load neighbor
 		}
 		
 		for (auto& n : currentNode->neighbors)
