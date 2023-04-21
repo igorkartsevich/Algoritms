@@ -22,7 +22,7 @@ std::string BFS(Node* start)
         auto i = current->neighbors.begin();
         while (i != current->neighbors.end())
         {
-            auto next = ++i;
+            auto next = i++; //auto next = ++i;
             if (0 == seen.count(*next))
             {
                 seen.insert(*next);
@@ -35,7 +35,7 @@ std::string BFS(Node* start)
 
 void getImportanceTest(const std::vector<Employee*>& employees, int id, int importance)
 {
-    std::cout << "Get importance of employee";
+    std::cout << "Get importance of employee" << std::endl;
     auto actual = SimpleGraph::getImportance(employees, id);
     auto expected = importance;
 
@@ -44,7 +44,7 @@ void getImportanceTest(const std::vector<Employee*>& employees, int id, int impo
 
 void cloneGraphVKTest(Node* node)
 {
-    std::cout << "Help Ivan copy VK Graph";
+    std::cout << "Help Ivan copy VK Graph" << std::endl;
     auto actual = BFS(SimpleGraph::cloneGraphVK(node));
     auto expected = BFS(node);
 
