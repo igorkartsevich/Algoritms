@@ -6,11 +6,11 @@
 
 std::string BFS(Node* start)
 {
-    std::set<Node*> seen;
+    std::set<std::string> seen; //std::set<Node*> seen
     std::queue<Node*> queue;
     std::string result = "";
 
-    seen.insert(start);
+    seen.insert(start->val); //seen.insert(start)
     queue.push(start);
 
     while (!queue.empty())
@@ -19,16 +19,23 @@ std::string BFS(Node* start)
         queue.pop();
         result += current->val;
 
-        auto i = current->neighbors.begin();
-        while (i != current->neighbors.end())
+        for (int i{}; i < current->neighbors.size(); ++i) {
+            if (seen.count(current->neighbors[i]->val) == 0) {
+                seen.insert(current->neighbors[i]->val);
+                queue.push(current->neighbors[i]);
+            }
+        }
+
+        /*auto i = current->neighbors.begin();
+        while (++i != current->neighbors.end())
         {
-            auto next = i++; //auto next = ++i;
+            auto next = i;
             if (0 == seen.count(*next))
             {
                 seen.insert(*next);
                 queue.push(*next);
             }
-        }
+        }*/
     }
     return result;
 }
@@ -88,7 +95,6 @@ int main(){
     ak5->neighbors = {ak4};
     ak6->neighbors = {ak4};
 
-    
     cloneGraphVKTest(ak1);
     cloneGraphVKTest(ak2);
     cloneGraphVKTest(ak3);
