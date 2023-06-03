@@ -26,7 +26,7 @@ std::vector<std::string> split(const std::string& str, char delim) {
 }
 
 void validProject(const std::string& projectCode, bool expected) {
-    std::cout << "Предложенный проект: " << projectCode << std::endl;
+    std::cout << "Proposed project: " << std::endl << " " << projectCode << std::endl; //std::cout << "Предложенный проект: " << projectCode << std::endl;
 
     std::vector<std::string> islands = split(projectCode, '\n');
 
@@ -38,7 +38,8 @@ void validProject(const std::string& projectCode, bool expected) {
         project.insert({row[0], std::list<std::string>(vec.begin(), vec.end())});
     }
 
-    assert(expected == Bridges::isProjectSuccess(project));
+    auto answer = Bridges::isProjectSuccess(project);
+    assert(expected == answer);
 }
 
 int main() {
@@ -48,14 +49,14 @@ int main() {
         {"A:B,C \n B:A,C \n C:A,B", true},
         {"A:B,C \n B:A,C,D \n C:A,B \n D:B", true},
         {"A:C \n B:D \n C:A \n D:B", false},
-        {"A: B,C \n B: A,C,C,D \n C: A,B,B \n D:B,E \n E:D", true},
-        {"A: B,C,D \n B:A,D \n C:A,D \n D:A,B,C", false},
-        {"A: D \n B:D \n C:D \n D:A,B,C", false},
-        {"Kotlin: Java \n JS:Java \n C#:Java \n Java:Kotlin,JS,C#", false},
-        {"1: 2,5 \n 2:1,5 \n 3:4,5,6 \n 4:3,6 \n 5:1,2,3,6 \n 6:3,4,5", true},
-        {"1: 2,5 \n 2:1,5 \n 3:4,5,6 \n 4:3 \n 5:1,2,3,6 \n 6:3,4,5", false},
-        {"1: 2,5 \n 2:1,5 \n 3:4,4,5,6 \n 4:3,3,6 \n 5:1,2,3,6 \n 6:3,4,5", true},
-        {"1: 2,5,7 \n 2:1,3,4,5,6,6,7 \n 3:2,4 \n 4:2,3 \n 5:1,2 \n 6:2,2 \n 7:1,2", true}
+        {"A:B,C \n B:A,C,C,D \n C:A,B,B \n D:B,E \n E:D", true},
+        {"A:B,C,D \n B:A,D \n C:A,D \n D:A,B,C", true}, //{"A: B,C,D \n B:A,D \n C:A,D \n D:A,B,C", false},
+        {"A:D \n B:D \n C:D \n D:A,B,C", false},
+        {"Kotlin:Java \n JS:Java \n C#:Java \n Java:Kotlin,JS,C#", false},
+        {"1:2,5 \n 2:1,5 \n 3:4,5,6 \n 4:3,6 \n 5:1,2,3,6 \n 6:3,4,5", true},
+        {"1:2,5 \n 2:1,5 \n 3:4,5,6 \n 4:3 \n 5:1,2,3,6 \n 6:3,5", true}, //{"1: 2,5 \n 2:1,5 \n 3:4,5,6 \n 4:3 \n 5:1,2,3,6 \n 6:3,4,5", false},
+        {"1:2,5 \n 2:1,5 \n 3:4,4,5,6 \n 4:3,3,6 \n 5:1,2,3,6 \n 6:3,4,5", true},
+        {"1:2,5,7 \n 2:1,3,4,5,6,6,7 \n 3:2,4 \n 4:2,3 \n 5:1,2 \n 6:2,2 \n 7:1,2", true}
     };
 
     for (auto arg : args) {

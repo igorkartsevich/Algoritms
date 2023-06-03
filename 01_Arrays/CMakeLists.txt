@@ -168,3 +168,23 @@ set(Task14_SimpleGraph_SOURCE
     ..//14_Graph/SimpleGraph/SimpleGraphTest.cpp
 )
 add_executable(Task14_SimpleGraph ${Task14_SimpleGraph_HEADER} ${Task14_SimpleGraph_SOURCE})
+
+set(Task15_BridgesTest_HEADER
+    ..//15_UnobviousGraphs/src/Bridges.h
+)
+set(Task15_BridgesTest_SOURCE
+    ..//15_UnobviousGraphs/src/Bridges.cpp
+
+    ..//15_UnobviousGraphs/src/test/BridgesTest.cpp
+)
+add_executable(Task15_BridgesTest ${Task15_BridgesTest_HEADER} ${Task15_BridgesTest_SOURCE})
+
+set(Task15_PathTest_HEADER
+    ..//15_UnobviousGraphs/src/Path.h
+)
+set(Task15_PathTest_SOURCE
+    ..//15_UnobviousGraphs/src/Path.cpp
+
+    ..//15_UnobviousGraphs/src/test/PathTest.cpp
+)
+add_executable(Task15_PathTest ${Task15_PathTest_HEADER} ${Task15_PathTest_SOURCE})
