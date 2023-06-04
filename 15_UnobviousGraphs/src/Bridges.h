@@ -19,13 +19,11 @@ private:
 		Bridge() : Bridge("", "") {}
 	};
 
-	Bridge bridge;
-	std::unordered_multiset<std::string> TestSet;
+	std::unordered_multiset<std::string> bridgesToPassSet;
 
 	bool checkProject(std::string currIsland, const std::map<std::string, std::list<std::string>>& project);
-	void getAllBridgesTo_TestSet(const std::map<std::string, std::list<std::string>>& project);
-	void deleteBridgeFrom_TestSet(Bridge& bridge);
+	void getAllBridgesTo_PassSet(const std::map<std::string, std::list<std::string>>& project);
+	void deleteBridgeFrom_PassSet(Bridge& bridge);
 	bool is_bridgeAlredyPassed(Bridge& bridge);
-	void getBackBridgeTo_TestSet(Bridge& bridge);
-	bool is_bridgeLast();
+	void getBackBridgeTo_PassSet(Bridge& bridge);
 };
