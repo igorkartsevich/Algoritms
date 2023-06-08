@@ -4,12 +4,12 @@ int Path::shortestPathDuration(const std::vector<std::vector<int>>& inMap)
 {
 	Path path(inMap.size(), inMap[0].size());
 	
-	path.setNewNodeTo_nodesByMinDuration(Coordinate(0, 0), inMap[0][0]);
-	path.setNewNodeTo_mapToProcess(Coordinate(0, 0), inMap[0][0]);
+	path.setNewNodeTo_nodesByMinDuration(Path::Coordinate(0, 0), inMap[0][0]);
+	path.setNewNodeTo_mapToProcess(Path::Coordinate(0, 0), inMap[0][0]);
 
 	while (true) {
-		Coordinate currNode = path.getCurrNode();
-		std::vector<Coordinate> nextNodesVector = path.getNextNodesVector(currNode);
+		Path::Coordinate currNode = path.getCurrNode();
+		std::vector<Path::Coordinate> nextNodesVector = path.getNextNodesVector(currNode);
 
 		for (auto& nextNode : nextNodesVector) {
 			auto currNodeDuration = path.getNodeDurationFrom_mapToProcess(currNode);
@@ -36,9 +36,9 @@ std::vector<Path::Coordinate> Path::getNextNodesVector(const Path::Coordinate& n
 		nextNodes.push_back(Path::Coordinate(node.x - 1, node.y));
 	if (node.y > 0)
 		nextNodes.push_back(Path::Coordinate(node.x, node.y - 1));
-	if (node.x < xRange - 1)
+	if (node.x < xRange)
 		nextNodes.push_back(Path::Coordinate(node.x + 1, node.y));
-	if (node.y < yRange - 1)
+	if (node.y < yRange)
 		nextNodes.push_back(Path::Coordinate(node.x, node.y + 1));
 
 	return nextNodes;
@@ -65,9 +65,9 @@ Path::Coordinate Path::getCurrNode() {
 }
 
 int Path::getLastNodeDuration() {
-	return mapToProcess[xRange - 1][yRange - 1];
+	return mapToProcess[xRange][yRange];
 }
 
 bool Path::is_nodeLast(const Path::Coordinate& node) {
-	return node.x == xRange - 1 && node.y == yRange - 1;
+	return node.x == xRange && node.y == yRange;
 }

@@ -28,6 +28,8 @@ private:
 public:
 	Path(int _xRange, int _yRange) : xRange(_xRange), yRange(_yRange) {
 		mapToProcess = std::vector<std::vector<int>>(_xRange, std::vector<int>(_yRange, INT_MAX));
+		--xRange;
+		--yRange;
 	}
 
 	static int shortestPathDuration(const std::vector<std::vector<int>>& map);
