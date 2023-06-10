@@ -52,7 +52,9 @@ std::vector<std::string> CompressWork::removeComments(const std::vector<std::str
 	bool blockCommentStart = false;
 
 	for (auto& str : source) {
-		if (str.substr(0, 2) == "/*")
+		int first_Index = getFirstChar_WithOutSpace_Index(str);
+
+		if (str.substr(first_Index, 2) == "/*")
 			blockCommentStart = true;
 
 		if (blockCommentStart) {
@@ -60,7 +62,6 @@ std::vector<std::string> CompressWork::removeComments(const std::vector<std::str
 				blockCommentStart = false;
 		}
 		else {
-			int first_Index = getFirstChar_WithOutSpace_Index(str);
 			if (str.substr(first_Index, 2) != "//")
 				res.push_back(str);
 		}
