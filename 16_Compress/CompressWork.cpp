@@ -46,12 +46,6 @@ int getFirstChar_WithOutSpace_Index(const std::string& str) {
 			return i;
 }
 
-int getLastChar_WithOutSpace_Index(const std::string& str) {
-	for (auto i{ str.length() - 1}; i != 0; --i)
-		if (str[i] != ' ')
-			return i;
-}
-
 std::vector<std::string> CompressWork::removeComments(const std::vector<std::string>& source)
 {
 	std::vector<std::string> res;
@@ -64,7 +58,6 @@ std::vector<std::string> CompressWork::removeComments(const std::vector<std::str
 			blockCommentStart = true;
 
 		if (blockCommentStart) {
-			int last_Index = getLastChar_WithOutSpace_Index(str);
 			if (str.substr(str.length() - 2, 2) == "*/")
 				blockCommentStart = false;
 		}
