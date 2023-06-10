@@ -11,9 +11,9 @@ void compressTest(const std::string& graduatedWork, const std::string& compresse
     assert(expected == actual);
 }
 
-void decompressTest(const std::string& decompressedGraduatedWork, const std::string& graduatedWork)
+void decompressTest(const std::string& graduatedWork, const std::string& decompressedGraduatedWork) //void decompressTest(const std::string& decompressedGraduatedWork, const std::string& graduatedWork)
 {
-    std::cout << "Decompress graduated work";
+    std::cout << "Decompress graduated work" << std::endl;
     auto actual = CompressWork::decompress(graduatedWork);
     auto expected = decompressedGraduatedWork;
 
@@ -22,7 +22,7 @@ void decompressTest(const std::string& decompressedGraduatedWork, const std::str
 
 void removeCommentsTest(const std::vector<std::string>& source, const std::vector<std::string>& result)
 {
-    std::cout << "Delete comments from work";
+    std::cout << "Delete comments from work" << std::endl;
     auto actual = CompressWork::removeComments(source);
     auto expected = result;
     assert(expected.size() == actual.size());

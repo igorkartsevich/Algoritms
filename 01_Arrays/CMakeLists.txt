@@ -188,3 +188,13 @@ set(Task15_PathTest_SOURCE
     ..//15_UnobviousGraphs/src/test/PathTest.cpp
 )
 add_executable(Task15_PathTest ${Task15_PathTest_HEADER} ${Task15_PathTest_SOURCE})
+
+set(Task16_Compress_HEADER
+    ..//16_Compress/CompressWork.h
+)
+set(Task16_Compress_SOURCE
+    ..//16_Compress/CompressWork.cpp
+
+    ..//16_Compress/CompressWorkTest.cpp
+)
+add_executable(Task16_Compress ${Task16_Compress_HEADER} ${Task16_Compress_SOURCE})
