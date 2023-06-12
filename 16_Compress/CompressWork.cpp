@@ -41,9 +41,13 @@ std::string CompressWork::decompress(std::string graduatedWork)
 }
 
 int getFirstChar_WithOutSpace_Index(const std::string& str) {
+	int index{};
 	for (int i{}; i < str.length(); ++i)
-		if (str[i] != ' ')
-			return i;
+		if (str[i] != ' ') {
+			index = i;
+			break;
+		}
+	return (index < str.length() - 2) ? index : -1;
 }
 
 std::vector<std::string> CompressWork::removeComments(const std::vector<std::string>& source)
@@ -52,7 +56,14 @@ std::vector<std::string> CompressWork::removeComments(const std::vector<std::str
 	bool blockCommentStart = false;
 
 	for (auto& str : source) {
+		if (str.empty()) continue;
+
 		int first_Index = getFirstChar_WithOutSpace_Index(str);
+
+		if (first_Index == -1) {
+			res.push_back(str);
+			continue;
+		}
 
 		if (str.substr(first_Index, 2) == "/*")
 			blockCommentStart = true;
