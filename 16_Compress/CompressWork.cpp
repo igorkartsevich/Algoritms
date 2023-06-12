@@ -42,12 +42,15 @@ std::string CompressWork::decompress(std::string graduatedWork)
 
 int getFirstChar_WithOutSpace_Index(const std::string& str) {
 	int index{};
-	for (int i{}; i < str.length(); ++i)
+	int size = str.length();
+
+	for (int i{}; i < size; ++i)
 		if (str[i] != ' ') {
 			index = i;
 			break;
 		}
-	return (index < str.length() - 2) ? index : -1;
+
+	return (index < size - 2) ? index : -1;
 }
 
 std::vector<std::string> CompressWork::removeComments(const std::vector<std::string>& source)
