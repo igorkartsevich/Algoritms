@@ -42,9 +42,9 @@ std::string CompressWork::decompress(std::string graduatedWork)
 
 int getFirstChar_WithOutSpace_Index(const std::string& str) {
 	int index{};
-	int size = str.length();
+	auto size = str.length();
 
-	for (int i{}; i < size; ++i)
+	for (auto i{0}; i < size; ++i)
 		if (str[i] != ' ') {
 			index = i;
 			break;
