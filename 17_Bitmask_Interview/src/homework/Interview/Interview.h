@@ -3,11 +3,7 @@
 
 class Interview {
 public:
-    static bool findSubarray(const std::vector<int>& a, int S) {
-        return true;
-    }
+    static bool findSubarray(const std::vector<int>& a, int S);
 
-    static void rotateMatric(std::vector<std::vector<int>>& a) {
-        return;
-    }
+    static void rotateMatric(std::vector<std::vector<int>>& a);
 };

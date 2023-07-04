@@ -204,6 +204,7 @@ set(Task17_Bitmask_HEADER
     ..//17_Bitmask_Interview/src/homework/Bitmask/Bitmask.h
 )
 set(Task17_Bitmask_SOURCE
+    ..//17_Bitmask_Interview/src/homework/Bitmask/Bitmask.cpp
     ..//17_Bitmask_Interview/src/homework/Bitmask/BitmaskTest.cpp
 )
 add_executable(Task17_Bitmask ${Task17_Bitmask_HEADER} ${Task17_Bitmask_SOURCE})
@@ -212,6 +213,7 @@ set(Task17_Interview_HEADER
     ..//17_Bitmask_Interview/src/homework/Interview/Interview.h
 )
 set(Task17_Interview_SOURCE
+    ..//17_Bitmask_Interview/src/homework/Interview/Interview.cpp
     ..//17_Bitmask_Interview/src/homework/Interview/InterviewTest.cpp
 )
 add_executable(Task17_Interview ${Task17_Interview_HEADER} ${Task17_Interview_SOURCE})

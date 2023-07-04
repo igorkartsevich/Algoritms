@@ -1,17 +1,32 @@
-#include Bitmask.h
+#include "Bitmask.h"
+#include <bitset>
 
-bool Bitmask::isSubmask(const std::string& mask, const std::string& submask) {
-    char* endPartMask;
-    char* endPartSubMask;
+bool Bitmask::isSubmask(const std::string& mask, const std::string& ip) {
+    size_t maskOctetEnd{};
+    int maskOctet(std::stoi(mask, &maskOctetEnd));
 
-    if (std::strtol(submask, &endPartSubMask, 10) > std::strtol(mask, &endPartMask, 2))
-        return false;
-    if (std::strtol(&endPartSubMask, &endPartSubMask, 10) > std::strtol(&endPartMask, &endPartMask, 2))
-        return false;
-    if (std::strtol(&endPartSubMask, &endPartSubMask, 10) > std::strtol(&endPartMask, &endPartMask, 2))
-        return false;
-    if (std::strtol(&endPartSubMask, nullptr, 10) > std::strtol(&endPartMask, nullptr, 2))
-        return false;
+    size_t ipOctetEnd{};
+    int ipOctet(std::stoi(ip, &ipOctetEnd));
 
-    return true;
+    bool res = ((~maskOctet & ~ipOctet) == (~maskOctet));
+
+    if (!res) return false;
+
+    if (maskOctetEnd == mask.size())
+        return (res) ? true : false;
+    else
+        return isSubmask(mask.substr(maskOctetEnd + 1), ip.substr(ipOctetEnd + 1));
+}
+
+int Bitmask::rotate(int mask, int cnt)
+{
+    if (cnt == 0) return mask;
+
+    int step = abs(cnt % 32);
+    int tmp = mask | 0;
+
+    mask = (cnt > 0) ? mask >> step : mask << step;
+    tmp = (cnt > 0) ? tmp << 32 - step : tmp >> 32 - step;
+
+    return mask | tmp;
 }

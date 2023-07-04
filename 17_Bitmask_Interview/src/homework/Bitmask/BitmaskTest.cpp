@@ -8,8 +8,8 @@ int getRandomNumber(int min, int max) {
 
 void testIsSubmask() {
         for (int i = 0; i < 1000; ++i) {
-            std::vector<int> a{4};
-            std::vector<int> b{4};
+            std::vector<int> a(4); //std::vector<int> a{4};
+            std::vector<int> b(4); //std::vector<int> b{4};
 
             for (int j = 0; j < 4; ++j) {
                 a[j] = getRandomNumber(0, 256);
@@ -62,6 +62,9 @@ void testRotate() {
         if (getRandomNumber(0, 1)) {
             c *= -1;
         }
+
+        x = 2;
+        c = 2;
 
         int ex = x;
         if (c > 0) {

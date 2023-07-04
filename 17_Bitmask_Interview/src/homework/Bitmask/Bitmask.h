@@ -12,14 +12,12 @@ public:
     }
 
     // Возвращает, является ли submask подмаской mask
-    static bool isSubmask(const std::string& mask, const std::string& submask);
+    static bool isSubmask(const std::string& mask, const std::string& ip); //static bool isSubmask(const std::string& mask, const std::string& subMask);
+    
 
     // Возвращает битовую маску циклически сдвинутую на cnt
     // Циклы использовать запрещено. cnt может быть меньше 0 и больше 32.
     // rotate(1, 1) == 2
     // rotate(1, -1) == -2147483648
-    static int rotate(int mask, int cnt) {
-        // Implement this
-        return mask;
-    }
+    static int rotate(int mask, int cnt);
 };

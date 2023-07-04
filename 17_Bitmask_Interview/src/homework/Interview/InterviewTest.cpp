@@ -39,7 +39,7 @@
     void testFindSubarray() {
         for (int T = 0; T < 1000; ++T) {
             int n = getRandomNumber(0, 10000) + 10;
-            std::vector<int> a{n};
+            std::vector<int> a(n); //std::vector<int> a{n};
             for (int i = 0; i < a.size(); ++i) {
                 a[i] = getRandomNumber(0, 1000) - 500;
             }
@@ -51,7 +51,7 @@
                 r = t;
             }
             int S = 0;
-            for (int i = l; i <= r; ++i) {
+            for (int i = l; i < r; ++i) { //for (int i = l; i <= r; ++i)
                 S += a[i];
             }
 
@@ -61,7 +61,7 @@
         int cnt = 0;
         for (int T = 0; T < 1000; ++T) {
             int n = getRandomNumber(0, 10000) + 10;
-            std::vector<int> a{n};
+            std::vector<int> a(n); //std::vector<int> a{n};
             for (int i = 0; i < a.size(); ++i) {
                 a[i] = getRandomNumber(0, 1000) - 500;
             }
@@ -84,8 +84,8 @@
     void testRotateMatrix() {
         for (int T = 0; T < 10000; ++T) {
             int n = getRandomNumber(0, 100) + 1;
-            std::vector<std::vector<int>> a{n, std::vector<int>(n)};
-            std::vector<std::vector<int>> b{n, std::vector<int>(n)};
+            std::vector<std::vector<int>> a(n, std::vector<int>(n)); //std::vector<std::vector<int>> a{n, std::vector<int>(n)};
+            std::vector<std::vector<int>> b(n, std::vector<int>(n)); //std::vector<std::vector<int>> b{n, std::vector<int>(n)};
             for (int i = 0; i < n; ++i) {
                 for (int j = 0; j < n; ++j) {
                     a[i][j] = rand();
