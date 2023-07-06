@@ -2,20 +2,19 @@
 #include <bitset>
 
 bool Bitmask::isSubmask(const std::string& mask, const std::string& ip) {
-    size_t maskOctetEnd{};
-    int maskOctet(std::stoi(mask, &maskOctetEnd));
+    size_t maskCurrOctetEnd{};
+    int maskCurrOctet(std::stoi(mask, &maskCurrOctetEnd));
 
-    size_t ipOctetEnd{};
-    int ipOctet(std::stoi(ip, &ipOctetEnd));
+    size_t ipCurrOctetEnd{};
+    int ipCurrOctet(std::stoi(ip, &ipCurrOctetEnd));
 
-    bool res = ((~maskOctet & ~ipOctet) == (~maskOctet));
+    bool res = ((~maskCurrOctet & ~ipCurrOctet) == (~maskCurrOctet));
 
     if (!res) return false;
 
-    if (maskOctetEnd == mask.size())
-        return (res) ? true : false;
-    else
-        return isSubmask(mask.substr(maskOctetEnd + 1), ip.substr(ipOctetEnd + 1));
+    return (maskCurrOctetEnd == mask.size())
+        ? true
+        : isSubmask(mask.substr(maskCurrOctetEnd + 1), ip.substr(ipCurrOctetEnd + 1));
 }
 
 int Bitmask::rotate(int mask, int cnt)

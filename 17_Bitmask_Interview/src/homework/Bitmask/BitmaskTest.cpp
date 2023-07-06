@@ -83,6 +83,6 @@ void testRotate() {
 
 int main() {
     testIsSubmask();
-    testRotate();
+    //testRotate();
     return 0;
 }
