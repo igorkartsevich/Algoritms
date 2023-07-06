@@ -1,25 +1,15 @@
 #include "Interview.h"
-
-int getSum(const std::vector<int>& a, int left, int right) {
-    int sum{};
-    for (int i = left; i <= right; ++i)
-        sum += a[i];
-    return sum;
-}
+#include <unordered_set>
 
 bool Interview::findSubarray(const std::vector<int>& a, int S) {
-    int left{};
-    int right{};
+    int sum{};
+    std::unordered_set<int> set;
 
-    while (true) {
-        int sum = getSum(a, left, right);
-
-        if (sum == S)  return true;
-
-        if (sum > S) ++left;
-        else if (right + 1 < a.size()) ++right;
-        else return false;
+    for (auto& node : a) {
+        if (set.count((sum += node) - S)) return true;
+        set.insert(sum);
     }
+    return false;
 }
 
 void Interview::rotateMatric(std::vector<std::vector<int>>& a) {
