@@ -8,9 +8,9 @@ bool Bitmask::isSubmask(const std::string& mask, const std::string& ip) {
     size_t ipCurrOctetEnd{};
     int ipCurrOctet(std::stoi(ip, &ipCurrOctetEnd));
 
-    bool res = ((~maskCurrOctet & ~ipCurrOctet) == (~maskCurrOctet));
+    bool is_Compatible = ((~maskCurrOctet & ~ipCurrOctet) == (~maskCurrOctet));
 
-    if (!res) return false;
+    if (!is_Compatible) return false;
 
     return (maskCurrOctetEnd == mask.size())
         ? true
@@ -22,10 +22,15 @@ int Bitmask::rotate(int mask, int cnt)
     if (cnt == 0) return mask;
 
     int step = abs(cnt % 32);
-    int tmp = mask | 0;
+    int maskTMP = mask | 0;
 
-    mask = (cnt > 0) ? mask >> step : mask << step;
-    tmp = (cnt > 0) ? tmp << 32 - step : tmp >> 32 - step;
+    mask = (cnt > 0)
+        ? mask >> step
+        : mask << step;
+    
+    maskTMP = (cnt > 0)
+        ? maskTMP << 32 - step
+        : maskTMP >> 32 - step;
 
-    return mask | tmp;
+    return mask | maskTMP;
 }

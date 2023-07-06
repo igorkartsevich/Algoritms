@@ -32,6 +32,7 @@ void Interview::rotateMatric(std::vector<std::vector<int>>& a) {
 
                 std::swap(cur_X, next_X);
                 std::swap(cur_Y, next_Y);
+
             } while (--turnCounter != 0);
         }
     }
