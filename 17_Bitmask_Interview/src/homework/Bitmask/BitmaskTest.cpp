@@ -63,8 +63,8 @@ void testRotate() {
             c *= -1;
         }
 
-        x = 2;
-        c = 2;
+        x = 7;
+        c = 3;
 
         int ex = x;
         if (c > 0) {
@@ -83,6 +83,6 @@ void testRotate() {
 
 int main() {
     testIsSubmask();
-    //testRotate();
+    testRotate();
     return 0;
 }

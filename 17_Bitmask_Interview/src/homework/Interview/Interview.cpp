@@ -6,7 +6,7 @@ bool Interview::findSubarray(const std::vector<int>& a, int S) {
     std::unordered_set<int> set;
 
     for (auto& node : a) {
-        if (set.count((sum += node) - S)) return true;
+        if (set.find((sum += node) - S) != end(set)) return true;
         set.insert(sum);
     }
     return false;
@@ -15,7 +15,6 @@ bool Interview::findSubarray(const std::vector<int>& a, int S) {
 void Interview::rotateMatric(std::vector<std::vector<int>>& a) {
     size_t circleToMoveNum{ a.size() >> 1 };
     size_t nodeToMoveNum{ a.size() - 1 };
-
 
     for (size_t circleNum{}; circleNum < circleToMoveNum; ++circleNum) {
 
