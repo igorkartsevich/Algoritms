@@ -16,7 +16,6 @@ void Interview::rotateMatric(std::vector<std::vector<int>>& a) {
     size_t circleToMoveNum{ a.size() >> 1 };
     size_t nodeToMoveNum{ a.size() - 1 };
 
-
     for (size_t circleNum{}; circleNum < circleToMoveNum; ++circleNum) {
 
         for (size_t nodeNum{}; nodeNum < (nodeToMoveNum - (circleNum << 1)); ++nodeNum) {
