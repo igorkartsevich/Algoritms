@@ -6,7 +6,7 @@ bool Interview::findSubarray(const std::vector<int>& a, int S) {
     std::unordered_set<int> set;
 
     for (auto& node : a) {
-        if (set.count((sum += node) - S)) return true;
+        if (set.find((sum += node) - S) != end(set)) return true;
         set.insert(sum);
     }
     return false;
