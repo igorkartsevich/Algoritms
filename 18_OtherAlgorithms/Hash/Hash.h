@@ -32,7 +32,7 @@ private:
 			constantsVec.resize(4, std::vector<unsigned int>(16));
 			for (int i{}; i < 4; ++i)
 				for (int j{}; j < 16; ++j)
-					constantsVec[i][j] = std::floor(std::abs((std::sin((i * 16 + j) + 1) * 4294967296)));
+					constantsVec[i][j] = std::floor(std::abs((std::sin((i << 4 +j) + 1) * 4294967296)));
 		};
 
 		std::string calculate(const std::string& strToEncrypt) {
@@ -66,8 +66,8 @@ private:
 
 		void setData(const std::string& str) {
 			auto len = str.length();
-			auto num_32BitsBlock = (len % 4 == 0) ? len / 4 : len / 4 + 1;
-			auto num_512BitsBlock = (num_32BitsBlock % 16 == 0) ? num_32BitsBlock / 16 : num_32BitsBlock / 16 + 1;
+			auto num_32BitsBlock = (len % 4 == 0) ? len >> 2 : (len >> 2) + 1;
+			auto num_512BitsBlock = (num_32BitsBlock % 16 == 0) ? num_32BitsBlock >> 4 : (num_32BitsBlock >> 4) + 1;
 			data.resize(num_512BitsBlock, std::vector<unsigned int>(16, 0));
 
 			int counter{}, num32{}, num512{};
@@ -115,7 +115,7 @@ private:
 
 		unsigned int getRoundFunction(const int roundNum) {
 			return
-				(roundNum == 0) ? (b & c) | (~b & d)
+				  (roundNum == 0) ? (b & c) | (~b & d)
 				: (roundNum == 1) ? (d & b) | (~d & c)
 				: (roundNum == 2) ? b ^ c ^ d : c ^ (b | ~d);
 		}
@@ -127,7 +127,7 @@ private:
 
 		int getIndex(const int roundNum, const int num32) {
 			return
-				(roundNum == 0) ? num32
+				  (roundNum == 0) ? num32
 				: (roundNum == 1) ? (5 * num32 + 1) % 16
 				: (roundNum == 2) ? (3 * num32 + 5) % 16 : (7 * num32) % 16;
 		}
@@ -135,11 +135,17 @@ private:
 		void process512Block(int num512) {
 			for (int roundNum{}; roundNum < 4; ++roundNum)
 				for (int num32{}; num32 < 16; ++num32) {
+
 					getSum(a, getRoundFunction(roundNum));
+
 					getSum(a, data[num512][getIndex(roundNum, num32)]);
+
 					getSum(a, constantsVec[roundNum][num32]);
+
 					circleShift(stepsShiftVec[roundNum][num32]);
+
 					getSum(a, b);
+
 					rotateVector();
 				}
 			return;
