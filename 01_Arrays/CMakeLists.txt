@@ -217,3 +217,12 @@ set(Task17_Interview_SOURCE
     ..//17_Bitmask_Interview/src/homework/Interview/InterviewTest.cpp
 )
 add_executable(Task17_Interview ${Task17_Interview_HEADER} ${Task17_Interview_SOURCE})
+
+set(Task18_Hash_HEADER
+    ..//18_OtherAlgorithms/Hash/Hash.h
+)
+set(Task18_Hash_SOURCE
+    ..//18_OtherAlgorithms/Hash/Hash.cpp
+    ..//18_OtherAlgorithms/Hash/HashTest.cpp
+)
+add_executable(Task18_Hash ${Task18_Hash_HEADER} ${Task18_Hash_SOURCE})
