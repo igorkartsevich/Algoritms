@@ -3,6 +3,7 @@
 #include <vector>
 #include <cmath>
 #include <sstream>
+#include <iostream>
 
 class Hash {
 public:
@@ -66,38 +67,28 @@ private:
 
 		void setData(const std::string& str) {
 			auto len = str.length();
-			auto num_32BitsBlock = (len % 4 == 0) ? len >> 2 : (len >> 2) + 1;
-			auto num_512BitsBlock = (num_32BitsBlock % 16 == 0) ? num_32BitsBlock >> 4 : (num_32BitsBlock >> 4) + 1;
-			data.resize(num_512BitsBlock, std::vector<unsigned int>(16, 0));
+			std::vector<std::vector<unsigned int>> data(1, std::vector < unsigned int>(16));
 
-			int counter{}, num32{}, num512{};
-			auto indexCalculate = [&]() {
-				num32 = counter >> 2;
-				num512 = num32 >> 4;
+			auto add_32BitsWird = [&str, &data](int index, int ch1, int ch2, int ch3, int ch4) {
+				if (index >> 4 > 0) data.push_back(std::vector<unsigned int>(16));
+				data.back()[index] = (ch1 << 24) ^ (ch2 << 16) ^ (ch3 << 8) ^ ch4;
 			};
 
-			auto shift = [&]() {
-				if (counter + 1 < 4 || (counter + 1 > 4 && (counter + 1) % 4 != 0)) {
-					data[num512][num32] <<= 8;
-					return true;
-				}
-				return false;
-			};
+			for (int i{}; i < len / 4; ++i) // load full 32 bits block
+				add_32BitsWird(i, str[(i << 2)], str[(i << 2) + 1], str[(i << 2) + 2], str[(i << 2) + 3]);
 
-			for (auto& ch : str) { // addition main chars
-				indexCalculate();
-				data[num512][num32] ^= ch;
-				shift();
-				++counter;
-			}
+			auto remainder = len % 4; // load extra 32 bits block - remainder str + final 1;
+			(remainder == 0)
+				? add_32BitsWird((len - remainder + 1) >> 2, 128, 0, 0, 0) :
+				(remainder == 1)
+				? add_32BitsWird((len - remainder + 1) >> 2, str[len - remainder], 128, 0, 0) :
+				(remainder == 2)
+				? add_32BitsWird((len - remainder + 1) >> 2, str[len - remainder], str[len - remainder + 1], 128, 0)
+				: add_32BitsWird((len - remainder + 1) >> 2, str[len - remainder], str[len - remainder + 1], str[len - remainder + 2], 128);
 
-			indexCalculate(); // addition final 1
-			data[num512][num32] ^= 128;
-			while (shift()) ++counter;
-
-			long long lenInBits = len * 8; // addition preLast and Last 64 bits
-			data[num512][14] ^= lenInBits >> 32;
-			data[num512][15] ^= lenInBits << 32 >> 32;
+			long long lenByBits = len * 8;
+			data.back()[14] = 0 ^ (lenByBits >> 32);
+			data.back()[15] = 0 ^ (lenByBits << 32 >> 32);
 			return;
 		};
 
@@ -137,6 +128,8 @@ private:
 				for (int num32{}; num32 < 16; ++num32) {
 
 					getSum(a, getRoundFunction(roundNum));
+
+					std::cout << getIndex(roundNum, num32) << " ";
 
 					getSum(a, data[num512][getIndex(roundNum, num32)]);
 
