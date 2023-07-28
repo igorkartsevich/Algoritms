@@ -1,27 +1,23 @@
 #include "Hash.h"
 
-std::string Hash::MD5(const std::string& strToEncrypt)
-{
+std::string Hash::MD5(const std::string& strToEncrypt) {
 	Hash::HashCalculator c;
-	return c.calculate(strToEncrypt);
+	return c.calculateHash(strToEncrypt);
 }
 
-std::vector<std::string> Hash::same5lastChars()
-{
+std::vector<std::string> Hash::same5lastChars() {
 	return std::vector<std::string>();
 }
 
-std::string Hash::encrypt(const std::string& strToEncrypt, const std::string& secret)
-{
+std::string Hash::encrypt(const std::string& strToEncrypt, const std::string& secret) {
 	return std::string();
 }
 
-std::string Hash::decrypt(const std::string& strToDecrypt, const std::string& secret)
-{
+std::string Hash::decrypt(const std::string& strToDecrypt, const std::string& secret) {
 	return std::string();
 }
 
-std::string Hash::HashCalculator::calculate(const std::string& strToEncrypt) {
+std::string Hash::HashCalculator::calculateHash(const std::string& strToEncrypt) {
 	setData(strToEncrypt);
 
 	for (int num512{}; num512 < data.size(); ++num512)
@@ -66,12 +62,12 @@ void Hash::HashCalculator::setData(const std::string& str) {
 	data.back()[15] = 0 ^ (lenByBits << 32 >> 32);
 	return;
 }
-void Hash::HashCalculator::circleShift(const int step) {
+void Hash::HashCalculator::rotateLeft_32Block(const int step) {
 	a = (a << step) | (a >> (32 - step));
 	return;
 }
 
-void Hash::HashCalculator::rotateVector() {
+void Hash::HashCalculator::rotateLeft_Vector() {
 	std::swap(a, b);
 	std::swap(a, c);
 	std::swap(a, d);
@@ -83,37 +79,35 @@ void Hash::HashCalculator::getSum(unsigned int& num1, const unsigned int num2) {
 	return;
 }
 
-int Hash::HashCalculator::getIndex(const int roundNum, const int num32) {
+int Hash::HashCalculator::getDataIndex(const int indexRound, const int num32) {
 	return
-		(roundNum == 0) ? num32
-		: (roundNum == 1) ? (5 * num32 + 1) % 16
-		: (roundNum == 2) ? (3 * num32 + 5) % 16 : (7 * num32) % 16;
+		(indexRound == 0) ? num32
+		: (indexRound == 1) ? (5 * num32 + 1) % 16
+		: (indexRound == 2) ? (3 * num32 + 5) % 16 : (7 * num32) % 16;
 }
 
-void Hash::HashCalculator::process512Block(int num512) {
+void Hash::HashCalculator::process512Block(int index512) {
 	for (int roundNum{}; roundNum < 4; ++roundNum)
 		for (int num32{}; num32 < 16; ++num32) {
 
 			getSum(a, getRoundFunction(roundNum));
 
-			std::cout << getIndex(roundNum, num32) << " ";
-
-			getSum(a, data[num512][getIndex(roundNum, num32)]);
+			getSum(a, data[index512][getDataIndex(roundNum, num32)]);
 
 			getSum(a, constantsVec[roundNum][num32]);
 
-			circleShift(stepsShiftVec[roundNum][num32]);
+			rotateLeft_32Block(stepsShiftVec[roundNum][num32]);
 
 			getSum(a, b);
 
-			rotateVector();
+			rotateLeft_Vector();
 		}
 	return;
 }
 
-unsigned int Hash::HashCalculator::getRoundFunction(const int roundNum) {
+unsigned int Hash::HashCalculator::getRoundFunction(const int indexRound) {
 	return
-		(roundNum == 0) ? (b & c) | (~b & d)
-		: (roundNum == 1) ? (d & b) | (~d & c)
-		: (roundNum == 2) ? b ^ c ^ d : c ^ (b | ~d);
+		(indexRound == 0) ? (b & c) | (~b & d)
+		: (indexRound == 1) ? (d & b) | (~d & c)
+		: (indexRound == 2) ? b ^ c ^ d : c ^ (b | ~d);
 }

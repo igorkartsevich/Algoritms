@@ -36,7 +36,7 @@ private:
 					constantsVec[i][j] = std::floor(std::abs((std::sin((i << 4 +j) + 1) * 4294967296)));
 		};
 
-		std::string calculate(const std::string& strToEncrypt);
+		std::string calculateHash(const std::string& strToEncrypt);
 
 	private:
 		unsigned int a;
@@ -49,11 +49,11 @@ private:
 		std::vector<std::vector<unsigned int>> constantsVec;
 
 		void setData(const std::string& str);
-		void circleShift(const int step);
-		void rotateVector();
-		unsigned int getRoundFunction(const int roundNum);
+		void rotateLeft_32Block(const int step);
+		void rotateLeft_Vector();
+		unsigned int getRoundFunction(const int indexRound);
 		void getSum(unsigned int& num1, const unsigned int num2);
-		int getIndex(const int roundNum, const int num32);
-		void process512Block(int num512);
+		int getDataIndex(const int indexRound, const int num32);
+		void process512Block(int index512);
 	};
 };
