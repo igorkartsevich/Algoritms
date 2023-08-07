@@ -16,44 +16,47 @@ private:
 	class HashCalculator {
 	public:
 		HashCalculator() {
-			INIT_A = 19088743;
-			INIT_B = 2309737967;
-			INIT_C = 4275878552;
-			INIT_D = 1985229328;
+			start_A = 0x67452301;
+			start_B = 0xefcdab89;
+			start_C = 0x98badcfe;
+			start_D = 0x10325476;
 
-			init_ABCD = { INIT_A, INIT_B, INIT_C, INIT_D };
+			work_ABCD = { start_A, start_B, start_C, start_D };
 
-			stepsShiftVec = {
-				{ 7, 12, 17, 22, 7, 12, 17, 22, 7, 12, 17, 22, 7, 12, 17, 22},
-				{ 5, 9, 14, 20, 5, 9, 14, 20, 5, 9, 14, 20, 5, 9, 14, 20 },
-				{ 4, 11, 16, 23, 4, 11, 16, 23, 4, 11, 16, 23, 4, 11, 16, 23 },
-				{ 6, 10, 15, 21, 6, 10, 15, 21, 6, 10, 15, 21, 6, 10, 15, 21 }
+			shiftSteps = {
+				{7,12,17,22,7,12,17,22,7,12,17,22,7,12,17,22},
+				{5,9,14,20,5,9,14,20,5,9,14,20,5,9,14,20},
+				{4,11,16,23,4,11,16,23,4,11,16,23,4,11,16,23},
+				{6,10,15,21,6,10,15,21,6,10,15,21,6,10,15,21}
 			};
 
 			for (int i{}; i < 64; ++i) {
 				if (i % 16 == 0)
-					constantsVec.push_back(std::vector<unsigned int>(16));
-				constantsVec.back()[i % 16] = std::floor(std::abs(std::sin(i + 1) * 4294967296));
+					constants.push_back(std::vector<unsigned int>(16));
+				constants.back()[i % 16] = std::floor(std::abs(std::sin(i + 1) * 4294967296));
 			}
 		};
 
-		std::string calculateHash(const std::string& strToEncrypt);
+		std::string calculate(const std::string& strToEncrypt);
 
 	private:
-		unsigned int INIT_A;
-		unsigned int INIT_B;
-		unsigned int INIT_C;
-		unsigned int INIT_D;
-		std::vector<std::vector<unsigned int>> data;
-		std::vector<unsigned int> init_ABCD;
-		std::vector<std::vector<int>> stepsShiftVec;
-		std::vector<std::vector<unsigned int>> constantsVec;
+		unsigned int start_A;
+		unsigned int start_B;
+		unsigned int start_C;
+		unsigned int start_D;
+		std::string digest = "";
 
-		void setData(const std::string& str);
+		std::vector<unsigned int> work_ABCD;
+		std::vector<std::vector<int>> shiftSteps;
+		std::vector<std::vector<unsigned int>> constants;
+		std::vector<std::vector<unsigned int>> data;
+
+		void prepareData(const std::string& str);
 		void rotateLeft_32Block(const int step);
 		void rotate_Vector();
-		unsigned int getRoundFunction(const int indexRound);
-		int getDataIndex(const int indexRound, const int num32);
-		void process512Block(int index512);
+		unsigned int roundFunction(const int numRound) const;
+		int getDataIndex(const int numRound, const int num32) const;
+		void block512Operate(const int num512);
+		void hashToString(std::vector<unsigned int>& init_ABCD);
 	};
 };

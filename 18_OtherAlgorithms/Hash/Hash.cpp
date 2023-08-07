@@ -1,109 +1,136 @@
 #include "Hash.h"
 
-std::string Hash::MD5(const std::string& strToEncrypt) {
-	Hash::HashCalculator c;
-	return c.calculateHash(strToEncrypt);
-}
-
-std::vector<std::string> Hash::same5lastChars() {
-	return std::vector<std::string>();
-}
-
-std::string Hash::encrypt(const std::string& strToEncrypt, const std::string& secret) {
-	return std::string();
-}
-
-std::string Hash::decrypt(const std::string& strToDecrypt, const std::string& secret) {
-	return std::string();
-}
-
-std::string Hash::HashCalculator::calculateHash(const std::string& strToEncrypt) {
-	setData(strToEncrypt);
+std::string Hash::HashCalculator::calculate(const std::string& strToEncrypt)
+{
+	prepareData(strToEncrypt);
 
 	for (int num512{}; num512 < data.size(); ++num512)
-		process512Block(num512);
+		block512Operate(num512);
 
-	std::stringstream stream;
-	stream << std::hex << init_ABCD[0] << init_ABCD[1] << init_ABCD[2] << init_ABCD[3];
+	work_ABCD[0] += start_A;
+	work_ABCD[1] += start_B;
+	work_ABCD[2] += start_C;
+	work_ABCD[3] += start_D;
 
-	std::string res{};
-	stream >> res;
-	return res;
-};
+	hashToString(work_ABCD);
 
-void Hash::HashCalculator::setData(const std::string& str) {
+	return digest;
+}
+
+void Hash::HashCalculator::prepareData(const std::string& str)
+{
 	auto len = str.length();
+	auto lenInBits = (len << 3) + 1 + 64;
 
-	auto add_32BitsWird = [&](int index, int ch1, int ch2, int ch3, int ch4) {
-		if (index % 16 == 0)
-			data.push_back(std::vector<unsigned int>(16));
-		data.back()[index % 16] = (ch1 << 24) ^ (ch2 << 16) ^ (ch3 << 8) ^ ch4;
-	};
+	auto numFull32Blocks = len >> 2;
 
-	for (int i{}, index{ i * 4 }; i < len / 4; ++i) // load full 32 bits block
-		add_32BitsWird(i, str[index], str[index + 1], str[index + 2], str[index + 3]);
+	auto num32Blocks = (lenInBits % 32 == 0) ? lenInBits >> 5 : (lenInBits >> 5) + 1;
+	auto num512Blocks = (num32Blocks % 16 == 0) ? num32Blocks >> 4 : (num32Blocks >> 4) + 1;
 
-	auto remainder = len % 4; // load next 32 bits block - remainder str + final 1;
-	(remainder == 0)
-		? add_32BitsWird((len - remainder + 1) >> 2, 128, 0, 0, 0) :
-	(remainder == 1)
-		? add_32BitsWird((len - remainder + 1) >> 2, str[len - remainder], 128, 0, 0) :
-	(remainder == 2)
-		? add_32BitsWird((len - remainder + 1) >> 2, str[len - remainder], str[len - remainder + 1], 128, 0)
-		: add_32BitsWird((len - remainder + 1) >> 2, str[len - remainder], str[len - remainder + 1], str[len - remainder + 2], 128);
+	data = std::vector<std::vector<unsigned int>>(num512Blocks, std::vector<unsigned int>(16, 0));
 
-	long long lenByBits = len * 8;
-	data.back()[15] = 0 ^ (lenByBits >> 32);
-	data.back()[14] = 0 ^ (lenByBits << 32 >> 32);
-	return;
-}
-void Hash::HashCalculator::rotateLeft_32Block(const int step) {
-	init_ABCD[0] = (init_ABCD[0] << step) | (init_ABCD[0] >> (32 - step));
+	// set full 32 bits blocks
+	for (int num32{}, index{}; num32 < numFull32Blocks; ++num32, index = num32 * 4)
+		data[num32 >> 4][num32 % 16] ^= str[index + 3] << 24 ^ str[index + 2] << 16 ^ str[index + 1] << 8 ^ str[index];
+
+	// set extra 32 bits block - char's reminder and final 1
+	data[numFull32Blocks >> 4][numFull32Blocks % 16] ^=
+		(len - numFull32Blocks * 4 == 0) ? 128 :
+		(len - numFull32Blocks * 4 == 1) ? str[len - 1] ^ (128 << 8) :
+		(len - numFull32Blocks * 4 == 2) ? str[len - 2] ^ (str[len - 1] << 8) ^ (128 << 16)
+										 : str[len - 3] ^ (str[len - 2] << 8) ^ (str[len - 1] << 16) ^ 128 << 24;
+
+	// set length str - last 64 bits
+	data.back()[14] = (long long)len << 3 << 32 >> 32;
+	data.back()[15] = (long long)len << 3 >> 32;
 	return;
 }
 
-void Hash::HashCalculator::rotate_Vector() {
-	std::swap(init_ABCD[3], init_ABCD[0]);
-	std::swap(init_ABCD[3], init_ABCD[1]);
-	std::swap(init_ABCD[3], init_ABCD[2]);
+void Hash::HashCalculator::rotateLeft_32Block(int step)
+{
+	work_ABCD[0] = ((work_ABCD[0] << step) | (work_ABCD[0] >> (32 - step)));
 	return;
 }
 
-int Hash::HashCalculator::getDataIndex(const int indexRound, const int num32) {
+void Hash::HashCalculator::rotate_Vector()
+{
+	std::swap(work_ABCD[3], work_ABCD[2]);
+	std::swap(work_ABCD[2], work_ABCD[1]);
+	std::swap(work_ABCD[1], work_ABCD[0]);
+	return;
+}
+
+unsigned int Hash::HashCalculator::roundFunction(const int numRound) const
+{
 	return
-		(indexRound == 0) ? num32
-		: (indexRound == 1) ? (5 * num32 + 1) % 16
-		: (indexRound == 2) ? (3 * num32 + 5) % 16 : (7 * num32) % 16;
+		(numRound == 0) ? (work_ABCD[1] & work_ABCD[2]) | (~work_ABCD[1] & work_ABCD[3]) :
+		(numRound == 1) ? (work_ABCD[1] & work_ABCD[3]) | (work_ABCD[2] & ~work_ABCD[3]) :
+		(numRound == 2) ? work_ABCD[1] ^ work_ABCD[2] ^ work_ABCD[3]
+						: work_ABCD[2] ^ (work_ABCD[1] | ~work_ABCD[3]);
 }
 
-void Hash::HashCalculator::process512Block(int index512) {
-	for (int roundNum{}; roundNum < 4; ++roundNum)
-		for (int num32{}; num32 < 16; ++num32) {
+int Hash::HashCalculator::getDataIndex(const int numRound, const int num32) const
+{
+	return
+		(numRound == 0) ? num32 :
+		(numRound == 1) ? (5 * num32 + 1) % 16 :
+		(numRound == 2) ? (3 * num32 + 5) % 16
+						: (7 * num32) % 16;
+}
 
-			init_ABCD[0]
-				+= getRoundFunction(roundNum)
-				+ data[index512][getDataIndex(roundNum, num32)]
-				+ constantsVec[roundNum][num32];
+void Hash::HashCalculator::block512Operate(int num512)
+{
+	for (int numRound{}; numRound < 4; ++numRound) {
+		for (int i{}; i < 16; ++i) {
 
-			rotateLeft_32Block(stepsShiftVec[roundNum][num32]);
+			work_ABCD[0] += roundFunction(numRound) + data[num512][getDataIndex(numRound, i)] + constants[numRound][i];
 
-			init_ABCD[0] += init_ABCD[1];
+			rotateLeft_32Block(shiftSteps[numRound][i]);
+
+			work_ABCD[0] += work_ABCD[1];
 
 			rotate_Vector();
 		}
+	}
+}
 
-	init_ABCD[0] += INIT_A;
-	init_ABCD[1] += INIT_B;
-	init_ABCD[2] += INIT_C;
-	init_ABCD[3] += INIT_D;
+void Hash::HashCalculator::hashToString(std::vector<unsigned int>& init_ABCD)
+{
+	std::vector<unsigned char> chars(16);
+	size_t index{}; // bytes to char
+	for (auto& init : init_ABCD)
+		for (int i{}; i < 4; ++i) {
+			chars[index++] = init | 0;
+			init >>= 8;
+		}
+
+	// char to hex
+	std::string hexChar = "0123456789abcdef";
+	for (int i = 0; i < 16; ++i) {
+		digest += hexChar[chars[i] >> 4];
+		digest += hexChar[chars[i] & 0x0F];
+	}
 
 	return;
 }
 
-unsigned int Hash::HashCalculator::getRoundFunction(const int indexRound) {
-	return
-		(indexRound == 0) ? (init_ABCD[1] & init_ABCD[2]) | ((~init_ABCD[1]) & init_ABCD[3])
-		: (indexRound == 1) ? (init_ABCD[1] & init_ABCD[3]) | (init_ABCD[1] & (~init_ABCD[3]))
-		: (indexRound == 2) ? init_ABCD[1] ^ init_ABCD[2] ^ init_ABCD[3]
-		: init_ABCD[2] ^ (init_ABCD[1] | (~init_ABCD[3]));
+std::string Hash::MD5(const std::string& strToEncrypt)
+{
+	HashCalculator c;
+	return c.calculate(strToEncrypt);
+}
+
+std::vector<std::string> Hash::same5lastChars()
+{
+	return std::vector<std::string>();
+}
+
+std::string Hash::encrypt(const std::string& strToEncrypt, const std::string& secret)
+{
+	return std::string();
+}
+
+std::string Hash::decrypt(const std::string& strToDecrypt, const std::string& secret)
+{
+	return std::string();
 }
